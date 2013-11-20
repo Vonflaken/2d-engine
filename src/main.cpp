@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
 
 		// TAREA: Calcular coordenadas del círculo
 		dCircleXCoord = dMouseX + dDistanceFromPointerToCircle * DegCos( dCircleAngle );
-		dCircleYCoord = dMouseY + dDistanceFromPointerToCircle * DegSin( dCircleAngle );
+		dCircleYCoord = dMouseY + dDistanceFromPointerToCircle * DegSin( dCircleAngle * -1 ); // Nuestra y está invertida respecto a la operación de seno
 		dCircleAngle = WrapValue( ++dCircleAngle, 360 );
 
 		// TAREA: Escribir título de la venta

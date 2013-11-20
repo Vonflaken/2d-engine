@@ -11,7 +11,7 @@ double Log2(double x) {
 }
 
 double DegSin(double degrees) {
-	return sin(DEG2RAD * degrees * -1);
+	return sin(DEG2RAD * degrees);
 }
 
 double DegCos(double degrees) {
