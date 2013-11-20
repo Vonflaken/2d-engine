@@ -4,12 +4,14 @@
 #define DEG2RAD 0.0174532925
 #define RAD2DEG 57.2957795
 
+#define DEG360 360
+
 double Log2(double x) {
 	return log(x) / log(2.0);
 }
 
 double DegSin(double degrees) {
-	return sin(DEG2RAD * degrees);
+	return sin(DEG2RAD * degrees * -1);
 }
 
 double DegCos(double degrees) {
@@ -44,12 +46,15 @@ double WrapValue(double val, double mod) {
 
 double Angle(double x1, double y1, double x2, double y2) {
 	// TAREA: Implementar funcion
-	return 0;
+	return WrapValue( DegATan2( y2 - y1, x2 - x1 ), DEG360 );
 }
 
 double Distance(double x1, double y1, double x2, double y2) {
 	// TAREA: Implementar funcion
-	return 0;
+	double dNewX = x1 - x2;
+	double dNewY = y1 - y2;
+
+	return sqrt( dNewX * dNewX + dNewY * dNewY );
 }
 
 bool ValueInRange(double value, double min, double max) {
