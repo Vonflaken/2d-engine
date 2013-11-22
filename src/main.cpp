@@ -8,13 +8,17 @@ int main(int argc, char* argv[]) {
 	const double degps = 30.00;
 	double currDeg = 0.00;
 
-	const double scaleps = 2.00;
+	double scaleps = 2.00;
 	double currScale = 1.00;
 	const double maxScale = 5.00;
 	const double minScale = 0.50;
 
+	bool checkpot = IsPOT( ( double ) 128 );
+	bool checknpot = IsPOT( ( double ) 100 );
+
 	// TAREA: Cargar la imagen "data/ball.png"
-	Image *imgBall = ResourceManager::Instance().LoadImage( "data/ball.png", 1, 1 );
+	Image *imgBall = ResourceManager::Instance().LoadImage( "data/soccer_npot.png", 1, 1 );
+
 	// TAREA: Centrar la imagen
 	imgBall->SetMidHandle();
 
@@ -28,8 +32,17 @@ int main(int argc, char* argv[]) {
 		// TAREA: Actualizar ángulo y escala de la imagen
 		currDeg += degps * Screen::Instance().ElapsedTime();
 		currScale += scaleps * Screen::Instance().ElapsedTime();
-		//currScale = ( WrapValue( currScale, maxScale ) - minScale ) < epsilon ? minScale : currScale;
-		currScale = PingPong( currScale, maxScale );
+		if ( currScale >= maxScale )
+		{
+			scaleps *= -1;
+		}
+		else if ( currScale <= minScale )
+		{
+			scaleps *= -1;
+		}
+		// currScale = PingPong( currScale, maxScale );
+		// glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+		// glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 
 		// TAREA: Limpiar pantalla y dibujar la imagen
 		Renderer::Instance().Clear();

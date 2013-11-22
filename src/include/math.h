@@ -27,5 +27,6 @@ double Clamp( double value, double min, double max );
 int Clamp( int value, int min, int max );
 double PingPong( double value, const double max);
 int PingPong( int value, const int max);
+bool IsPOT( const double value );
 
 #endif

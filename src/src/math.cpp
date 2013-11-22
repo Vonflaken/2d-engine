@@ -101,6 +101,20 @@ int Clamp( int value, int min, int max )
 	return value;
 }
 
+bool IsPOT( const double value )
+{
+	double pow = Log2( value );
+	double res = pow - floor( pow );
+
+	if ( res < epsilon )
+	{
+		// Equal 0 -> is pot
+		return true;
+	}
+
+	return false;
+}
+
 double Angle(double x1, double y1, double x2, double y2) {
 	// TAREA: Implementar funcion
 	return WrapValue( DegATan2( y2 - y1, x2 - x1 ), DEG360 );

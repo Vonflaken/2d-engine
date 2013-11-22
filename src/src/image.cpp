@@ -21,7 +21,18 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 
 	// TAREA: Cargar el buffer de la imagen
 	buffer = stbi_load( filename.ToCString(), &width, &height, &colorComp, colorComp );
+	bool isPOTWidth = IsPOT( ( double ) width );
+	bool isPOTHeight = IsPOT( ( double ) height );
 
+	unsigned char *newBuffer;
+	if ( !isPOTWidth || !isPOTHeight )
+	{
+		// Set newBuffer pixel not needed to white
+		width = pow( ceil( Log2( ( double ) width ) ), 2 );
+		height = pow( ceil( Log2( ( double ) height ) ), 2 );
+
+		newBuffer = new unsigned char[ width * height * 4 ];
+	}
 	// Generamos la textura
 	if ( buffer ) {
 		// TAREA: Generar la textura de OpenGL
