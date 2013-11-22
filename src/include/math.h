@@ -1,6 +1,8 @@
 #ifndef UGINE_MATH_H
 #define UGINE_MATH_H
 
+const double epsilon = 0.00001;
+
 template <typename T> T min(T a, T b) { return (a < b) ? a : b; }
 template <typename T> T max(T a, T b) { return (a > b) ? a : b; }
 
@@ -21,5 +23,9 @@ void ClosestPointToRect(double x, double y, double rectx, double recty, double w
 bool RectsOverlap(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2);
 void OverlappingRect(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2, double* outx, double* outy, double* outwidth, double* outheight);
 void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, double* screenY);
+double Clamp( double value, double min, double max );
+int Clamp( int value, int min, int max );
+double PingPong( double value, const double max);
+int PingPong( int value, const int max);
 
 #endif

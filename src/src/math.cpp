@@ -6,6 +6,8 @@
 
 #define DEG360 360
 
+const double epsilon = 0.00001; // Repetido en math.h
+
 double Log2(double x) {
 	return log(x) / log(2.0);
 }
@@ -43,6 +45,61 @@ double WrapValue(double val, double mod) {
     return val - mod*floor(val/mod);
 }
 
+double PingPong( double value, const double max )
+{
+	value = fmod( value, 2 * max );
+	if ( value < max )
+	{
+		return value;
+	}
+	else
+	{
+		return 2 * max - value;
+	}
+}
+
+int PingPong( int value, const int max )
+{
+	value = value % 2 * max;
+	if ( value < max )
+	{
+		return value;
+	}
+	else
+	{
+		return 2 * max - value;
+	}
+}
+
+double Clamp( double value, double min, double max )
+{
+	if ( abs( max - value ) < epsilon )
+	{
+		return max;
+	}
+	
+	if ( abs( min - value ) < epsilon )
+	{
+		return min;
+	}
+
+	return value;
+}
+
+int Clamp( int value, int min, int max )
+{
+	if ( max == value )
+	{
+		return max;
+	}
+	
+	if ( min == value )
+	{
+		return min;
+	}
+
+	return value;
+}
 
 double Angle(double x1, double y1, double x2, double y2) {
 	// TAREA: Implementar funcion

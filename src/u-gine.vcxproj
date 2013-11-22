@@ -32,13 +32,6 @@
     <ClInclude Include="include\u-gine.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="u-gine.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="data\ball.png" />
-    <Image Include="data\soccer_npot.png" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A47CF9CE-BC6B-4176-AD69-C1B16230BAC5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

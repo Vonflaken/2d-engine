@@ -20,7 +20,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 	colorComp = 4;
 
 	// TAREA: Cargar el buffer de la imagen
-	buffer = stbi_load( filename.ToCString(), ( int * ) width, ( int * ) height, ( int * ) colorComp, colorComp );
+	buffer = stbi_load( filename.ToCString(), &width, &height, &colorComp, colorComp );
 
 	// Generamos la textura
 	if ( buffer ) {

@@ -38,11 +38,11 @@ private:
 	unsigned char *buffer;
     String filename;
     uint16 hframes, vframes;
-    uint16 width, height;
+    int width, height; // Tipo original: uint16
     int32 handlex, handley;
     uint32 gltex;
     double lastU, lastV;
-	uint8 colorComp;
+	int colorComp; // Tipo original: uint8
 };
 
 #endif
