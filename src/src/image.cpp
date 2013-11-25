@@ -23,33 +23,44 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 	buffer = stbi_load( filename.ToCString(), &width, &height, &colorComp, colorComp );
 	bool isPOTWidth = IsPOT( ( double ) width );
 	bool isPOTHeight = IsPOT( ( double ) height );
+	int newWidth = width;
+	int newHeight = height;
 
 	unsigned char *newBuffer;
 	if ( !isPOTWidth || !isPOTHeight )
 	{
 		// Set buffer data on a new resized buffer
-		
-		int newWidth = width;
-		int newHeight = height;
-		unsigned const int bufferSize = width * height * 4;
 
-		newBuffer = ( unsigned char * ) malloc( bufferSize );
-		memcpy( newBuffer, buffer, bufferSize );
 		// Check sizes to change
 		if ( !isPOTWidth )
 		{
-			newWidth = pow( floor( Log2( ( double ) width ) ), 2 );
+			newWidth = pow( 2, ceil( Log2( ( double ) width ) ) );
 			// Set U coor to new ratio based on new width
-			lastU = ( ( double ) newWidth ) / width;
+			lastU = ( ( double ) width ) / newWidth;
 		}
 		if ( !isPOTHeight )
 		{
-			newHeight = pow( floor( Log2( ( double ) height ) ), 2 );
+			newHeight = pow( 2, ceil( Log2( ( double ) height ) ) );
 			// Set V coor to new ratio based on new height
-			lastV = ( ( double ) newHeight ) / height;
+			lastV = ( ( double ) height ) / newHeight;
 		}
-		
-		buffer = NULL; // stbi_image_free( buffer );
+
+		unsigned const int bufferSize = newWidth * newHeight * 4;
+		newBuffer = ( unsigned char * ) malloc( bufferSize );
+		memset( newBuffer, 0, bufferSize );
+
+		for ( unsigned int x = 0; x < height; x++ )
+		{
+			for ( unsigned int y = 0; y < width; y++ )
+			{
+				for ( unsigned int i = 0; i < colorComp; i++ )
+				{
+					newBuffer[ ( x * newWidth + y ) * 4 + i ] = buffer[ ( x * width + y ) * 4 + i ];
+				}
+			}
+		}
+		stbi_image_free( buffer );
+		buffer = NULL;
 	}
 	// Generamos la textura
 	if ( buffer ) {
@@ -70,9 +81,9 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 		glBindTexture( GL_TEXTURE_2D, gltex );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, newBuffer );
+		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, newWidth, newHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, newBuffer );
 
-		newBuffer = NULL;
+		delete [] newBuffer;;
 	}
 }
 
