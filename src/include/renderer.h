@@ -9,7 +9,7 @@ class Image;
 
 class Renderer {
 public:
-    enum BlendMode {
+	enum BlendMode {
 		SOLID,
 		ALPHA,
 		MULTIPLICATIVE,
