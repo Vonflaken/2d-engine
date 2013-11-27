@@ -9,6 +9,7 @@ int main(int argc, char* argv[])
 
 	screen.Open(800, 600, false);
 
+	/* Apartado básico
 	const double stripeWidth = screen.GetWidth() / 3;
 	const double midX = screen.GetWidth() / 2;
 	const double midY = screen.GetHeight() / 2;
@@ -16,9 +17,36 @@ int main(int argc, char* argv[])
 	const double circleGapX = circleSize / 2;
 	const double circleGapY = circleGapX * 2;
 	const double fromFrame = 100.00;
+	*/
+
+	const uint8 numFactors = 6;
+	const double xoffset = screen.GetWidth() / 5.8;
+	const double yoffset = screen.GetHeight() / 5.8;
+
+	Image *crate = new Image( "data/box.jpg" );
+	Image *lightMask = new Image( "data/light.png" );
+
+	uint16 blendSrcFactors[ numFactors ] = { GL_ZERO, GL_ONE, GL_DST_COLOR, GL_ONE_MINUS_DST_COLOR, 
+		GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA };
+	uint16 blendDstFactors[ numFactors ] = { GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ONE_MINUS_SRC_COLOR, 
+		GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA };
 
 	while ( Screen::Instance().IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) ) {
 
+		for ( unsigned int s = 0; s < numFactors; s++ )
+		{
+			for ( unsigned int d = 0; d < numFactors; d++ )
+			{
+				glBlendFunc( blendSrcFactors[ s ], blendDstFactors[ d ] );
+
+				// renderer.SetColor( 255, 255, 255, 255 );
+				renderer.DrawImage( crate, xoffset * d, yoffset * s );
+				// renderer.SetColor( 200, 200, 200 , 0.6782 * 255 );
+				renderer.DrawImage( lightMask, xoffset * d, yoffset * s );
+			}
+		}
+
+		/* Apartado básico
 		// TAREA: Pintar franjas de pantalla
 		renderer.SetBlendMode( renderer.SOLID );
 		// Left stripe
@@ -64,6 +92,7 @@ int main(int argc, char* argv[])
 		renderer.DrawEllipse( stripeWidth * 2.5 - circleGapX, midY, circleSize, circleSize );				// Green
 		renderer.SetColor( 0, 0, 255, 255 );
 		renderer.DrawEllipse( stripeWidth * 2.5 + circleGapX, midY, circleSize, circleSize );				// Blue
+		*/
 
 		// Refrescamos la pantalla
 		Screen::Instance().Refresh();

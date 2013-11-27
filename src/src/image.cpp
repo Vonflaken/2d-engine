@@ -73,6 +73,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
 
 		stbi_image_free( buffer );
+		buffer = NULL;
 	}
 	else if ( newBuffer )
 	{
@@ -83,7 +84,8 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, newWidth, newHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, newBuffer );
 
-		delete [] newBuffer;;
+		free( newBuffer );
+		newBuffer = NULL;
 	}
 }
 
