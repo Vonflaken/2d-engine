@@ -6,7 +6,7 @@
 
 #define DEG360 360
 
-const double epsilon = 0.00001; // Repetido en math.h
+const double EPSILON = 0.00001; // Repetido en math.h
 
 double Log2(double x) {
 	return log(x) / log(2.0);
@@ -73,12 +73,12 @@ int PingPong( int value, const int max )
 
 double Clamp( double value, double min, double max )
 {
-	if ( abs( max - value ) < epsilon )
+	if ( abs( max - value ) < EPSILON )
 	{
 		return max;
 	}
 	
-	if ( abs( min - value ) < epsilon )
+	if ( abs( min - value ) < EPSILON )
 	{
 		return min;
 	}
@@ -106,7 +106,7 @@ bool IsPOT( const double value )
 	double pow = Log2( value );
 	double res = pow - floor( pow );
 
-	if ( res < epsilon )
+	if ( res < EPSILON )
 	{
 		// Equal 0 -> is pot
 		return true;

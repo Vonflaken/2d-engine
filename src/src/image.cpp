@@ -21,6 +21,10 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 
 	// TAREA: Cargar el buffer de la imagen
 	buffer = stbi_load( filename.ToCString(), &width, &height, &colorComp, colorComp );
+	
+	// Center pivot by default
+	SetMidHandle();
+
 	bool isPOTWidth = IsPOT( ( double ) width );
 	bool isPOTHeight = IsPOT( ( double ) height );
 	int newWidth = width;
