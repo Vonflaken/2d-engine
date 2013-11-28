@@ -11,6 +11,8 @@ int main(int argc, char* argv[])
 
 	screen.Open(800, 600, false);
 
+
+	// ------------- BASIC ------------- //
 	const double degps = 30.00;
 	double currDeg = 0.00;
 
@@ -27,7 +29,15 @@ int main(int argc, char* argv[])
 	Sprite *sptBasketBall = new Sprite( imgBasketBall );
 	sptBasketBall->SetPosition( screen.GetWidth() / 2 + sptBasketBall->GetImage()->GetWidth(), screen.GetHeight() / 2 );
 
-	while ( Screen::Instance().IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) ) {
+	// ------------- ADVANCED ------------- //
+	double speed = 2.00;
+	double toAngle = 15.00;
+
+	Image *imgAlien = new Image( "data/alien.png" );
+	Sprite *sptAlien = new Sprite( imgAlien );
+	sptAlien->SetPosition( screen.GetWidth() / 2, screen.GetHeight() / 2 );
+
+	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) ) {
 
 		currDeg += degps * screen.ElapsedTime();
 		currScale += scaleps * screen.ElapsedTime();
@@ -56,11 +66,26 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
+			renderer.SetBlendMode( sptAlien->GetBlendMode() );
+			sptAlien->Update( screen.ElapsedTime() );
+			sptAlien->Render();
 
+			sptAlien->MoveTo( screen.GetMouseX(), screen.GetMouseY(), speed, speed ); // Move to cursor
+
+			if ( screen.KeyPressed( GLFW_KEY_LEFT ) )
+			{
+				// Rotate to left
+				sptAlien->RotateTo( -toAngle, speed );
+			}
+			else if ( screen.KeyPressed( GLFW_KEY_RIGHT ) )
+			{
+				// Rotate to right
+				sptAlien->RotateTo( toAngle, speed );
+			}
 		}
 
 		// Refrescamos la pantalla
-		Screen::Instance().Refresh();
+		screen.Refresh();
 	}
 
 	return 0;

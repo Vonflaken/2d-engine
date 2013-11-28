@@ -1,10 +1,13 @@
 #ifndef UGINE_MATH_H
 #define UGINE_MATH_H
 
-const double EPSILON = 0.00001;
+#define DEG360 360 // Repetido en math.cpp
+
+const double EPSILON = 0.00001; // Repetido en math.cpp
 
 template <typename T> T min(T a, T b) { return (a < b) ? a : b; }
 template <typename T> T max(T a, T b) { return (a > b) ? a : b; }
+template <typename T> int sgn(T val) { return (T(0) < val) - (val < T(0)); }
 
 double Log2(double x);
 double DegSin(double degrees);

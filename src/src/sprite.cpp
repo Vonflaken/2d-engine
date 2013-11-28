@@ -9,7 +9,8 @@
 #include <math.h>
 
 Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double colheight, 
-		uint16 firstFrame, uint16 lastFrame, uint8 r, uint8 g, uint8 b, uint8 a ) {
+		uint16 firstFrame, uint16 lastFrame, uint8 r, uint8 g, uint8 b, uint8 a )
+{
 	// TAREA: Implementar
 	this->image = image;
 	x = 0.00;
@@ -57,7 +58,8 @@ Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double c
 	prevY = y;
 }
 
-Sprite::~Sprite() {
+Sprite::~Sprite()
+{
     delete image;
 }
 
@@ -75,31 +77,72 @@ bool Sprite::CheckCollision(const Map* map) {
 	return false;
 }
 
-void Sprite::RotateTo(int32 angle, double speed) {
-	// TAREA: Implementar
-
+void Sprite::RotateTo(int32 angle, double speed)
+{
+	if ( angle != this->angle )
+	{
+		// Rotating
+		toAngle = Clamp( angle, -DEG360, DEG360 );
+		deegresToRotate = ( ( toAngle - this->angle ) < ( this->angle - toAngle ) ) * speed; // Sentido de la rotación y grados a rotar
+		
+		rotating = true;
+	}
+	else
+	{
+		// Not rotating
+		rotating = false;
+	}
 }
 
-void Sprite::MoveTo(double x, double y, double speedX, double speedY) {
-	// TAREA: Implementar
+void Sprite::MoveTo(double x, double y, double speedX, double speedY)
+{
+	x = WrapValue( x, 800 - colwidth );
+	y = WrapValue( y, 600 - colheight );
+	if ( ( ( prevX < x && this->x < x ) || ( prevX > x && this->x > x ) ) || 
+		( ( prevY < y && this->y < y ) || ( prevX > x && this->x > x ) ) )
+	{
+		// Moving
+		toX = x;
+		toY = y;
+		movingSpeedX = -( this->x - x ) / speedX;
+		movingSpeedY = -( this->y - y ) / speedY;
+
+		moving = true;
+	}
+	else
+	{
+		// Not moving
+ 		moving = false;
+	}
 }
 
-void Sprite::Update(double elapsed, const Map* map) {
+void Sprite::Update(double elapsed, const Map* map)
+{
 	// Informacion inicial de colision
 	colSprite = NULL;
 	collided = false;
 
 	// TAREA: Actualizar animacion
 
-	// TAREA: Actualizar rotacion animada
+	if ( rotating )
+	{
+		angle += deegresToRotate * elapsed; // Update rotate
+	}
 
-	// TAREA: Actualizar movimiento animado
+	if ( moving )
+	{
+		x += movingSpeedX * elapsed;
+		y += movingSpeedY * elapsed;
+	}
+	prevX = x;
+	prevY = y;
 
 	// Informacion final de colision
 	UpdateCollisionBox();
 }
 
-void Sprite::Render() const {
+void Sprite::Render() const
+{
 	Renderer::Instance().DrawImage( image, x, y, currentFrame, image->GetWidth() * scalex, image->GetHeight() * scaley, angle );
 }
 
