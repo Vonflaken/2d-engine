@@ -14,7 +14,7 @@ Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double c
 	this->image = image;
 	x = 0.00;
 	y = 0.00;
-	z = 1.00;
+	z = 0.00;
 	this->colx = colx;
 	this->coly = coly;
 	this->colwidth = colwidth;
@@ -100,7 +100,6 @@ void Sprite::Update(double elapsed, const Map* map) {
 }
 
 void Sprite::Render() const {
-	double scaleps = image->GetWidth() * scalex;
 	Renderer::Instance().DrawImage( image, x, y, currentFrame, image->GetWidth() * scalex, image->GetHeight() * scaley, angle );
 }
 

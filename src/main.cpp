@@ -2,7 +2,7 @@
 
 #include "include/u-gine.h"
 
-#define BASIC true
+#define BASIC false
 
 int main(int argc, char* argv[])
 {
@@ -19,8 +19,13 @@ int main(int argc, char* argv[])
 	const double maxScale = 5.00;
 	const double minScale = 0.50;
 
-	Image *image = new Image( "data/soccer_npot.png" );
-	Sprite *sprite = new Sprite( image );
+	Image *imgSoccerBall = new Image( "data/soccer_npot.png" );
+	Sprite *sptSoccerBall = new Sprite( imgSoccerBall );
+	sptSoccerBall->SetPosition( screen.GetWidth() / 2 - sptSoccerBall->GetImage()->GetWidth(), screen.GetHeight() / 2 );
+
+	Image *imgBasketBall = new Image( "data/ball.png" );
+	Sprite *sptBasketBall = new Sprite( imgBasketBall );
+	sptBasketBall->SetPosition( screen.GetWidth() / 2 + sptBasketBall->GetImage()->GetWidth(), screen.GetHeight() / 2 );
 
 	while ( Screen::Instance().IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) ) {
 
@@ -39,9 +44,15 @@ int main(int argc, char* argv[])
 
 		if ( BASIC )
 		{
-			sprite->SetAngle( currDeg );
-			sprite->SetScale( currScale, currScale );
-			sprite->Render();
+			sptSoccerBall->SetAngle( currDeg );
+			sptSoccerBall->SetScale( currScale, currScale );
+			renderer.SetBlendMode( sptSoccerBall->GetBlendMode() );
+			sptSoccerBall->Render();
+
+			sptBasketBall->SetAngle( currDeg );
+			sptBasketBall->SetScale( currScale, currScale );
+			renderer.SetBlendMode( sptBasketBall->GetBlendMode() );
+			sptBasketBall->Render();
 		}
 		else
 		{

@@ -38,7 +38,7 @@ public:
     virtual void SetAngle(double angle) { this->angle = angle; }
 	virtual double GetAngle() const { return angle; }
 
-	virtual void SetScale(double sx, double sy) { scalex = sx; scaley = y; }
+	virtual void SetScale(double sx, double sy) { scalex = sx; scaley = sy; }
 	virtual void SetScaleX(double sx) { scalex = sx; }
     virtual void SetScaleY(double sy) { scaley = sy; }
 	virtual double GetScaleX() const { return scalex; }
