@@ -167,11 +167,8 @@ class InputManager
 {
 public:
 
-    InputManager();
-    ~InputManager();
-
 	// Singleton
-	InputManager * Instance();
+	static InputManager & Instance();
 
 	// Inicialición: deteccción de dispostivos, inicialización de los mismos... etc
     bool            Init();
@@ -216,11 +213,15 @@ public:
 	// Devuelve true durante el frame que que el usuario ha dejado de pulsar el botón del ratón dado
     bool            GetMouseButtonUp( eInputCode button );
 
+protected:
+	InputManager();
+	~InputManager();
+
 private:
-	InputManager *instance;
+	static InputManager * instance;
 
 public:
-	std::map< const String &, eInputCode > virtualButtons;
+	std::map< const String, eInputCode > virtualButtons;
 };
 
 #endif

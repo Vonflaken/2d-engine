@@ -6,7 +6,7 @@
 //#include "camera.h"
 //#include "collisionpixeldata.h"
 //#include "emitter.h"
-//#include "font.h"
+#include "font.h"
 #include "glinclude.h"
 #include "image.h"
 //#include "isometricmap.h"
@@ -15,6 +15,7 @@
 //#include "map.h"
 //#include "mapscene.h"
 #include "math.h"
+#include "vector2d.h"
 //#include "parallaxscene.h"
 //#include "particle.h"
 #include "renderer.h"
@@ -25,6 +26,6 @@
 #include "sprite.h"
 #include "string.h"
 #include "types.h"
-#include "InputManager.h"
+#include "inputmanager.h"
 
 #endif

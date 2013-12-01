@@ -1,5 +1,7 @@
 #include "../include/inputmanager.h"
 
+InputManager * InputManager::instance = NULL;
+
 InputManager::InputManager()
 {
 
@@ -12,7 +14,9 @@ InputManager::~InputManager()
 
 bool InputManager::Init()
 {
-	virtualButtons.insert( LEFT, eInputCode::Key_LeftArrow );
+	// virtualButtons.insert( LEFT, eInputCode::Key_LeftArrow );
+
+	return true;
 }
 
 void InputManager::End()
@@ -23,6 +27,7 @@ void InputManager::End()
 bool InputManager::IsOk()
 {
 
+	return true;
 }
 
 void InputManager::Update()
@@ -30,7 +35,7 @@ void InputManager::Update()
 
 }
 
-InputManager * InputManager::Instance()
+InputManager & InputManager::Instance()
 {
 	if ( !instance )
 	{
@@ -38,5 +43,5 @@ InputManager * InputManager::Instance()
 		instance->Init();
 	}
 
-	return instance;
+	return * instance;
 }

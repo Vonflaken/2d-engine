@@ -71,10 +71,11 @@ public:
 	virtual const Sprite* CollisionSprite() const { return colSprite; }
 	virtual bool DidCollide() const { return collided; }
 
-    virtual void RotateTo(int32 angle, double speed);
+    virtual void RotateTo( double angle, double speed );
     virtual void MoveTo(double x, double y, double speedX, double speedY = 0.0);
 	virtual bool IsRotating() const { return rotating; }
 	virtual bool IsMoving() const { return moving; }
+	virtual void Flip() { SetScale( scalex * -1, scaley * -1 ); };
 
     virtual void Update(double elapsed, const Map* map = NULL);
     virtual void Render() const;
@@ -90,7 +91,7 @@ private:
     double radius;
     int16 animFPS;
     uint16 firstFrame, lastFrame;
-    double currentFrame;
+    uint16 currentFrame;
     Renderer::BlendMode blendMode;
     uint8 r, g, b, a;
     Collision* collision;

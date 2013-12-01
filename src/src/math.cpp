@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "math.h"
 #include <math.h>
 
@@ -88,12 +89,12 @@ double Clamp( double value, double min, double max )
 
 int Clamp( int value, int min, int max )
 {
-	if ( max == value )
+	if ( value >= max )
 	{
 		return max;
 	}
 	
-	if ( min == value )
+	if ( value <= min )
 	{
 		return min;
 	}
@@ -113,6 +114,16 @@ bool IsPOT( const double value )
 	}
 
 	return false;
+}
+
+double LogWithBase( const double base, const double x )
+{
+	return log( x ) / log( base );
+}
+
+float Random( const float min, const float max )
+{
+	return min + ( max - min ) * ( float ) rand() / RAND_MAX;
 }
 
 double Angle(double x1, double y1, double x2, double y2) {

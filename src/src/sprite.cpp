@@ -3,6 +3,7 @@
 #include "../include/image.h"
 //#include "../include/map.h"
 #include "../include/math.h"
+#include "../include/vector2d.h"
 //#include "../include/pixelcollision.h"
 #include "../include/renderer.h"
 //#include "../include/circlecollision.h"
@@ -77,14 +78,40 @@ bool Sprite::CheckCollision(const Map* map) {
 	return false;
 }
 
-void Sprite::RotateTo(int32 angle, double speed)
+void Sprite::RotateTo( double angle, double speed )
 {
-	if ( angle != this->angle )
+	/*double counterclockwiseDeegresToRotate = 0.00;
+	double clockwiseDeegresToRotate = 0.00;*/
+
+	if ( ( toAngle > angle ) ? ( toAngle - angle ) > EPSILON : 
+		( angle - toAngle ) > EPSILON )
+	{
+		toAngle = ( uint16 ) DEG360 * ceil( LogWithBase( DEG360, abs( angle ) ) - angle );
+		/*counterclockwiseDeegresToRotate = angle - this->angle;
+		clockwiseDeegresToRotate = this->angle - angle;*/
+		deegresToRotate = ( angle - this->angle < this->angle - angle ) ? angle - this->angle : 
+			abs( this->angle - angle );
+	}
+
+	/*if ( ( toAngle > this->angle ) ? ( toAngle - this->angle ) > EPSILON : 
+		( this->angle - toAngle ) > EPSILON )*/
+
+	if ( abs( deegresToRotate ) > EPSILON )
 	{
 		// Rotating
-		toAngle = Clamp( angle, -DEG360, DEG360 );
-		deegresToRotate = ( ( toAngle - this->angle ) < ( this->angle - toAngle ) ) * speed; // Sentido de la rotación y grados a rotar
+		rotatingSpeed = speed;
 		
+		/*if ( counterclockwiseDeegresToRotate < clockwiseDeegresToRotate )
+		{
+			// Sentido anti horario			
+			deegresToRotate = counterclockwiseDeegresToRotate;
+		}
+		else
+		{
+			// Sentido horario
+			deegresToRotate = clockwiseDeegresToRotate;
+		}*/
+
 		rotating = true;
 	}
 	else
@@ -96,23 +123,36 @@ void Sprite::RotateTo(int32 angle, double speed)
 
 void Sprite::MoveTo(double x, double y, double speedX, double speedY)
 {
-	x = WrapValue( x, 800 - colwidth );
-	y = WrapValue( y, 600 - colheight );
-	if ( ( ( prevX < x && this->x < x ) || ( prevX > x && this->x > x ) ) || 
-		( ( prevY < y && this->y < y ) || ( prevX > x && this->x > x ) ) )
+	toX = x;
+	toY = y;
+	double distance = ( double ) Vector2D::Distance( Vector2D( this->x, this->y ), 
+			Vector2D( ( float ) x, ( float ) y ) );
+
+	if ( distance > EPSILON )
 	{
-		// Moving
-		toX = x;
-		toY = y;
-		movingSpeedX = -( this->x - x ) / speedX;
-		movingSpeedY = -( this->y - y ) / speedY;
+		if ( this->x < x )
+		{
+			movingSpeedX = speedX * 1;
+		}
+		else
+		{
+			movingSpeedX = speedX * -1;
+		}
+
+		if ( this->y < y )
+		{
+			movingSpeedY = speedY * 1;
+		}
+		else
+		{
+			movingSpeedY = speedY * -1;
+		}
 
 		moving = true;
 	}
 	else
 	{
-		// Not moving
- 		moving = false;
+		moving = false;
 	}
 }
 
@@ -126,7 +166,18 @@ void Sprite::Update(double elapsed, const Map* map)
 
 	if ( rotating )
 	{
-		angle += deegresToRotate * elapsed; // Update rotate
+		if ( sgn( deegresToRotate ) > 0.00 )
+		{
+			angle += rotatingSpeed * elapsed; // Update clockwise rotate
+			deegresToRotate -= rotatingSpeed * elapsed; // Update deegres left to reach toAngle
+		}
+		else
+		{
+			angle -= rotatingSpeed * elapsed; // Update counterclockwise rotate
+			deegresToRotate += rotatingSpeed * elapsed; // Update deegres left to reach toAngle
+		}
+
+		RotateTo( toAngle, rotatingSpeed );
 	}
 
 	if ( moving )
@@ -143,7 +194,7 @@ void Sprite::Update(double elapsed, const Map* map)
 
 void Sprite::Render() const
 {
-	Renderer::Instance().DrawImage( image, x, y, currentFrame, image->GetWidth() * scalex, image->GetHeight() * scaley, angle );
+	Renderer::Instance().DrawImage( image, x, y, currentFrame, image->GetWidth() * scalex, image->GetHeight() * scaley, WrapValue( angle, DEG360 ) );
 }
 
 void Sprite::UpdateCollisionBox() {

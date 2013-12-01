@@ -1,5 +1,5 @@
 #include "../include/renderer.h"
-//#include "../include/font.h"
+#include "../include/font.h"
 #include "../include/glinclude.h"
 #include "../include/image.h"
 #include "../include/math.h"
@@ -87,7 +87,7 @@ void Renderer::DrawEllipse(double x, double y, double xradius, double yradius) c
 	glDrawArrays(GL_TRIANGLE_FAN, 0, ELLIPSEPOINTS);
 }
 
-void Renderer::DrawImage(const Image* image, double x, double y, uint32 frame, double width, double height, double ang) const {
+void Renderer::DrawImage(const Image* image, double x, double y, uint16 frame, double width, double height, double ang) const {
     if ( width == 0  ||  height == 0 ) {
         width = image->GetWidth();
         height = image->GetHeight();
@@ -137,8 +137,6 @@ void Renderer::DrawTiledImage(const Image* image, double x, double y, double wid
 	glPopMatrix();
 }
 
-/*
 void Renderer::DrawText(const Font* font, const String &text, double x, double y) const {
 	font->Render(text, x, y);
 }
-*/

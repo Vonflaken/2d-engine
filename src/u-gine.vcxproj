@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="lib\stb_image.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\font.cpp" />
     <ClCompile Include="src\image.cpp" />
     <ClCompile Include="src\inputmanager.cpp" />
     <ClCompile Include="src\math.cpp" />
@@ -20,9 +21,11 @@
     <ClCompile Include="src\resourcemanager.cpp" />
     <ClCompile Include="src\screen.cpp" />
     <ClCompile Include="src\sprite.cpp" />
+    <ClCompile Include="src\vector2d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\array.h" />
+    <ClInclude Include="include\font.h" />
     <ClInclude Include="include\glinclude.h" />
     <ClInclude Include="include\image.h" />
     <ClInclude Include="include\inputmanager.h" />
@@ -34,6 +37,7 @@
     <ClInclude Include="include\string.h" />
     <ClInclude Include="include\types.h" />
     <ClInclude Include="include\u-gine.h" />
+    <ClInclude Include="include\vector2d.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

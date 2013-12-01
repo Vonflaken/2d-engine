@@ -15,7 +15,7 @@ extern "C" {
 
 class Image {
 public:
-    Image(const String& filename, uint16 hframes = 1, uint16 vframes = 1);
+    Image(const String& filename, uint16 hframes = 0, uint16 vframes = 0);
 	virtual ~Image();
 
     virtual bool IsValid() const { return gltex != 0; }
