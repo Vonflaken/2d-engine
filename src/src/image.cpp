@@ -53,11 +53,11 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 		newBuffer = ( unsigned char * ) malloc( bufferSize );
 		memset( newBuffer, 0, bufferSize );
 
-		for ( unsigned int x = 0; x < height; x++ )
+		for ( uint16 x = 0; x < height; x++ )
 		{
-			for ( unsigned int y = 0; y < width; y++ )
+			for ( uint16 y = 0; y < width; y++ )
 			{
-				for ( unsigned int i = 0; i < colorComp; i++ )
+				for ( uint8 i = 0; i < colorComp; i++ )
 				{
 					newBuffer[ ( x * newWidth + y ) * 4 + i ] = buffer[ ( x * width + y ) * 4 + i ];
 				}

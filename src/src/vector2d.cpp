@@ -95,6 +95,12 @@ Vector2D Vector2D::Left()
 // ------------ OPERATORS ------------- //
 
 // ----------------------------------- //
+Vector2D Vector2D::operator=( const Vector2D & other ) const
+{
+	return other;
+}
+
+// ----------------------------------- //
 Vector2D Vector2D::operator+( const Vector2D &other ) const
 {
 	return Vector2D( x + other.x, y + other.y );

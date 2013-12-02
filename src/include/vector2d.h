@@ -22,7 +22,7 @@ public:
 	float GetScalar() const;
 	// Operators
 	Vector2D operator==( const Vector2D &other ) const;
-	Vector2D operator=( const Vector2D &other ) const;
+	Vector2D operator=( const Vector2D & other ) const;
 	Vector2D operator+=( const Vector2D &other ) const;
 	Vector2D operator-=( const Vector2D &other ) const;
 	Vector2D operator+( const Vector2D &other ) const;

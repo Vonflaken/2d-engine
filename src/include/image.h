@@ -3,11 +3,12 @@
 
 #include "string.h"
 #include "types.h"
+#include "vector2d.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-	extern unsigned char *stbi_load(char const*, int*, int*, int*, int);
+	extern unsigned char *stbi_load(char const* fileName, int* width, int* height, int* colorComp, int reqColorComp);
 	extern void stbi_image_free(void*);
 #ifdef __cplusplus
 }
@@ -33,6 +34,7 @@ public:
     virtual double GetLastU() const { return lastU; }
     virtual double GetLastV() const { return lastV; }
 	virtual void SetColorComp( uint8 colorComp ) { this->colorComp = colorComp; }
+	virtual uint8 GetColorComp() { return colorComp; }
     virtual uint32 GetTexId() const { return gltex; }
 private:
 	unsigned char *buffer;
@@ -43,6 +45,22 @@ private:
     uint32 gltex;
     double lastU, lastV;
 	int colorComp; // Tipo original: uint8
+
+public:
+	class Glyph
+	{
+	public:
+		Vector2D topLeft;
+		Vector2D bottomRight;
+
+		Glyph() : topLeft( 0.0, 0.0 ), bottomRight( 0.0, 0.0 ) {};
+		Glyph( Vector2D & topLeft, Vector2D & bottomRight )
+		{
+			this->topLeft = topLeft;
+			this->bottomRight = bottomRight;
+		}
+		~Glyph() {};
+	};
 };
 
 #endif
