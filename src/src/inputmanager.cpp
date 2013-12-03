@@ -1,10 +1,13 @@
 #include "../include/inputmanager.h"
+#include "../include/glinclude.h"
 
 InputManager * InputManager::instance = NULL;
 
 InputManager::InputManager()
 {
-
+	mouse = false;
+	keyboard = false;
+	pad = false;
 }
 
 InputManager::~InputManager()
@@ -14,8 +17,6 @@ InputManager::~InputManager()
 
 bool InputManager::Init()
 {
-	// virtualButtons.insert( LEFT, eInputCode::Key_LeftArrow );
-
 	return true;
 }
 
@@ -26,13 +27,20 @@ void InputManager::End()
 
 bool InputManager::IsOk()
 {
-
 	return true;
 }
 
 void InputManager::Update()
 {
+	for ( std::map< const String, uint8 >::iterator it = virtualButtons.begin(); it != virtualButtons.end(); it++ )
+	{
+		int state = glfwGetKey( it->second );
+	}
+}
 
+void InputManager::CreateVirtualButton( const String & key, uint8 value )
+{
+	virtualButtons.insert( std::pair< const String, uint8 >( key, value ) );
 }
 
 InputManager & InputManager::Instance()

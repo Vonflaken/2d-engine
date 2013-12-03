@@ -9,159 +9,86 @@
 #include "string.h"
 #include <map>
 
-// Códigos que representan los distintos tipos de inputs posibles
-enum eInputCode
-{
-  // Teclado
-  Key_0,
-  Key_1,
-  Key_2,
-  Key_3,
-  Key_4,
-  Key_5,
-  Key_6,
-  Key_7,
-  Key_8,
-  Key_9,
-  Key_AltGr,
-  Key_Ampersand,
-  Key_Asterisk,
-  Key_At,
-  Key_BackQuote,
-  Key_Backslash,
-  Key_Backspace,
-  Key_Break,
-  Key_CapsLock,
-  Key_Caret,
-  Key_Clear,
-  Key_Colon,
-  Key_Comma,
-  Key_Delete,
-  Key_Dollar,
-  Key_DoubleQuote,
-  Key_DownArrow,
-  Key_End,
-  Key_Equals,
-  Key_Escape,
-  Key_Exclaim,
-  Key_F1,
-  Key_F2,
-  Key_F3,
-  Key_F4,
-  Key_F5,
-  Key_F6,
-  Key_F7,
-  Key_F8,
-  Key_F9,
-  Key_F10,
-  Key_F11,
-  Key_F12,
-  Key_F13,
-  Key_F14,
-  Key_F15,
-  Key_Greater,
-  Key_Hash,
-  Key_Help,
-  Key_Home,
-  Key_Insert,
-  Key_Keypad0,
-  Key_Keypad1,
-  Key_Keypad2,
-  Key_Keypad3,
-  Key_Keypad4,
-  Key_Keypad5,
-  Key_Keypad6,
-  Key_Keypad7,
-  Key_Keypad8,
-  Key_Keypad9,
-  Key_KeypadDivide,
-  Key_KeypadEnter,
-  Key_KeypadEquals,
-  Key_KeypadMinus,
-  Key_KeypadMultiply,
-  Key_KeypadPeriod,
-  Key_KeypadPlus,
-  Key_LeftAlt,
-  Key_LeftApple,
-  Key_LeftArrow,
-  Key_LeftBracket,
-  Key_LeftControl,
-  Key_LeftParen,
-  Key_LeftShift,
-  Key_LeftWindows,
-  Key_Less,
-  Key_Menu,
-  Key_Minus,
-  Key_Numlock,
-  Key_PageDown,
-  Key_PageUp,
-  Key_Pause,
-  Key_Period,
-  Key_Plus,
-  Key_Print,
-  Key_Question,
-  Key_Quote,
-  Key_Return,
-  Key_RightAlt,
-  Key_RightApple,
-  Key_RightArrow,
-  Key_RightBracket,
-  Key_RightControl,
-  Key_RightParen,
-  Key_RightShift,
-  Key_RightWindows,
-  Key_ScrollLock,
-  Key_Semicolon,
-  Key_Slash,
-  Key_Space,
-  Key_SysReq,
-  Key_Tab,
-  Key_Underscore,
-  Key_UpArrow,
-  Key_A,
-  Key_B,
-  Key_C,
-  Key_D,
-  Key_E,
-  Key_F,
-  Key_G,
-  Key_H,
-  Key_I,
-  Key_J,
-  Key_K,
-  Key_L,
-  Key_M,
-  Key_N,
-  Key_O,
-  Key_P,
-  Key_Q,
-  Key_R,
-  Key_S,
-  Key_T,
-  Key_U,
-  Key_V,
-  Key_W,
-  Key_X,
-  Key_Y,
-  Key_Z,
-
-  // Ratón
-  Mouse_Button0,
-  Mouse_Button1,
-  Mouse_Button2,
-  Mouse_WheelDown,
-  Mouse_WheelUp,
-  Mouse_Down,
-  Mouse_Up,
-  Mouse_Left,
-  Mouse_Right
-};
+// Códigos de GLFW que representan los distintos tipos de inputs posibles
+#define GLFW_KEY_UNKNOWN      -1
+#define GLFW_KEY_SPACE        32
+#define GLFW_KEY_SPECIAL      256
+#define GLFW_KEY_ESC          (GLFW_KEY_SPECIAL+1)
+#define GLFW_KEY_F1           (GLFW_KEY_SPECIAL+2)
+#define GLFW_KEY_F2           (GLFW_KEY_SPECIAL+3)
+#define GLFW_KEY_F3           (GLFW_KEY_SPECIAL+4)
+#define GLFW_KEY_F4           (GLFW_KEY_SPECIAL+5)
+#define GLFW_KEY_F5           (GLFW_KEY_SPECIAL+6)
+#define GLFW_KEY_F6           (GLFW_KEY_SPECIAL+7)
+#define GLFW_KEY_F7           (GLFW_KEY_SPECIAL+8)
+#define GLFW_KEY_F8           (GLFW_KEY_SPECIAL+9)
+#define GLFW_KEY_F9           (GLFW_KEY_SPECIAL+10)
+#define GLFW_KEY_F10          (GLFW_KEY_SPECIAL+11)
+#define GLFW_KEY_F11          (GLFW_KEY_SPECIAL+12)
+#define GLFW_KEY_F12          (GLFW_KEY_SPECIAL+13)
+#define GLFW_KEY_F13          (GLFW_KEY_SPECIAL+14)
+#define GLFW_KEY_F14          (GLFW_KEY_SPECIAL+15)
+#define GLFW_KEY_F15          (GLFW_KEY_SPECIAL+16)
+#define GLFW_KEY_F16          (GLFW_KEY_SPECIAL+17)
+#define GLFW_KEY_F17          (GLFW_KEY_SPECIAL+18)
+#define GLFW_KEY_F18          (GLFW_KEY_SPECIAL+19)
+#define GLFW_KEY_F19          (GLFW_KEY_SPECIAL+20)
+#define GLFW_KEY_F20          (GLFW_KEY_SPECIAL+21)
+#define GLFW_KEY_F21          (GLFW_KEY_SPECIAL+22)
+#define GLFW_KEY_F22          (GLFW_KEY_SPECIAL+23)
+#define GLFW_KEY_F23          (GLFW_KEY_SPECIAL+24)
+#define GLFW_KEY_F24          (GLFW_KEY_SPECIAL+25)
+#define GLFW_KEY_F25          (GLFW_KEY_SPECIAL+26)
+#define GLFW_KEY_UP           (GLFW_KEY_SPECIAL+27)
+#define GLFW_KEY_DOWN         (GLFW_KEY_SPECIAL+28)
+#define GLFW_KEY_LEFT         (GLFW_KEY_SPECIAL+29)
+#define GLFW_KEY_RIGHT        (GLFW_KEY_SPECIAL+30)
+#define GLFW_KEY_LSHIFT       (GLFW_KEY_SPECIAL+31)
+#define GLFW_KEY_RSHIFT       (GLFW_KEY_SPECIAL+32)
+#define GLFW_KEY_LCTRL        (GLFW_KEY_SPECIAL+33)
+#define GLFW_KEY_RCTRL        (GLFW_KEY_SPECIAL+34)
+#define GLFW_KEY_LALT         (GLFW_KEY_SPECIAL+35)
+#define GLFW_KEY_RALT         (GLFW_KEY_SPECIAL+36)
+#define GLFW_KEY_TAB          (GLFW_KEY_SPECIAL+37)
+#define GLFW_KEY_ENTER        (GLFW_KEY_SPECIAL+38)
+#define GLFW_KEY_BACKSPACE    (GLFW_KEY_SPECIAL+39)
+#define GLFW_KEY_INSERT       (GLFW_KEY_SPECIAL+40)
+#define GLFW_KEY_DEL          (GLFW_KEY_SPECIAL+41)
+#define GLFW_KEY_PAGEUP       (GLFW_KEY_SPECIAL+42)
+#define GLFW_KEY_PAGEDOWN     (GLFW_KEY_SPECIAL+43)
+#define GLFW_KEY_HOME         (GLFW_KEY_SPECIAL+44)
+#define GLFW_KEY_END          (GLFW_KEY_SPECIAL+45)
+#define GLFW_KEY_KP_0         (GLFW_KEY_SPECIAL+46)
+#define GLFW_KEY_KP_1         (GLFW_KEY_SPECIAL+47)
+#define GLFW_KEY_KP_2         (GLFW_KEY_SPECIAL+48)
+#define GLFW_KEY_KP_3         (GLFW_KEY_SPECIAL+49)
+#define GLFW_KEY_KP_4         (GLFW_KEY_SPECIAL+50)
+#define GLFW_KEY_KP_5         (GLFW_KEY_SPECIAL+51)
+#define GLFW_KEY_KP_6         (GLFW_KEY_SPECIAL+52)
+#define GLFW_KEY_KP_7         (GLFW_KEY_SPECIAL+53)
+#define GLFW_KEY_KP_8         (GLFW_KEY_SPECIAL+54)
+#define GLFW_KEY_KP_9         (GLFW_KEY_SPECIAL+55)
+#define GLFW_KEY_KP_DIVIDE    (GLFW_KEY_SPECIAL+56)
+#define GLFW_KEY_KP_MULTIPLY  (GLFW_KEY_SPECIAL+57)
+#define GLFW_KEY_KP_SUBTRACT  (GLFW_KEY_SPECIAL+58)
+#define GLFW_KEY_KP_ADD       (GLFW_KEY_SPECIAL+59)
+#define GLFW_KEY_KP_DECIMAL   (GLFW_KEY_SPECIAL+60)
+#define GLFW_KEY_KP_EQUAL     (GLFW_KEY_SPECIAL+61)
+#define GLFW_KEY_KP_ENTER     (GLFW_KEY_SPECIAL+62)
+#define GLFW_KEY_KP_NUM_LOCK  (GLFW_KEY_SPECIAL+63)
+#define GLFW_KEY_CAPS_LOCK    (GLFW_KEY_SPECIAL+64)
+#define GLFW_KEY_SCROLL_LOCK  (GLFW_KEY_SPECIAL+65)
+#define GLFW_KEY_PAUSE        (GLFW_KEY_SPECIAL+66)
+#define GLFW_KEY_LSUPER       (GLFW_KEY_SPECIAL+67)
+#define GLFW_KEY_RSUPER       (GLFW_KEY_SPECIAL+68)
+#define GLFW_KEY_MENU         (GLFW_KEY_SPECIAL+69)
 
 // Actions
 const String LEFT = "left";
 const String RIGHT = "right";
 const String UP = "up";
 const String DOWN = "down";
+const String JUMP = "jump";
 
 class InputManager
 {
@@ -185,33 +112,33 @@ public:
     
 
     // Crea un botón virtual
-    void            CreateVirtualButton( const String& name, eInputCode button );
+    void            CreateVirtualButton( const String& action, uint8 button );
 	// Crea un eje virtual
-    void            CreateVirtualAxis( const String& name, eInputCode positiveAxis, eInputCode negativeAxis );
+    void            CreateVirtualAxis( const String& action, uint8 positiveAxis, uint8 negativeAxis );
 
     // Está el botón pulsado en este momento?
-    bool            IsVirtualButtonPressed( const String& name ) const;
+    bool            IsVirtualButtonPressed( const String& action ) const;
 	// Devuelve true durante el frame que que el usuario ha comenzaco la pulsación de un botón
-    bool            IsVirtualButtonDown( const String& name ) const;
+    bool            IsVirtualButtonDown( const String& action ) const;
 	// Devuelve true durante el frame que que el usuario ha dejado de pulsar un botón
-    bool            IsVirtualButtonUp( const String& name ) const;
+    bool            IsVirtualButtonUp( const String& action ) const;
 
     // Estado de ejes virtuales normalizado de -1 a +1
-    float           GetVirtualAxis( String name ) const;
+    float           GetVirtualAxis( String action ) const;
 
     // Está el la tecla pulsada en este momento?
-    bool            IsKeyPressed( eInputCode vkCode );
+    bool            IsKeyPressed( uint8 vkCode );
 	// Devuelve true durante el frame que que el usuario ha comenzaco la pulsación de una tecla (***OPCIONAL***)
-    bool            IsKeyDown( eInputCode vkCode );
+    bool            IsKeyDown( uint8 vkCode );
 	// Devuelve true durante el frame que que el usuario ha dejado de pulsar una tecla (***OPCIONAL***)
-    bool            IsKeyUp( eInputCode vkCode );
+    bool            IsKeyUp( uint8 vkCode );
 
 	// Está el la el botón del ratón tecla pulsado en este momento?
-    bool            IsMouseButtonPressed( eInputCode button );
+    bool            IsMouseButtonPressed( uint8 button );
 	// Devuelve true durante el frame que que el usuario ha comenzaco la pulsación del botón del ratón dado
-    bool            GetMouseButtonDown( eInputCode button );
+    bool            GetMouseButtonDown( uint8 button );
 	// Devuelve true durante el frame que que el usuario ha dejado de pulsar el botón del ratón dado
-    bool            GetMouseButtonUp( eInputCode button );
+    bool            GetMouseButtonUp( uint8 button );
 
 protected:
 	InputManager();
@@ -220,8 +147,13 @@ protected:
 private:
 	static InputManager * instance;
 
+	// Available input devices
+	bool mouse;
+	bool keyboard;
+	bool pad;
+
 public:
-	std::map< const String, eInputCode > virtualButtons;
+	std::map< const String, uint8 > virtualButtons;
 };
 
 #endif

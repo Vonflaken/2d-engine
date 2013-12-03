@@ -2,6 +2,11 @@
 
 #include "include/u-gine.h"
 
+#include "Windows.h"
+#include "xinput.h"
+
+#pragma comment(lib, "XInput9_1_0.lib" )
+
 #define BASIC false
 
 int main(int argc, char* argv[])
@@ -12,10 +17,9 @@ int main(int argc, char* argv[])
 
 	screen.Open(800, 600, false);
 
-
 	// PRÁCTICA_5
 	// ------------- BASIC ------------- //
-	/*
+	
 	const double degps = 30.00;
 	double currDeg = 0.00;
 
@@ -39,7 +43,7 @@ int main(int argc, char* argv[])
 	Image *imgAlien = new Image( "data/alien.png" );
 	Sprite *sptAlien = new Sprite( imgAlien );
 	sptAlien->SetPosition( screen.GetWidth() / 2, screen.GetHeight() / 2 );
-	*/
+	
 
 	// PRÁCTICA_7
 	// ------------- BASIC ------------- //
@@ -53,10 +57,17 @@ int main(int argc, char* argv[])
 	// ------------- ADVANCED ------------- //
 	Font * fontArial = resourceManager.LoadFont( "data/arial16.png" );
 
+	// PRÁCTICA_2 de Interfaz de Usuario - Implementar InputManager
+	InputManager::Instance().CreateVirtualButton( LEFT, GLFW_KEY_LEFT );
+	InputManager::Instance().Update();
+
+	double posx = screen.GetWidth() / 2;
+	double posy = screen.GetHeight() / 2;
+
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) ) {
 
 		// PRÁCTICA_5
-		/*
+		
 		currDeg += degps * screen.ElapsedTime();
 		currScale += scaleps * screen.ElapsedTime();
 		if ( currScale >= maxScale )
@@ -67,11 +78,11 @@ int main(int argc, char* argv[])
 		{
 			scaleps *= -1;
 		}
-		*/
+		
 
 		renderer.Clear();
 
-		/*
+		
 		if ( BASIC )
 		{
 			sptSoccerBall->SetAngle( currDeg );
@@ -86,11 +97,39 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
+			XINPUT_STATE state;
+			ZeroMemory( &state, sizeof( XINPUT_STATE ) );
+			XInputGetState( 0, &state );
+			XINPUT_VIBRATION vibration;
+
+			if ( state.Gamepad.wButtons & XINPUT_GAMEPAD_A )
+			{
+				Beep( 5000, 100 );
+			}
+			if ( state.Gamepad.wButtons & XINPUT_GAMEPAD_B )
+			{
+				ZeroMemory( &vibration, sizeof( XINPUT_VIBRATION ) );
+				vibration.wLeftMotorSpeed = 30000;
+				vibration.wRightMotorSpeed = 30000;
+				XInputSetState( 0, &vibration );
+			}
+			if ( state.Gamepad.wButtons & XINPUT_GAMEPAD_Y )
+			{
+				ZeroMemory( &vibration, sizeof( XINPUT_VIBRATION ) );
+				XInputSetState( 0, &vibration );
+			}
+			float xPad = ( float ) state.Gamepad.sThumbLX / 32768;
+			float yPad = ( float ) state.Gamepad.sThumbLY / 32768;
+
+			posx += ( double ) xPad * 15;
+			posy += ( double ) yPad * 15 * -1;
+
 			renderer.SetBlendMode( sptAlien->GetBlendMode() );
 			sptAlien->Update( screen.ElapsedTime() );
 			sptAlien->Render();
 
-			sptAlien->MoveTo( screen.GetMouseX(), screen.GetMouseY(), speed, speed ); // Move to cursor
+			sptAlien->SetPosition( posx, posy );
+			// sptAlien->MoveTo( screen.GetMouseX(), screen.GetMouseY(), speed, speed ); // Move to cursor
 
 			if ( screen.KeyPressed( GLFW_KEY_LEFT ) )
 			{
@@ -107,8 +146,8 @@ int main(int argc, char* argv[])
 			// DEBUG
 			screen.SetTitle( String::FromInt( sptAlien->GetAngle() ) );
 		}
-		*/
-
+		
+		/*
 		// PRÁCTICA_7
 		if ( BASIC )
 		{
@@ -156,6 +195,7 @@ int main(int argc, char* argv[])
 			double x = ( double ) ( textPos.x - text.Length() / 2.00 * fontArial->GetWidth() ); // Text centered
 			renderer.DrawText( fontArial, text, x, ( double ) textPos.y );
 		}
+		*/
 
 		// Refrescamos la pantalla
 		screen.Refresh();

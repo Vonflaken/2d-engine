@@ -6,6 +6,7 @@
 
 Font::Font( const String & fileName ) : Image( fileName, 16, 16 )
 {
+	/*
 	unsigned char * buffer;
 
 	uint16 width = GetWidth(), height = GetHeight();
@@ -61,6 +62,7 @@ Font::Font( const String & fileName ) : Image( fileName, 16, 16 )
 
 	Bind();
 	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width * GetHFrames(), height * GetVFrames(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+	*/
 }
 
 uint16 Font::GetSize() const // FIXME: Add glyp compatibility ( param: text -> GetTextHeight( text ) )
@@ -70,6 +72,7 @@ uint16 Font::GetSize() const // FIXME: Add glyp compatibility ( param: text -> G
 
 uint32 Font::GetTextWidth( const String & text ) const
 {
+	/*
 	uint16 textWidth = 0;
 
 	for ( int32 i = 0; i < text.Length(); i++ )
@@ -78,11 +81,13 @@ uint32 Font::GetTextWidth( const String & text ) const
 	}
 
 	return textWidth;
-	// return text.Length() * GetWidth();
+	*/
+	return text.Length() * GetWidth();
 }
 
 uint32 Font::GetTextHeight( const String & text ) const
 {
+	/*
 	uint16 textHeight = 0, otherHeight;
 
 	for ( int32 i = 0; i < text.Length(); i++ )
@@ -95,7 +100,8 @@ uint32 Font::GetTextHeight( const String & text ) const
 	}
 	
 	return textHeight;
-	// return GetHeight();
+	*/
+	return GetHeight();
 }
 
 void Font::Render( const String & text, double x, double y ) const
