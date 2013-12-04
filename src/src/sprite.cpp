@@ -80,37 +80,19 @@ bool Sprite::CheckCollision(const Map* map) {
 
 void Sprite::RotateTo( double angle, double speed )
 {
-	/*double counterclockwiseDeegresToRotate = 0.00;
-	double clockwiseDeegresToRotate = 0.00;*/
 
 	if ( ( toAngle > angle ) ? ( toAngle - angle ) > EPSILON : 
 		( angle - toAngle ) > EPSILON )
 	{
 		toAngle = ( uint16 ) DEG360 * ceil( LogWithBase( DEG360, abs( angle ) ) - angle );
-		/*counterclockwiseDeegresToRotate = angle - this->angle;
-		clockwiseDeegresToRotate = this->angle - angle;*/
 		deegresToRotate = ( angle - this->angle < this->angle - angle ) ? angle - this->angle : 
 			abs( this->angle - angle );
 	}
-
-	/*if ( ( toAngle > this->angle ) ? ( toAngle - this->angle ) > EPSILON : 
-		( this->angle - toAngle ) > EPSILON )*/
 
 	if ( abs( deegresToRotate ) > EPSILON )
 	{
 		// Rotating
 		rotatingSpeed = speed;
-		
-		/*if ( counterclockwiseDeegresToRotate < clockwiseDeegresToRotate )
-		{
-			// Sentido anti horario			
-			deegresToRotate = counterclockwiseDeegresToRotate;
-		}
-		else
-		{
-			// Sentido horario
-			deegresToRotate = clockwiseDeegresToRotate;
-		}*/
 
 		rotating = true;
 	}
@@ -123,6 +105,11 @@ void Sprite::RotateTo( double angle, double speed )
 
 void Sprite::MoveTo(double x, double y, double speedX, double speedY)
 {
+	if ( speedY < EPSILON )
+	{
+		speedY = speedX;
+	}
+
 	toX = x;
 	toY = y;
 	double distance = ( double ) Vector2D::Distance( Vector2D( this->x, this->y ), 
@@ -130,22 +117,32 @@ void Sprite::MoveTo(double x, double y, double speedX, double speedY)
 
 	if ( distance > EPSILON )
 	{
+		// Set direction at x axe
 		if ( this->x < x )
 		{
 			movingSpeedX = speedX * 1;
 		}
-		else
+		else if ( this->x > x )
 		{
 			movingSpeedX = speedX * -1;
 		}
+		else
+		{
+			movingSpeedX = 0.00;
+		}
 
+		// Set direction at y axe
 		if ( this->y < y )
 		{
 			movingSpeedY = speedY * 1;
 		}
-		else
+		else if ( this->y > y )
 		{
 			movingSpeedY = speedY * -1;
+		}
+		else
+		{
+			movingSpeedY = 0.00;
 		}
 
 		moving = true;
@@ -161,8 +158,6 @@ void Sprite::Update(double elapsed, const Map* map)
 	// Informacion inicial de colision
 	colSprite = NULL;
 	collided = false;
-
-	// TAREA: Actualizar animacion
 
 	if ( rotating )
 	{

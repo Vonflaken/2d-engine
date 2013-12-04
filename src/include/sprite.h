@@ -72,7 +72,7 @@ public:
 	virtual bool DidCollide() const { return collided; }
 
     virtual void RotateTo( double angle, double speed );
-    virtual void MoveTo(double x, double y, double speedX, double speedY = 0.0);
+    virtual void MoveTo( double x, double y, double speedX, double speedY = 0.00 );
 	virtual bool IsRotating() const { return rotating; }
 	virtual bool IsMoving() const { return moving; }
 	virtual void Flip() { SetScale( scalex * -1, scaley * -1 ); };

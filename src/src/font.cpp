@@ -6,10 +6,10 @@
 
 Font::Font( const String & fileName ) : Image( fileName, 16, 16 )
 {
-	/*
 	unsigned char * buffer;
 
-	uint16 width = GetWidth(), height = GetHeight();
+	const uint16 & width = GetWidth();
+	const uint16 & height = GetHeight();
 	uint8 colorComp = GetColorComp(), reqColorComp = GetColorComp();
 	uint32 row = 0, col = 0;
 
@@ -19,11 +19,11 @@ Font::Font( const String & fileName ) : Image( fileName, 16, 16 )
 	{
 		row = frame / GetHFrames();
 		col = frame % GetVFrames();
-		Glyph glyph;
+		Glyph glyph( Vector2D( 0.0, 0.0 ), Vector2D( GetWidth(), GetHeight() ) );
 		
-		for ( uint32 y = row; y < ( row + 1 ) * height; y++ )
+		for ( uint32 y = row * height; y < ( row + 1 ) * height; y++ )
 		{
-			for ( uint32 x = col; x < ( col + 1 ) * width; x++ )
+			for ( uint32 x = col * width; x < ( col + 1 ) * width; x++ )
 			{
 				unsigned char & r = buffer[ ( y * width + x ) * 4 ];
 				unsigned char & g = buffer[ ( y * width + x ) * 4 + 1 ];
@@ -34,25 +34,25 @@ Font::Font( const String & fileName ) : Image( fileName, 16, 16 )
 				{
 					// Black pixel -> background
 
-					a = 0; // Set transparent
+					r = g = b = a = 0; // Set transparent
 				}
-				else if ( r == 255 && g == 255 && b == 0 && a == 255 )
+				else if ( ( uint8 ) r == 255 && ( uint8 ) g == 255 && ( uint8 ) b == 0 && ( uint8 ) a == 255 )
 				{
 					// Yellow pixel -> glyph origin
 
 					glyph.topLeft.x = ( float ) x;
 					glyph.topLeft.y = ( float ) y;
 
-					a = 0; // Set transparent
+					r = g = b = a = 0; // Set transparent
 				}
-				else if ( r == 255 && g == 0 && b == 0 && a == 255 )
+				else if ( ( uint8 ) r == 255 && ( uint8 ) g == 0 && ( uint8 ) b == 0 && ( uint8 ) a == 255 )
 				{
 					// Red pixel -> glyph end
 					
 					glyph.bottomRight.x = ( float ) x;
 					glyph.bottomRight.y = ( float ) y;
 
-					a = 0; // Set transparent
+					r = g = b = a = 0; // Set transparent
 				}
 			}
 		}
@@ -62,17 +62,15 @@ Font::Font( const String & fileName ) : Image( fileName, 16, 16 )
 
 	Bind();
 	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width * GetHFrames(), height * GetVFrames(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
-	*/
 }
 
-uint16 Font::GetSize() const // FIXME: Add glyp compatibility ( param: text -> GetTextHeight( text ) )
+uint16 Font::GetSize() const
 {
 	return GetHeight();
 }
 
 uint32 Font::GetTextWidth( const String & text ) const
 {
-	/*
 	uint16 textWidth = 0;
 
 	for ( int32 i = 0; i < text.Length(); i++ )
@@ -81,13 +79,11 @@ uint32 Font::GetTextWidth( const String & text ) const
 	}
 
 	return textWidth;
-	*/
-	return text.Length() * GetWidth();
+	// return text.Length() * GetWidth();
 }
 
 uint32 Font::GetTextHeight( const String & text ) const
 {
-	/*
 	uint16 textHeight = 0, otherHeight;
 
 	for ( int32 i = 0; i < text.Length(); i++ )
@@ -100,8 +96,7 @@ uint32 Font::GetTextHeight( const String & text ) const
 	}
 	
 	return textHeight;
-	*/
-	return GetHeight();
+	// return GetHeight();
 }
 
 void Font::Render( const String & text, double x, double y ) const

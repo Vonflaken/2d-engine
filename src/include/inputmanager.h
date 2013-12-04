@@ -3,6 +3,57 @@
 //
 /************************************************************************************************************/
 
+// TEST XINPUT CON SPRITE ALIEN
+/*
+#include "Windows.h"
+#include "xinput.h"
+
+#pragma comment(lib, "XInput9_1_0.lib" )
+
+// Var usadas en el test de XINPUT
+double posx = screen.GetWidth() / 2;
+double posy = screen.GetHeight() / 2;
+*/
+
+/*
+// INTERFAZ DE USUARIO - TEST XINPUT ( Controlador de XBox )
+
+// En el bucle principal
+
+XINPUT_STATE state;
+ZeroMemory( &state, sizeof( XINPUT_STATE ) );
+XInputGetState( 0, &state );
+XINPUT_VIBRATION vibration;
+
+if ( state.Gamepad.wButtons & XINPUT_GAMEPAD_A )
+{
+	Beep( 5000, 100 );
+}
+if ( state.Gamepad.wButtons & XINPUT_GAMEPAD_B )
+{
+	ZeroMemory( &vibration, sizeof( XINPUT_VIBRATION ) );
+	vibration.wLeftMotorSpeed = 30000;
+	vibration.wRightMotorSpeed = 30000;
+	XInputSetState( 0, &vibration );
+}
+if ( state.Gamepad.wButtons & XINPUT_GAMEPAD_Y )
+{
+	ZeroMemory( &vibration, sizeof( XINPUT_VIBRATION ) );
+	XInputSetState( 0, &vibration );
+}
+float xPad = ( float ) state.Gamepad.sThumbLX / 32768;
+float yPad = ( float ) state.Gamepad.sThumbLY / 32768;
+
+posx += ( double ) xPad * 15;
+posy += ( double ) yPad * 15 * -1;
+
+renderer.SetBlendMode( sptAlien->GetBlendMode() );
+sptAlien->Update( screen.ElapsedTime() );
+sptAlien->Render();
+
+sptAlien->SetPosition( posx, posy );
+*/
+
 #ifndef _INPUT_MANAGER_H_
 #define _INPUT_MANAGER_H_
 

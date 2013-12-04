@@ -98,3 +98,41 @@ bool Screen::MouseButtonPressed(int button) const {
 bool Screen::KeyPressed(int key) const {
 	return glfwGetKey(key) == GLFW_PRESS;
 }
+
+int8 Screen::GetAxis( const String & axe ) const
+{
+	if ( axe == "horizontal" )
+	{
+		if ( glfwGetKey( GLFW_KEY_LEFT ) )
+		{
+			return -1;
+		}
+		else if ( glfwGetKey( GLFW_KEY_RIGHT ) )
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	else if ( axe == "vertical" )
+	{
+		if ( glfwGetKey( GLFW_KEY_UP ) )
+		{
+			return -1;
+		}
+		else if ( glfwGetKey( GLFW_KEY_DOWN ) )
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	else
+	{
+		return 0;
+	}
+}

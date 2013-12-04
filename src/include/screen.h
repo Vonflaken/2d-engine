@@ -27,6 +27,7 @@ public:
     virtual int32 GetMouseY() const { return mousey; }
     virtual bool MouseButtonPressed(int button) const;
     virtual bool KeyPressed(int key) const;
+	virtual int8 GetAxis( const String & axe ) const;
 protected:
     Screen();
     virtual ~Screen();
