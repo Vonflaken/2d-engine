@@ -135,64 +135,57 @@ sptAlien->SetPosition( posx, posy );
 #define GLFW_KEY_MENU         (GLFW_KEY_SPECIAL+69)
 
 // Actions
-const String LEFT = "left";
-const String RIGHT = "right";
-const String UP = "up";
-const String DOWN = "down";
-const String JUMP = "jump";
+enum eAction
+{
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT,
+	JUMP
+};
 
 class InputManager
 {
 public:
-
 	// Singleton
 	static InputManager & Instance();
-
 	// Inicialición: deteccción de dispostivos, inicialización de los mismos... etc
     bool            Init();
-
 	// Cierre
     void            End();
-
 	// Devuelve true si el manager ha sido inicializado correctamente
 	bool 			IsOk();
-
-
 	// Función de actualización, actualización de estados entre frames
     void            Update();
-    
-
     // Crea un botón virtual
-    void            CreateVirtualButton( const String& action, uint8 button );
+    void            CreateVirtualButton( eAction action, int32 button );
 	// Crea un eje virtual
     void            CreateVirtualAxis( const String& action, uint8 positiveAxis, uint8 negativeAxis );
-
     // Está el botón pulsado en este momento?
     bool            IsVirtualButtonPressed( const String& action ) const;
 	// Devuelve true durante el frame que que el usuario ha comenzaco la pulsación de un botón
     bool            IsVirtualButtonDown( const String& action ) const;
 	// Devuelve true durante el frame que que el usuario ha dejado de pulsar un botón
     bool            IsVirtualButtonUp( const String& action ) const;
-
     // Estado de ejes virtuales normalizado de -1 a +1
     float           GetVirtualAxis( String action ) const;
-
     // Está el la tecla pulsada en este momento?
     bool            IsKeyPressed( uint8 vkCode );
 	// Devuelve true durante el frame que que el usuario ha comenzaco la pulsación de una tecla (***OPCIONAL***)
     bool            IsKeyDown( uint8 vkCode );
 	// Devuelve true durante el frame que que el usuario ha dejado de pulsar una tecla (***OPCIONAL***)
     bool            IsKeyUp( uint8 vkCode );
-
 	// Está el la el botón del ratón tecla pulsado en este momento?
     bool            IsMouseButtonPressed( uint8 button );
 	// Devuelve true durante el frame que que el usuario ha comenzaco la pulsación del botón del ratón dado
     bool            GetMouseButtonDown( uint8 button );
 	// Devuelve true durante el frame que que el usuario ha dejado de pulsar el botón del ratón dado
     bool            GetMouseButtonUp( uint8 button );
+	// Devuelve el estado de una acción dada
+	bool			GetActionState( eAction action ) const;
 
 protected:
-	InputManager();
+	InputManager() {};
 	~InputManager();
 
 private:
@@ -203,8 +196,15 @@ private:
 	bool keyboard;
 	bool pad;
 
+	// Action states
+	bool left;
+	bool right;
+	bool up;
+	bool down;
+	bool jump;
+
 public:
-	std::map< const String, uint8 > virtualButtons;
+	std::map< eAction, int32 > virtualButtons;
 };
 
 #endif

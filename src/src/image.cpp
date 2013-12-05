@@ -67,6 +67,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 		buffer = NULL;
 	}
 	// Generamos la textura
+	// FIXME: Rehacer sin el condicional -> aplicando el mismo buffer
 	if ( buffer ) {
 		// TAREA: Generar la textura de OpenGL
 		// Set POT texture
@@ -76,7 +77,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
 
-		stbi_image_free( buffer );
+		free( buffer );
 		buffer = NULL;
 	}
 	else if ( newBuffer )
@@ -97,7 +98,7 @@ Image::~Image() {
 	glDeleteTextures(1, &gltex);
 }
 
-void Image::Bind() const {
-	// TAREA: Establecer la textura actual
+void Image::Bind() const
+{
 	glBindTexture( GL_TEXTURE_2D, gltex );
 }

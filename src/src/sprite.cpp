@@ -103,7 +103,7 @@ void Sprite::RotateTo( double angle, double speed )
 	}
 }
 
-void Sprite::MoveTo(double x, double y, double speedX, double speedY)
+void Sprite::MoveTo( double x, double y, double speedX, double speedY )
 {
 	if ( speedY < EPSILON )
 	{
@@ -153,7 +153,7 @@ void Sprite::MoveTo(double x, double y, double speedX, double speedY)
 	}
 }
 
-void Sprite::Update(double elapsed, const Map* map)
+void Sprite::Update( double elapsed, const Map* map )
 {
 	// Informacion inicial de colision
 	colSprite = NULL;

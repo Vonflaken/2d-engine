@@ -8,9 +8,8 @@ Font::Font( const String & fileName ) : Image( fileName, 16, 16 )
 {
 	unsigned char * buffer;
 
-	const uint16 & width = GetWidth();
-	const uint16 & height = GetHeight();
-	uint8 colorComp = GetColorComp(), reqColorComp = GetColorComp();
+	int32 width = 0, height = 0;
+	int32 colorComp = GetColorComp(), reqColorComp = GetColorComp();
 	uint32 row = 0, col = 0;
 
 	buffer = stbi_load( GetFilename().ToCString(), ( int * ) &width, ( int * ) &height, ( int * ) &colorComp, reqColorComp );
@@ -19,11 +18,12 @@ Font::Font( const String & fileName ) : Image( fileName, 16, 16 )
 	{
 		row = frame / GetHFrames();
 		col = frame % GetVFrames();
-		Glyph glyph( Vector2D( 0.0, 0.0 ), Vector2D( GetWidth(), GetHeight() ) );
+		Glyph glyph( Vector2D( ( float ) col * GetWidth(), ( float ) row * GetHeight() ), 
+			Vector2D( ( float ) ( 1 + col ) * GetWidth(), ( float ) ( 1 + row ) * GetHeight() ) );
 		
-		for ( uint32 y = row * height; y < ( row + 1 ) * height; y++ )
+		for ( uint32 y = row * GetHeight(); y < ( row + 1 ) * GetHeight(); y++ )
 		{
-			for ( uint32 x = col * width; x < ( col + 1 ) * width; x++ )
+			for ( uint32 x = col * GetWidth(); x < ( col + 1 ) * GetWidth(); x++ )
 			{
 				unsigned char & r = buffer[ ( y * width + x ) * 4 ];
 				unsigned char & g = buffer[ ( y * width + x ) * 4 + 1 ];
@@ -61,7 +61,10 @@ Font::Font( const String & fileName ) : Image( fileName, 16, 16 )
 	}
 
 	Bind();
-	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width * GetHFrames(), height * GetVFrames(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+
+	free( buffer );
+	buffer = NULL;
 }
 
 uint16 Font::GetSize() const
@@ -75,20 +78,19 @@ uint32 Font::GetTextWidth( const String & text ) const
 
 	for ( int32 i = 0; i < text.Length(); i++ )
 	{
-		textWidth += ( uint16 ) glyphs[ ( uint8 ) text[ i ] ].bottomRight.x - ( uint16 ) glyphs[ ( uint8 ) text[ i ] ].topLeft.x;
+		textWidth += ( uint16 ) glyphs[ ( unsigned char ) text[ i ] ].bottomRight.x - ( uint16 ) glyphs[ ( unsigned char ) text[ i ] ].topLeft.x;
 	}
 
 	return textWidth;
-	// return text.Length() * GetWidth();
 }
 
 uint32 Font::GetTextHeight( const String & text ) const
 {
-	uint16 textHeight = 0, otherHeight;
+	uint32 textHeight = 0, otherHeight = 0;
 
 	for ( int32 i = 0; i < text.Length(); i++ )
 	{
-		otherHeight = ( uint16 ) glyphs[ ( uint8 ) text[ i ] ].topLeft.y - ( uint16 ) glyphs[ ( uint8 ) text[ i ] ].bottomRight.y;
+		otherHeight = ( uint32 ) glyphs[ ( unsigned char ) text[ i ] ].topLeft.y - ( uint32 ) glyphs[ ( unsigned char ) text[ i ] ].bottomRight.y;
 		if ( textHeight < otherHeight )
 		{
 			textHeight = otherHeight;
@@ -96,13 +98,15 @@ uint32 Font::GetTextHeight( const String & text ) const
 	}
 	
 	return textHeight;
-	// return GetHeight();
 }
 
 void Font::Render( const String & text, double x, double y ) const
 {
+	uint32 tmpTextWidth = 0;
+
 	for ( int i = 0; i < text.Length(); i++ )
 	{
-		Renderer::Instance().DrawImage( this, ( i == 0 ) ? x : x + GetWidth() * i, y, ( uint16 ) text[ i ] );
+		Renderer::Instance().DrawImage( this, ( i == 0 ) ? x : x + tmpTextWidth, y, ( unsigned char ) text[ i ] );
+		tmpTextWidth += ( uint32 ) glyphs[ ( unsigned char ) text[ i ] ].bottomRight.x - ( uint32 ) glyphs[ ( unsigned char ) text[ i ] ].topLeft.x;
 	}
 }
