@@ -21,6 +21,7 @@ int main(int argc, char* argv[])
 	inputManager.CreateVirtualButton( eAction::LEFT, GLFW_KEY_LEFT );
 	inputManager.CreateVirtualButton( eAction::JUMP, GLFW_KEY_SPACE );
 
+	renderer.SetBlendMode( renderer.ALPHA );
 	Sprite * sptAlien = new Sprite( resourceManager.LoadImage( "data/alien.png" ) );
 	sptAlien->SetPosition( 250.00, 250.00 );
 
@@ -32,7 +33,7 @@ int main(int argc, char* argv[])
 
 		sptAlien->Render();
 
-		/*screen.SetTitle( "idle" );
+		screen.SetTitle( "idle" );
 		if ( inputManager.GetActionState( eAction::UP ) )
 		{
 			sptAlien->MoveTo( sptAlien->GetX(), sptAlien->GetY() - 1, 25.00 );
@@ -68,10 +69,7 @@ int main(int argc, char* argv[])
 		if ( inputManager.GetActionState( eAction::JUMP ) )
 		{
 			screen.SetTitle( "jump" );
-		}*/
-		int8 axeX =  screen.GetAxis( "horizontal" );
-		int8 axeY =  screen.GetAxis( "vertical" );
-		sptAlien->MoveTo( sptAlien->GetX() + axeX, sptAlien->GetY() + axeY, 25.00 );
+		}
 
 		sptAlien->Update( screen.ElapsedTime() );
 		inputManager.Update();

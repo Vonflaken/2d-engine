@@ -120,7 +120,12 @@ void Sprite::MoveTo( double x, double y, double speedX, double speedY )
 		// Set direction at x axe
 		if ( this->x < x )
 		{
-			movingSpeedX = speedX * 1;
+			movingSpeedX = speedX;
+			// Bug fixed: when right action backs to false the program flow go into next 'else if' check so 'movingSpeedX' get negative sign
+			if ( sgn( movingSpeedX ) < 0 )
+			{
+				movingSpeedX *= - 1;
+			}
 		}
 		else if ( this->x > x )
 		{
@@ -134,7 +139,7 @@ void Sprite::MoveTo( double x, double y, double speedX, double speedY )
 		// Set direction at y axe
 		if ( this->y < y )
 		{
-			movingSpeedY = speedY * 1;
+			movingSpeedY = speedY;
 		}
 		else if ( this->y > y )
 		{
@@ -179,6 +184,8 @@ void Sprite::Update( double elapsed, const Map* map )
 	{
 		x += movingSpeedX * elapsed;
 		y += movingSpeedY * elapsed;
+
+		MoveTo( toX, toY, movingSpeedX, movingSpeedY );
 	}
 	prevX = x;
 	prevY = y;

@@ -19,10 +19,7 @@ bool InputManager::Init()
 	right = false;
 	left = false;
 
-	if ( !instance )
-	{
-		return false;
-	}
+	deltaKeyState = false;
 
 	return true;
 }
@@ -72,6 +69,34 @@ void InputManager::Update()
 void InputManager::CreateVirtualButton( eAction key, int32 value )
 {
 	virtualButtons.insert( std::pair< eAction, int32 >( key, value ) );
+}
+
+bool InputManager::IsKeyDown( int32 vkCode )
+{
+	if ( deltaKeyState == 0 )
+	{
+		deltaKeyState = glfwGetKey( vkCode );
+		return deltaKeyState;
+	}
+
+	return 0;
+}
+
+bool InputManager::IsKeyPressed( int32 vkCode )
+{
+	deltaKeyState = glfwGetKey( vkCode );
+	return deltaKeyState;
+}
+
+bool InputManager::IsKeyUp( int32 vkCode )
+{
+	if ( deltaKeyState == 1 )
+	{
+		deltaKeyState = glfwGetKey( vkCode );
+		return deltaKeyState;
+	}
+
+	return 0;
 }
 
 bool InputManager::GetActionState( eAction action ) const

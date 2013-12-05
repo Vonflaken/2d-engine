@@ -170,11 +170,11 @@ public:
     // Estado de ejes virtuales normalizado de -1 a +1
     float           GetVirtualAxis( String action ) const;
     // Está el la tecla pulsada en este momento?
-    bool            IsKeyPressed( uint8 vkCode );
-	// Devuelve true durante el frame que que el usuario ha comenzaco la pulsación de una tecla (***OPCIONAL***)
-    bool            IsKeyDown( uint8 vkCode );
+    bool            IsKeyPressed( int32 vkCode );
+	// Devuelve true durante el frame que que el usuario ha comenzado la pulsación de una tecla (***OPCIONAL***)
+    bool            IsKeyDown( int32 vkCode );
 	// Devuelve true durante el frame que que el usuario ha dejado de pulsar una tecla (***OPCIONAL***)
-    bool            IsKeyUp( uint8 vkCode );
+    bool            IsKeyUp( int32 vkCode );
 	// Está el la el botón del ratón tecla pulsado en este momento?
     bool            IsMouseButtonPressed( uint8 button );
 	// Devuelve true durante el frame que que el usuario ha comenzaco la pulsación del botón del ratón dado
@@ -202,6 +202,8 @@ private:
 	bool up;
 	bool down;
 	bool jump;
+
+	bool deltaKeyState;
 
 public:
 	std::map< eAction, int32 > virtualButtons;
