@@ -12,19 +12,15 @@ Renderer* Renderer::renderer = NULL;
 void Renderer::SetBlendMode(BlendMode blendMode) const {
     switch ( blendMode ) {
 	case SOLID:
-		// TAREA: Implementar solid blending
 		glBlendFunc( GL_ONE, GL_ZERO );
 		break;
 	case ALPHA:
-		// TAREA: Implementar alpha blending
 		glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 		break;
 	case MULTIPLICATIVE:
-		// TAREA: Implementar multiplicative blending
 		glBlendFunc( GL_DST_COLOR, GL_ZERO );
 		break;
 	case ADDITIVE:
-		// TAREA: Implementar additive blending
 		glBlendFunc( GL_SRC_ALPHA, GL_ONE );
 		break;
 	}
@@ -35,11 +31,13 @@ void Renderer::SetColor(uint8 r, uint8 g, uint8 b, uint8 a) const {
 }
 
 void Renderer::SetOrigin(double x, double y) const {
-	// TAREA: Configurar matriz de modelado
+	glMatrixMode( GL_MODELVIEW );
+
+	glLoadIdentity();
+	glTranslated( -x, -y, 0 );
 }
 
 void Renderer::Clear(uint8 r, uint8 g, uint8 b) const {
-	// TAREA: Limpiar el backbuffer
 	glClearColor( r, g, b, 0 );
 	glClear( GL_COLOR_BUFFER_BIT );
 }

@@ -1,6 +1,6 @@
 #ifndef UGINE_SCENE_H
 #define UGINE_SCENE_H
-/*
+
 #include "array.h"
 #include "camera.h"
 #include "types.h"
@@ -52,5 +52,5 @@ private:
     Array<Sprite*> sprites[LAYER_COUNT];
     //Array<Emitter*> emitters[LAYER_COUNT];
 };
-*/
+
 #endif

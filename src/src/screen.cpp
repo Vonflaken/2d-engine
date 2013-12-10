@@ -36,26 +36,22 @@ void Screen::Open(uint16 width, uint16 height, bool fullscreen) {
 	opened = true;
 
 	// Inicializamos OpenGL
-	// TAREA: Inicializar estados
 	glEnable( GL_BLEND );
 	glEnable( GL_TEXTURE_2D );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	glEnableClientState( GL_VERTEX_ARRAY );
 
 	// Configuramos viewport
-	// TAREA: Inicializar viewport
 	this->width = width;
 	this->height = height;
 
 	glViewport( 0, 0, this->width, this->height );
 
 	// Configuramos matriz de proyeccion
-	// TAREA: Configurar matriz de proyeccion
 	glMatrixMode( GL_PROJECTION );
 	glOrtho( 0, this->width, this->height, 0, 0, 1000 );
 
 	// Configuramos matriz de modelado
-	// TAREA: Configurar matriz de modelado
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 

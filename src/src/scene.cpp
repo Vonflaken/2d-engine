@@ -3,7 +3,7 @@
 #include "../include/image.h"
 #include "../include/screen.h"
 #include "../include/sprite.h"
-/*
+
 Scene::Scene(Image* backgroundImg) {
 	SetBackgroundImage(backgroundImg);
 	SetBackgroundColor(0, 0, 0);
@@ -28,8 +28,8 @@ void Scene::DeleteSprite(Sprite* sprite) {
     }
 	delete sprite;
 }
-*/
-/*Emitter* Scene::CreateEmitter(Image* image, bool autofade, Layer layer) {
+/*
+Emitter* Scene::CreateEmitter(Image* image, bool autofade, Layer layer) {
     emitters[layer].Add(new Emitter(image, autofade));
     return emitters[layer].Last();
 }
@@ -39,28 +39,28 @@ void Scene::DeleteEmitter(Emitter* emitter) {
         emitters[i].Remove(emitter);
     }
 	delete emitter;
-}*/
-/*
+}
+*/
 void Scene::Update(double elapsed, Map* map) {
 	// Actualizamos sprites y emitters
 	for ( int i = 0; i < LAYER_COUNT; i++ ) {
         for ( uint32 j = 0; j < sprites[i].Size(); j++ ) sprites[i][j]->Update(elapsed, map);
         //for ( uint32 j = 0; j < emitters[i].Size(); j++ ) emitters[i][j]->Update(elapsed);
 	}
-*/
+
 	// Actualizamos colisiones
-    /*for ( int i = 0; i < LAYER_COUNT; i++ ) {
+	for ( int i = 0; i < LAYER_COUNT; i++ ) {
         for ( int j = 0; j < (int)sprites[i].Size()-1; j++ ) {
             for ( int k = j+1; k < (int)sprites[i].Size(); k++ ) {
                 sprites[i][j]->CheckCollision(sprites[i][k]);
             }
         }
-    }*/
+    }
 
-	// Actualizamos camara
-	/*camera.Update();
-}*/
-/*
+	// Actualizamos camera
+	camera.Update();
+}
+
 void Scene::Render() const {
 	Renderer::Instance().Clear(backr, backg, backb);
     Renderer::Instance().SetOrigin(GetCamera().GetX(), GetCamera().GetY());
@@ -71,14 +71,15 @@ void Scene::Render() const {
 	RenderAfterBackground();
 	for ( int i = 0; i < LAYER_COUNT; i++ ) {
 		RenderSprites((Layer)i);
-		RenderEmitters((Layer)i);
+		// RenderEmitters((Layer)i);
 	}
 }
 
 void Scene::RenderSprites(Layer layer) const {
     for ( uint32 i = 0; i < sprites[layer].Size(); i++ ) sprites[layer][i]->Render();
 }
-*/
-/*void Scene::RenderEmitters(Layer layer) const {
+/*
+void Scene::RenderEmitters(Layer layer) const {
     for ( uint32 i = 0; i < emitters[layer].Size(); i++ ) emitters[layer][i]->Render();
-}*/
+}
+*/

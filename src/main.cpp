@@ -21,18 +21,25 @@ int main(int argc, char* argv[])
 	inputManager.CreateVirtualButton( eAction::LEFT, GLFW_KEY_LEFT );
 	inputManager.CreateVirtualButton( eAction::JUMP, GLFW_KEY_SPACE );
 
-	renderer.SetBlendMode( renderer.ALPHA );
-	Sprite * sptAlien = new Sprite( resourceManager.LoadImage( "data/alien.png" ) );
-	sptAlien->SetPosition( 250.00, 250.00 );
+	// PRÁCTICA_8
+	int8 axeX = 0;
+	int8 axeY = 0;
+	Image * imgBackground = resourceManager.LoadImage( "data/images/background.png" );
+	Scene * scene = new Scene( imgBackground );
+	Camera & camera = scene->GetCamera();
+	Sprite * sptAlien = scene->CreateSprite( resourceManager.LoadImage( "data/images/alien.png" ) );
+	sptAlien->SetPosition( imgBackground->GetWidth() / 4, imgBackground->GetHeight() / 6 );
+	camera.FollowSprite( sptAlien );
+	camera.SetBounds( 0.00, 0.00, imgBackground->GetWidth(), imgBackground->GetHeight() );
 
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{	
 		renderer.Clear();
+		renderer.SetBlendMode( Renderer::ALPHA );
 		
 		// PRÁCTICA DE INTERFAZ GRÁFICA - InputManager
 
-		sptAlien->Render();
-
+		/*
 		screen.SetTitle( "idle" );
 		if ( inputManager.GetActionState( eAction::UP ) )
 		{
@@ -70,22 +77,29 @@ int main(int argc, char* argv[])
 		{
 			screen.SetTitle( "jump" );
 		}
+		*/
 
-		sptAlien->Update( screen.ElapsedTime() );
-		inputManager.Update();
+		axeX = screen.GetAxis( "horizontal" );
+		axeY = screen.GetAxis( "vertical" );
 
 		if ( BASIC )
 		{
-			
+			sptAlien->MoveTo( sptAlien->GetX() + axeX, sptAlien->GetY() + axeY, 200.00 );
+			scene->Update( screen.ElapsedTime() );
+			scene->Render();
 		}
 		else
 		{
 			
 		}
 
+		// inputManager.Update();
+
 		// Refrescamos la pantalla
 		screen.Refresh();
 	}
+
+	resourceManager.FreeResources();
 
 	return 0;
 }
