@@ -19,7 +19,7 @@ public:
 	virtual double GetY() const { return y; }
 
 	virtual void SetBounds( double bx0, double by0, double bx1, double by1 ) { boundx0 = bx0; boundy0 = by0; boundx1 = bx1; boundy1 = by1; SetPosition( GetX(), GetY() ); }
-	virtual bool HasBounds() const { if ( ( boundx0 - boundx1 ) <= EPSILON ) { return false; } return true; }
+	virtual bool HasBounds() const { if ( ( boundx1 - boundx0 ) <= EPSILON ) { return false; } return true; }
 	virtual double GetMinX() const { return boundx0; }
 	virtual double GetMinY() const { return boundy0; }
 	virtual double GetMaxX() const { return boundx1 - Screen::Instance().GetWidth(); }

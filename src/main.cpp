@@ -24,17 +24,24 @@ int main(int argc, char* argv[])
 	// PRÁCTICA_8
 	int8 axeX = 0;
 	int8 axeY = 0;
-	Image * imgBackground = resourceManager.LoadImage( "data/images/background.png" );
-	Scene * scene = new Scene( imgBackground );
+	// Image * imgBackground = resourceManager.LoadImage( "data/images/background.png" );
+	// Scene * scene = new Scene( imgBackground );
+	Image * imgBack = resourceManager.LoadImage( "data/images/backlayer.png" );
+	Image * imgFront = resourceManager.LoadImage( "data/images/frontlayer.png" );
+	ParallaxScene * scene = new ParallaxScene( imgBack, imgFront );
+	scene->SetAutoBackSpeed( 32.00, 32.00 );
+	scene->SetRelativeBackSpeed( 0.8, 0.8 );
+	scene->SetAutoFrontSpeed( -32.00, 32.00 );
+	scene->SetRelativeFrontSpeed( 1.00, 1.00 );
 	Camera & camera = scene->GetCamera();
 	Sprite * sptAlien = scene->CreateSprite( resourceManager.LoadImage( "data/images/alien.png" ) );
-	sptAlien->SetPosition( imgBackground->GetWidth() / 4, imgBackground->GetHeight() / 6 );
+	sptAlien->GetImage()->SetMidHandle();
+	sptAlien->SetPosition( screen.GetWidth() / 2, screen.GetHeight() / 2 );
 	camera.FollowSprite( sptAlien );
-	camera.SetBounds( 0.00, 0.00, imgBackground->GetWidth(), imgBackground->GetHeight() );
+	// camera.SetBounds( 0.00, 0.00, imgBackground->GetWidth(), imgBackground->GetHeight() );
 
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
-	{	
-		renderer.Clear();
+	{
 		renderer.SetBlendMode( Renderer::ALPHA );
 		
 		// PRÁCTICA DE INTERFAZ GRÁFICA - InputManager

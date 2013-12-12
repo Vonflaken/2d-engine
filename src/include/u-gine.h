@@ -16,7 +16,7 @@
 //#include "mapscene.h"
 #include "math.h"
 #include "vector2d.h"
-//#include "parallaxscene.h"
+#include "parallaxscene.h"
 //#include "particle.h"
 #include "renderer.h"
 #include "resourcemanager.h"
