@@ -1,5 +1,5 @@
-#include "Singleton.h"
-#include "Message.h"
+#include "singleton.h"
+#include "message.h"
 #include "Vector2.h"
 #include <map>
 #include <string>

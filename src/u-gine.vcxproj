@@ -54,10 +54,12 @@
     <ClInclude Include="include\resourcemanager.h" />
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\screen.h" />
+    <ClInclude Include="include\singleton.h" />
     <ClInclude Include="include\sprite.h" />
     <ClInclude Include="include\string.h" />
     <ClInclude Include="include\types.h" />
     <ClInclude Include="include\u-gine.h" />
+    <ClInclude Include="include\Vector2.h" />
     <ClInclude Include="include\vector2d.h" />
     <ClInclude Include="include\window.h" />
     <ClInclude Include="resource.h" />

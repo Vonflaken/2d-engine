@@ -1,9 +1,9 @@
 #ifndef _WINDOW_H_
 #define _WINDOW_H_
 
-#include "Control.h"
-#include "../include/Image.h"
-
+#include "control.h"
+#include "image.h"
+#include "Vector2.h"
 
 class Window : public Control
 {

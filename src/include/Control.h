@@ -60,18 +60,18 @@ protected:
 	Control* findControlByName( const string& name );
 
 	// Variables
-	std::string									m_name;
-	Vector2											m_position;
-	Vector2											m_size;
+	std::string											m_name;
+	Vector2												m_position;
+	Vector2												m_size;
 	bool												m_enabled;
 	bool												m_visible;
 	bool												m_focus;
 	bool												m_pointerIsOver;
-	std::list<Control*>					m_children;
-	Control*										m_parent;
-	list<IEventListener*>				m_eventListeners;
+	std::list<Control*>									m_children;
+	Control*											m_parent;
+	list<IEventListener*>								m_eventListeners;
 
-	static int									s_id;
+	static int											s_id;
 };
 
 // Macro para facilitar la llamada a los listeners

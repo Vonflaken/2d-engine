@@ -160,5 +160,11 @@
     <ClInclude Include="include\emitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Vector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

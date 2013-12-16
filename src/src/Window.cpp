@@ -1,7 +1,7 @@
-#include "Window.h"
-#include "GUIManager.h"
-#include "../include/Renderer.h"
-#include "../include/Image.h"
+#include "../include/window.h"
+#include "../include/guimanager.h"
+#include "../include/renderer.h"
+#include "../include/image.h"
 
 Window::Window()
 {

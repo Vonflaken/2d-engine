@@ -1,7 +1,7 @@
 #ifndef _IEVENTLISTENER_H_
 #define _IEVENTLISTENER_H_
 
-#include "Message.h"
+#include "message.h"
 
 class Control;
 

@@ -1,6 +1,10 @@
 #ifndef _ICONTAINER_H_
 #define _ICONTAINER_H_
 
+#include <list>
+
+class Control;
+
 class IContainer
 {
 public:

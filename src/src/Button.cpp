@@ -1,5 +1,5 @@
-#include "Button.h"
-#include "GUIManager.h"
+#include "../include/button.h"
+#include "../include/guimanager.h"
 #include <iostream>
 #include <sstream>
 #include "../include/Renderer.h"
