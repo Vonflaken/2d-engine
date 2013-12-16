@@ -9,7 +9,8 @@ class CollisionPixelData;
 class Image;
 class Map;
 
-class Sprite {
+class Sprite
+{
 public:
 	enum CollisionMode {
 		COLLISION_NONE,
@@ -58,7 +59,8 @@ public:
     virtual uint8 GetRed() const { return r; }
     virtual uint8 GetGreen() const { return g; }
     virtual uint8 GetBlue() const { return b; }
-    virtual uint8 GetAlpha() const { return a; }
+	virtual void SetAlpha( const uint8 a ) { this->a = a; }
+	virtual uint8 GetAlpha() const { return a; }
 
 	virtual void SetRadius(double radius) { this->radius = radius; }
 	virtual double GetRadius() const { return radius; }
@@ -79,9 +81,11 @@ public:
 
     virtual void Update(double elapsed, const Map* map = NULL);
     virtual void Render() const;
+
 protected:
     virtual void UpdateCollisionBox();
     virtual void UpdateCollisionBox(double x, double y, double w, double h);
+
 private:
     Image* image;
     double x, y, z;

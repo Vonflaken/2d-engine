@@ -12,17 +12,23 @@ ParallaxScene::ParallaxScene( Image * imgBack, Image * imgFront )
 	relFrontSpeedX = relFrontSpeedY = 0.00;
 	autoBackSpeedX = autoBackSpeedY = 0.00;
 	autoFrontSpeedX = autoFrontSpeedY = 0.00;
+	autoBackPosX = autoBackPosY = 0.00;
+	autoFrontPosX = autoFrontPosY = 0.00;
 }
 
 void ParallaxScene::Update( double elapsed, Map * map )
 {
 	Scene::Update( elapsed, map );
-	
-	backX = autoBackSpeedX * elapsed + GetCamera().GetX() * relBackSpeedX;
-	backY = autoBackSpeedY * elapsed + GetCamera().GetY() * relBackSpeedY;
 
-	frontX = autoFrontSpeedX * elapsed + GetCamera().GetX() * relFrontSpeedX;
-	frontY = autoFrontSpeedY * elapsed + GetCamera().GetY() * relFrontSpeedY;
+	autoBackPosX += autoBackSpeedX * elapsed;
+	autoBackPosY += autoBackSpeedY * elapsed;
+	backX = autoBackPosX + GetCamera().GetX() * relBackSpeedX;
+	backY = autoBackPosY + GetCamera().GetY() * relBackSpeedY;
+
+	autoFrontPosX += autoFrontSpeedX * elapsed;
+	autoFrontPosY += autoFrontSpeedY * elapsed;
+	frontX = autoFrontPosX + GetCamera().GetX() * relFrontSpeedX;
+	frontY = autoFrontPosY + GetCamera().GetY() * relFrontSpeedY;
 }
 
 void ParallaxScene::RenderBackground() const

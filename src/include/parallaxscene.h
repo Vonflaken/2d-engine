@@ -26,6 +26,8 @@ private:
 	Image * backLayer;
 	Image * frontLayer;
 	double backX, backY;
+	double autoBackPosX, autoBackPosY;
+	double autoFrontPosX, autoFrontPosY;
 	double frontX, frontY;
 	double relBackSpeedX, relBackSpeedY;
 	double relFrontSpeedX, relFrontSpeedY;

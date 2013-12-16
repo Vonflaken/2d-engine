@@ -32,6 +32,6 @@ double PingPong( double value, const double max);
 int PingPong( int value, const int max);
 bool IsPOT( const double value );
 double LogWithBase( const double base, const double x );
-float Random( const float min, const float max );
+double RandomRange( const double min, const double max );
 
 #endif

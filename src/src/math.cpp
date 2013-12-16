@@ -121,9 +121,9 @@ double LogWithBase( const double base, const double x )
 	return log( x ) / log( base );
 }
 
-float Random( const float min, const float max )
+double RandomRange( const double min, const double max )
 {
-	return min + ( max - min ) * ( float ) rand() / RAND_MAX;
+	return ( double ) ( min + ( max - min ) * ( float ) rand() / RAND_MAX );
 }
 
 double Angle(double x1, double y1, double x2, double y2) {
