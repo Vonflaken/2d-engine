@@ -59,7 +59,6 @@ public:
 			this->topLeft = topLeft;
 			this->bottomRight = bottomRight;
 		}
-		~Glyph() {};
 	};
 };
 

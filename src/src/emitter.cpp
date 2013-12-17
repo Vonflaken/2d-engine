@@ -42,16 +42,31 @@ void Emitter::Update( double elapsed )
 	// Update particles in scene
 	for ( uint32 i = 0; i < particles.Size(); i++ )
 	{
-		particles[ i ]->Update( elapsed );
+		Particle & particle =  *particles[ i ];
+
+		particle.Update( elapsed );
 		
-		if ( particles[ i ]->GetLifetime() <= 0 )
+		for ( uint32 j = 0; j < affectors.Size(); j++ )
+		{
+			if ( affectors[ j ]->IsInsideRegion( particle.GetX(), particle.GetY() ) && !affectors[ j ]->IsParticleAffected( particle ) )
+			{
+				// Affect particle
+				affectors[ j ]->AddParticle( particle );
+				particle.SetColor( ( uint8 ) RandomRange( ( double ) affectors[ j ]->GetMinRed(), ( double ) affectors[ j ]->GetMaxRed() ), 
+					( uint8 ) RandomRange( ( double ) affectors[ j ]->GetMinGreen(), ( double ) affectors[ j ]->GetMaxGreen() ), 
+					( uint8 ) RandomRange( ( double ) affectors[ j ]->GetMinBlue(), ( double ) affectors[ j ]->GetMaxBlue() ), 255 );
+				particle.SetAngVel( RandomRange( affectors[ j ]->GetMinAngVel(), affectors[ j ]->GetMaxAngVel() ) );
+			}
+		}
+
+		if ( particle.GetLifetime() <= 0 )
 		{
 			bin.Add( i );
 		}
 	}
 
 	// Remove death particles
-	for ( uint32 i = 0; i < bin.Size(); i++ )
+	for ( int32 i = bin.Size() - 1; i >= 0; i-- )
 	{
 		particles.RemoveAt( bin[ i ] );
 	}

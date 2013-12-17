@@ -33,6 +33,7 @@
     <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\affector.h" />
     <ClInclude Include="include\array.h" />
     <ClInclude Include="include\button.h" />
     <ClInclude Include="include\camera.h" />

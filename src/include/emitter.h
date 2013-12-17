@@ -4,6 +4,7 @@
 #include "types.h"
 #include "renderer.h"
 #include "particle.h"
+#include "affector.h"
 
 class Emitter
 {
@@ -16,6 +17,7 @@ public:
 	virtual	double	GetX()	const { return x; }
 	virtual	double	GetY()	const { return y; }
 
+	virtual void	AddAffector( Affector * affector ) { affectors.Add( affector ); }
 	virtual	void	SetRate( double	minrate, double	maxrate ) { this->minrate = minrate; this->maxrate = maxrate; }
 	virtual	void	SetVelocityX( double minvelx, double maxvelx ) { this->minvelx = minvelx; this->maxvelx = maxvelx; }	
 	virtual	void	SetVelocityY( double minvely, double maxvely ) { this->minvely = minvely; this->maxvely = maxvely; }
@@ -49,6 +51,7 @@ private:
 	bool	emitting;
 
 	Array< Particle * >	particles;
+	Array< Affector * > affectors;
 };
 
 #endif

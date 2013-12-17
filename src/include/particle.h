@@ -13,6 +13,8 @@ public:
 
 	virtual void Update( double elapsed );
 
+	virtual void SetAngVel( double angvel ) { angularVelocity = angvel; }
+
 private:
 	double velocityx, velocityy;
 	double angularVelocity;

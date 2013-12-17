@@ -15,6 +15,7 @@ int main(int argc, char* argv[])
 
 	// PRÁCTICA_9
 	
+	// Basic
 	Sprite * sptStar = scene->CreateSprite( resourceManager.LoadImage( "data/images/star.png" ) );
 	sptStar->GetImage()->SetMidHandle();
 	Emitter * emitter = scene->CreateEmitter( resourceManager.LoadImage( "data/images/star.png" ), true );
@@ -24,6 +25,11 @@ int main(int argc, char* argv[])
 	emitter->SetVelocityY( -128, 128 );
 	emitter->SetAngularVelocity( 0, 360 );
 	emitter->SetLifetime( 1, 2 );
+	// Advanced
+	emitter->AddAffector( new Affector( Vector2D( 0, 0 ), Vector2D( 0, 0 ), Vector2D( 0, 0 ), Vector2D( screen.GetWidth() / 2, 
+		screen.GetHeight() ), 0, 0, 0, 255, 255, 0, -128, 128, -128, 128, 0, 360 ) );
+	emitter->AddAffector( new Affector( Vector2D( screen.GetWidth() / 2, 0 ), Vector2D( 0, 0 ), Vector2D( 0, 0 ), Vector2D( screen.GetWidth(), 
+		screen.GetHeight() ), 0, 0, 0, 0, 255, 255, -128, 128, -128, 128, 360, 720 ) );
 
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{
