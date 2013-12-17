@@ -19,7 +19,7 @@ public:
 		COLLISION_RECT
 	};
 
-	Sprite( Image* image, double colx = 1.00, double coly =  1, double colwidth = 0.00, double colheight = 0.00, 
+	Sprite( Image* image, double colx = 1, double coly =  1, double colwidth = 0, double colheight = 0, 
 		uint16 firstFrame = 0, uint16 lastFrame = 0, uint8 r = 255, uint8 g = 255, uint8 b = 255, uint8 a = 255 );
 	virtual ~Sprite();
 
@@ -55,7 +55,7 @@ public:
 
 	virtual void SetBlendMode(Renderer::BlendMode blend) { blendMode = blend; }
 	virtual Renderer::BlendMode GetBlendMode() const { return blendMode; }
-	virtual void SetColor(uint8 r, uint8 g, uint8 b, uint8 alpha = 255) { this->r = r; this->g = g; this->b = b; a = alpha; }
+	virtual void SetColor(uint8 r, uint8 g, uint8 b, uint8 alpha ) { this->r = r; this->g = g; this->b = b; a = alpha; }
     virtual uint8 GetRed() const { return r; }
     virtual uint8 GetGreen() const { return g; }
     virtual uint8 GetBlue() const { return b; }

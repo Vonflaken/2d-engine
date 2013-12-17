@@ -35,7 +35,7 @@ void Emitter::Update( double elapsed )
 			particles[ particles.Size() - 1 ]->SetBlendMode( blendMode );
 			particles[ particles.Size() - 1 ]->SetPosition( x, y );
 			particles[ particles.Size() - 1 ]->SetColor( ( uint8 ) RandomRange( ( double ) minr, ( double ) maxr ), ( uint8 ) RandomRange( ( double ) ming, ( double ) maxg ), 
-				( uint8 ) RandomRange( ( double ) minb, ( double ) maxb ), particles[ particles.Size() - 1 ]->GetAlpha() );
+				( uint8 ) RandomRange( ( double ) minb, ( double ) maxb ), 255 );
 		}
 	}
 
@@ -59,6 +59,7 @@ void Emitter::Update( double elapsed )
 
 void Emitter::Render() const
 {
+	Renderer::Instance().SetBlendMode( blendMode );
 	for ( uint32 i = 0; i < particles.Size(); i++ )
 	{
 		particles[ i ]->Render();

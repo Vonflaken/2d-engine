@@ -28,8 +28,10 @@ void Particle::Update( double elapsed )
 
 	lifetime = Clamp( lifetime - elapsed, initialLifetime, 0.00 );
 
-	MoveTo( GetX() + sgn( velocityx ), GetY() + sgn( velocityy ), velocityx, velocityy );
-	RotateTo( GetAngle() + sgn( angularVelocity ), angularVelocity );
+	SetX( GetX() + velocityx * elapsed );
+	SetY( GetY() + velocityy * elapsed );
+	SetAngle( GetAngle() + angularVelocity * elapsed );
+
 	if ( autofade )
 		SetColor( GetRed(), GetGreen(), GetBlue(), ( uint8 ) ( lifetime * 255 / initialLifetime ) );
 }

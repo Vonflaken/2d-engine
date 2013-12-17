@@ -12,7 +12,6 @@
 Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double colheight, 
 		uint16 firstFrame, uint16 lastFrame, uint8 r, uint8 g, uint8 b, uint8 a )
 {
-	// TAREA: Implementar
 	this->image = image;
 	x = 0.00;
 	y = 0.00;
@@ -21,18 +20,10 @@ Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double c
 	this->coly = coly;
 	this->colwidth = colwidth;
 	this->colheight = colheight;
-	if ( colwidth == 0.00 )
-	{
-		this->colwidth = this->image->GetWidth();
-	}
-	if ( colheight == 0.00 )
-	{
-		this->colheight = this->image->GetHeight();
-	}
 	angle = 0.00;
 	scalex = 1.00;
 	scaley = 1.00;
-	radius = colwidth / 2;
+	radius = image->GetWidth() / 2;
 	animFPS = 25;
 	this->firstFrame = firstFrame;
 	this->lastFrame = lastFrame;
@@ -196,6 +187,8 @@ void Sprite::Update( double elapsed, const Map* map )
 
 void Sprite::Render() const
 {
+	Renderer::Instance().SetBlendMode( blendMode );
+	Renderer::Instance().SetColor( GetRed(), GetGreen(), GetBlue(), GetAlpha() );
 	Renderer::Instance().DrawImage( image, x, y, currentFrame, image->GetWidth() * scalex, image->GetHeight() * scaley, WrapValue( angle, DEG360 ) );
 }
 
