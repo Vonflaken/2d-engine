@@ -30,8 +30,10 @@ public:
 		region.SetRegion( tl, tr, bl, br );
 	}
 
-	void AddParticle( Particle & particle ) { particles.Add( &particle ); } // GetParticles().Add( particle );
-	bool IsParticleAffected( Particle & particle ) { for ( uint32 i = 0; i < particles.Size(); i++ ) if ( &particle == particles[ i ] ) return true; }
+	void AddParticle( Particle * particle ) { particles.Add( particle ); } // GetParticles().Add( particle );
+	void RemoveParticle( Particle * particle ) { particles.Remove( particle ); } // GetParticles().Remove( particle );
+	void TryRemoveParticle( Particle * particle ) { for ( uint32 i = 0; i < particles.Size(); i++ ) if ( particle == particles[ i ] ) particles.Remove( particle ); } // Should return a bool to check if was removed or wasnt
+	bool IsParticleAffected( Particle & particle ) { for ( uint32 i = 0; i < particles.Size(); i++ ) if ( &particle == particles[ i ] ) return true; return false; }
 	void SetRegion( Vector2D tl, Vector2D tr, Vector2D bl, Vector2D br ) { region.SetRegion( tl, tr, bl, br ); }
 	bool IsInsideRegion( double x, double y ) { if ( x > region.topLeft.x && x < region.bottomRight.x && y > region.topLeft.y && y < region.bottomRight.y ) return true; return false; }
 	Vector2D GetTopLeft() { return region.topLeft; }

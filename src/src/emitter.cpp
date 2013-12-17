@@ -51,10 +51,10 @@ void Emitter::Update( double elapsed )
 			if ( affectors[ j ]->IsInsideRegion( particle.GetX(), particle.GetY() ) && !affectors[ j ]->IsParticleAffected( particle ) )
 			{
 				// Affect particle
-				affectors[ j ]->AddParticle( particle );
+				affectors[ j ]->AddParticle( &particle );
 				particle.SetColor( ( uint8 ) RandomRange( ( double ) affectors[ j ]->GetMinRed(), ( double ) affectors[ j ]->GetMaxRed() ), 
 					( uint8 ) RandomRange( ( double ) affectors[ j ]->GetMinGreen(), ( double ) affectors[ j ]->GetMaxGreen() ), 
-					( uint8 ) RandomRange( ( double ) affectors[ j ]->GetMinBlue(), ( double ) affectors[ j ]->GetMaxBlue() ), 255 );
+					( uint8 ) RandomRange( ( double ) affectors[ j ]->GetMinBlue(), ( double ) affectors[ j ]->GetMaxBlue() ), particle.GetAlpha() );
 				particle.SetAngVel( RandomRange( affectors[ j ]->GetMinAngVel(), affectors[ j ]->GetMaxAngVel() ) );
 			}
 		}
@@ -68,6 +68,10 @@ void Emitter::Update( double elapsed )
 	// Remove death particles
 	for ( int32 i = bin.Size() - 1; i >= 0; i-- )
 	{
+		for ( uint32 j = 0; j < affectors.Size(); j++ )
+		{
+			affectors[ j ]->TryRemoveParticle( particles[ bin[ i ] ] );
+		}
 		particles.RemoveAt( bin[ i ] );
 	}
 }
