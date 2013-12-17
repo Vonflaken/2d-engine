@@ -31,5 +31,5 @@ void Particle::Update( double elapsed )
 	MoveTo( GetX() + sgn( velocityx ), GetY() + sgn( velocityy ), velocityx, velocityy );
 	RotateTo( GetAngle() + sgn( angularVelocity ), angularVelocity );
 	if ( autofade )
-		SetAlpha( ( uint8 ) ( lifetime * 255 / initialLifetime ) );
+		SetColor( GetRed(), GetGreen(), GetBlue(), ( uint8 ) ( lifetime * 255 / initialLifetime ) );
 }

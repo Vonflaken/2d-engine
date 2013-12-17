@@ -15,8 +15,9 @@ int main(int argc, char* argv[])
 
 	// PRÁCTICA_9
 	
-	Sprite * imgStar = scene->CreateSprite( new Image( "data/images/star.png" ) );
-	Emitter * emitter = scene->CreateEmitter( new Image( "data/images/star.png" ), true );
+	Sprite * sptStar = scene->CreateSprite( resourceManager.LoadImage( "data/images/star.png" ) );
+	sptStar->GetImage()->SetMidHandle();
+	Emitter * emitter = scene->CreateEmitter( resourceManager.LoadImage( "data/images/star.png" ), true );
 
 	emitter->SetRate( 500, 1000 );
 	emitter->SetVelocityX( -128, 128 );
@@ -28,13 +29,18 @@ int main(int argc, char* argv[])
 	{
 		if ( BASIC )
 		{
+			renderer.SetBlendMode( renderer.ALPHA );
+
 			emitter->SetPosition( screen.GetMouseX(), screen.GetMouseY() );
-			imgStar->SetPosition( screen.GetMouseX(), screen.GetMouseY() );
+			sptStar->SetPosition( screen.GetMouseX(), screen.GetMouseY() );
 
 			if ( glfwGetMouseButton( 0 ) )
 				emitter->Start();
 			else
 				emitter->Stop();
+
+			scene->Update( screen.ElapsedTime() );
+			scene->Render();
 		}
 		else
 		{

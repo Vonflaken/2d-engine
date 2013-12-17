@@ -34,7 +34,8 @@ void Emitter::Update( double elapsed )
 			particles.Add(  new Particle( image, RandomRange( minvelx, maxvelx ), RandomRange( minvely, maxvely ), RandomRange( minangvel, maxangvel ), RandomRange( minlifetime, maxlifetime ), autofade ) );
 			particles[ particles.Size() - 1 ]->SetBlendMode( blendMode );
 			particles[ particles.Size() - 1 ]->SetPosition( x, y );
-			particles[ particles.Size() - 1 ]->SetColor( ( uint8 ) RandomRange( minr, maxr ), ( uint8 ) RandomRange( ming, maxg ), ( uint8 ) RandomRange( minb, minb ) );
+			particles[ particles.Size() - 1 ]->SetColor( ( uint8 ) RandomRange( ( double ) minr, ( double ) maxr ), ( uint8 ) RandomRange( ( double ) ming, ( double ) maxg ), 
+				( uint8 ) RandomRange( ( double ) minb, ( double ) maxb ), particles[ particles.Size() - 1 ]->GetAlpha() );
 		}
 	}
 

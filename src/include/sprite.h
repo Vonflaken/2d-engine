@@ -59,7 +59,6 @@ public:
     virtual uint8 GetRed() const { return r; }
     virtual uint8 GetGreen() const { return g; }
     virtual uint8 GetBlue() const { return b; }
-	virtual void SetAlpha( const uint8 a ) { this->a = a; }
 	virtual uint8 GetAlpha() const { return a; }
 
 	virtual void SetRadius(double radius) { this->radius = radius; }
