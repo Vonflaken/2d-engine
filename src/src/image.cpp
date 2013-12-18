@@ -18,6 +18,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 	lastU = 1.0;
 	lastV = 1.0;
 	colorComp = 4;
+	references = 0;
 
 	// TAREA: Cargar el buffer de la imagen
 	buffer = stbi_load( filename.ToCString(), &width, &height, &colorComp, colorComp );

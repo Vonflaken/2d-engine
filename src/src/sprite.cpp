@@ -13,6 +13,7 @@ Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double c
 		uint16 firstFrame, uint16 lastFrame, uint8 r, uint8 g, uint8 b, uint8 a )
 {
 	this->image = image;
+	this->image->AddReference();
 	x = 0.00;
 	y = 0.00;
 	z = 0.00;
@@ -52,7 +53,8 @@ Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double c
 
 Sprite::~Sprite()
 {
-    delete image;
+	image->RemoveReference();
+    // delete image;
 }
 
 void Sprite::SetCollision(CollisionMode mode) {

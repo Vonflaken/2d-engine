@@ -8,6 +8,7 @@ class Particle : public Sprite
 public:
 	Particle();
 	Particle( Image * image, double velx, double vely, double angularVel, double lifetime, bool autofade );
+	virtual ~Particle() {}
 
 	virtual double GetLifetime() const { return lifetime; };
 

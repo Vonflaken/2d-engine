@@ -16,9 +16,10 @@ int main(int argc, char* argv[])
 	// PRÁCTICA_9
 	
 	// Basic
-	Sprite * sptStar = scene->CreateSprite( resourceManager.LoadImage( "data/images/star.png" ) );
+	Image * imgStar = resourceManager.LoadImage( "data/images/star.png" );
+	Sprite * sptStar = scene->CreateSprite( imgStar );
 	sptStar->GetImage()->SetMidHandle();
-	Emitter * emitter = scene->CreateEmitter( resourceManager.LoadImage( "data/images/star.png" ), true );
+	Emitter * emitter = scene->CreateEmitter( imgStar, true );
 
 	emitter->SetRate( 500, 1000 );
 	emitter->SetVelocityX( -128, 128 );
@@ -33,6 +34,7 @@ int main(int argc, char* argv[])
 
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{
+		screen.SetTitle( String::FromInt( imgStar->GetReferences() ) );
 		if ( BASIC )
 		{
 			renderer.SetBlendMode( renderer.ALPHA );

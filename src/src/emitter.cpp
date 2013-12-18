@@ -1,10 +1,12 @@
 #include "../include/emitter.h"
 #include "../include/math.h"
 #include <math.h>
+#include "../include/screen.h"
 
 Emitter::Emitter( Image * image, bool autofade )
 {
 	this->image = image;
+	this->image->AddReference();
 	this->autofade = autofade;
 	blendMode = Renderer::ADDITIVE;
 	x = y = 0.00;
@@ -19,6 +21,11 @@ Emitter::Emitter( Image * image, bool autofade )
 	maxr = maxg = maxb = 255;
 	emitting = false;
 	particles = 0;
+}
+
+Emitter::~Emitter()
+{
+	image->RemoveReference();
 }
 
 void Emitter::Update( double elapsed )
@@ -68,11 +75,14 @@ void Emitter::Update( double elapsed )
 	// Remove death particles
 	for ( int32 i = bin.Size() - 1; i >= 0; i-- )
 	{
+		Particle & particleref = * particles[ bin[ i ] ];
+
 		for ( uint32 j = 0; j < affectors.Size(); j++ )
 		{
 			affectors[ j ]->TryRemoveParticle( particles[ bin[ i ] ] );
 		}
 		particles.RemoveAt( bin[ i ] );
+		delete &particleref;
 	}
 }
 
