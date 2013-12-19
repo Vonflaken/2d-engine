@@ -48,14 +48,5 @@ bool CollisionManager::PixelsToRect( const CollisionPixelData * pixels, double p
 
 bool CollisionManager::RectToRect( double x1, double y1, double w1, double h1, double x2, double y2, double w2, double h2 ) const
 {
-	if ( PointInRect( x1, y1, x2, y2, w2, h2 ) )
-		return true;
-	if ( PointInRect( x1 + w1, y1, x2, y2, w2, h2 ) )
-		return true;
-	if ( PointInRect( x1, y1 + h1, x2, y2, w2, h2 ) )
-		return true;
-	if ( PointInRect( x1 + w1, y1 + h1, x2, y2, w2, y2 ) )
-		return true;
-
-	return false;
+	return RectsOverlap( x1, y1, w1, h1, x2, y2, w2, h2 );
 }

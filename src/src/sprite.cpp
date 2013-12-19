@@ -54,24 +54,22 @@ Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double c
 Sprite::~Sprite()
 {
 	image->RemoveReference();
+	delete collision;
     // image = 0;
 }
 
 void Sprite::SetCollision(CollisionMode mode) {
 	delete collision;
+
 	switch( mode )
 	{
 		case COLLISION_NONE:
 			collision = 0;
 			break;
 		case COLLISION_CIRCLE:
-			colx = x;
-			coly = y;
-			collision = new CircleCollision( &colx, &coly, &radius );
+			collision = new CircleCollision( &x, &y, &radius );
 			break;
 		case COLLISION_RECT:
-			colwidth = image->GetWidth();
-			colheight = image->GetHeight();
 			collision = new RectCollision( &colx, &coly, &colwidth, &colheight );
 			break;
 		case COLLISION_PIXEL:
@@ -80,19 +78,18 @@ void Sprite::SetCollision(CollisionMode mode) {
 }
 
 bool Sprite::CheckCollision(Sprite* sprite) {
-	const Collision * otherCollision = sprite->GetCollision();
+	const Collision * otherCollision = sprite->collision;
 	if ( collision && otherCollision )
 	{
-		if ( collision->DoesCollide( sprite->GetCollision() ) )
+		if ( collision->DoesCollide( sprite->collision ) )
 		{
 			colSprite = sprite;
 			collided = true;
-			sprite->SetColSprite( this );
-			sprite->SetCollided( true );
-			
+			sprite->colSprite = this;
+			sprite->collided = true;
+
 			return true;
 		}
-		return false;
 	}
 	return false;
 }
@@ -210,9 +207,10 @@ void Sprite::Update( double elapsed, const Map* map )
 		y += movingSpeedY * elapsed;
 
 		MoveTo( toX, toY, movingSpeedX, movingSpeedY );
+		
+		prevX = x;
+		prevY = y;
 	}
-	prevX = x;
-	prevY = y;
 
 	// Informacion final de colision
 	UpdateCollisionBox();

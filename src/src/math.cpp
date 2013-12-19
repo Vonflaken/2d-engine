@@ -108,8 +108,8 @@ double Angle(double x1, double y1, double x2, double y2) {
 }
 
 double Distance(double x1, double y1, double x2, double y2) {
-	double dNewX = x1 - x2;
-	double dNewY = y1 - y2;
+	double dNewX = x2 - x1;
+	double dNewY = y2 - y1;
 
 	return sqrt( dNewX * dNewX + dNewY * dNewY );
 }
@@ -131,31 +131,31 @@ void ClosestPointToRect(double x, double y, double rectx, double recty, double w
 }
 
 bool RectsOverlap(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2) {
-	uint32 maxgapx = abs( x1 - x2 + width2 );
-	uint32 maxgapy = abs( y1 - y2 - height2 );
-	if ( maxgapx <= width1 + width2 && maxgapy <= height1 + height2 )
+	if ( ( ValueInRange(x1, x2, x2+width2) || ValueInRange(x2, x1, x1+width1) ) &&
+		( ValueInRange(y1, y2, y2+height2) || ValueInRange(y2, y1, y1+height1) ) )
 		return true;
+
 	return false;
 }
 
 void OverlappingRect(double x1, double y1, double width1, double height1, double x2, double y2, double width2, 
 	double height2, double* outx, double* outy, double* outwidth, double* outheight) {
-		if ( x1 < x2 + width2 )
+		if ( ValueInRange( x1, x2, x2 + width2 ) )
 			*outx = x1;
 		else
 			*outx = x2;
-		if ( y1 < y2 + height2 )
+		if ( ValueInRange( y1, y2, y2 + height2 ) )
 			*outy = y1;
 		else
 			*outy = y2;
-		if ( x1 + width1 > x2 )
+		if ( ValueInRange( x1 + width1, x2, x2 + width2 ) )
 			*outwidth = x1 + width1 - *outx;
 		else
 			*outwidth = x2 + width2 - *outx;
-		if ( y1 + height1 > y2 )
-			*outheight = y1 - height1 - *outy;
+		if ( ValueInRange( x1 + width1, x2, x2 + width2 ) )
+			*outheight = y1 + height1 - *outy;
 		else
-			*outheight = y2 - height2 - *outy;
+			*outheight = y2 + height2 - *outy;
 }
 
 void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, double* screenY) {
