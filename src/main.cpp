@@ -16,46 +16,49 @@ int main(int argc, char* argv[])
 	// PRÁCTICA_9
 	
 	// Basic
-	Image * imgStar = resourceManager.LoadImage( "data/images/star.png" );
-	Sprite * sptStar = scene->CreateSprite( imgStar );
-	sptStar->GetImage()->SetMidHandle();
-	Emitter * emitter = scene->CreateEmitter( imgStar, true );
-
-	emitter->SetRate( 500, 1000 );
-	emitter->SetVelocityX( -128, 128 );
-	emitter->SetVelocityY( -128, 128 );
-	emitter->SetAngularVelocity( 0, 360 );
-	emitter->SetLifetime( 1, 2 );
+	Sprite *sptBall = scene->CreateSprite( resourceManager.LoadImage( "data/images/ball.png" ) );
+	sptBall->SetCollision( Sprite::COLLISION_CIRCLE );
+	sptBall->SetRadius( sptBall->GetImage()->GetWidth() / 2 );
+	sptBall->SetPosition( 150, 150 );
+	Sprite *sptBox = scene->CreateSprite( resourceManager.LoadImage( "data/images/box.jpg" ) );
+	sptBox->SetCollision( Sprite::COLLISION_RECT );
+	sptBox->SetPosition( screen.GetWidth() - 150, screen.GetHeight() - 150 );
+	Sprite *sptPointerCircle = scene->CreateSprite( resourceManager.LoadImage( "data/images/circle.png" ) );
+	sptPointerCircle->SetCollision( Sprite::COLLISION_CIRCLE );
+	sptPointerCircle->SetRadius( sptPointerCircle->GetImage()->GetWidth() / 2 );
+	Sprite *sptPointerBox = scene->CreateSprite( resourceManager.LoadImage( "data/images/box.png" ) );
+	sptPointerBox->SetCollision( Sprite::COLLISION_RECT );
+	Sprite *activePointer = sptPointerCircle;
 	// Advanced
-	emitter->AddAffector( new Affector( Vector2D( 0, 0 ), Vector2D( 0, 0 ), Vector2D( 0, 0 ), Vector2D( screen.GetWidth() / 2, 
-		screen.GetHeight() ), 0, 0, 0, 255, 255, 0, -128, 128, -128, 128, 0, 360 ) );
-	emitter->AddAffector( new Affector( Vector2D( screen.GetWidth() / 2, 0 ), Vector2D( 0, 0 ), Vector2D( 0, 0 ), Vector2D( screen.GetWidth(), 
-		screen.GetHeight() ), 0, 0, 0, 0, 255, 255, -128, 128, -128, 128, 360, 720 ) );
 
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{
 		// FIXME: Dejar que el ResourceManager se haga cargo de liberar recursos( imágenes... ). Cambiar sistema de referencias a una imagen y poner punteros a null ( o 0 ) en vez de delete
-		screen.SetTitle( String::FromInt( imgStar->GetReferences() ) );
+		renderer.SetBlendMode( renderer.ALPHA );
 		if ( BASIC )
 		{
-			renderer.SetBlendMode( renderer.ALPHA );
-
-			emitter->SetPosition( screen.GetMouseX(), screen.GetMouseY() );
-			sptStar->SetPosition( screen.GetMouseX(), screen.GetMouseY() );
-
-			if ( glfwGetMouseButton( 0 ) )
-				emitter->Start();
+			if ( screen.MouseButtonPressed( 0 ) )
+			{
+				activePointer = sptPointerCircle;
+				sptPointerBox->SetPosition( 9999, 9999 );
+			}
+			else if ( screen.MouseButtonPressed( 1 ) )
+			{
+				activePointer = sptPointerBox;
+				sptPointerCircle->SetPosition( 9999, 9999 );
+			}
+			activePointer->SetPosition( screen.GetMouseX(), screen.GetMouseY() );
+			if ( activePointer->DidCollide() )
+				activePointer->SetColor( 255, 0, 0, 255 );
 			else
-				emitter->Stop();
-
-			scene->Update( screen.ElapsedTime() );
-			scene->Render();
+				activePointer->SetColor( 255, 255, 255, 255 );
 		}
 		else
 		{
 			
 		}
-
+		scene->Update( screen.ElapsedTime() );
+		scene->Render();
 		// Refrescamos la pantalla
 		screen.Refresh();
 	}

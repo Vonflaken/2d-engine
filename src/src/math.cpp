@@ -1,13 +1,9 @@
 #include <stdlib.h>
-#include "math.h"
+#include "../include/math.h"
 #include <math.h>
 
 #define DEG2RAD 0.0174532925
 #define RAD2DEG 57.2957795
-
-#define DEG360 360
-
-const double EPSILON = 0.00001; // Repetido en math.h
 
 double Log2(double x) {
 	return log(x) / log(2.0);
@@ -50,39 +46,27 @@ double PingPong( double value, const double max )
 {
 	value = fmod( value, 2 * max );
 	if ( value < max )
-	{
 		return value;
-	}
 	else
-	{
 		return 2 * max - value;
-	}
 }
 
 int PingPong( int value, const int max )
 {
 	value = value % 2 * max;
 	if ( value < max )
-	{
 		return value;
-	}
 	else
-	{
 		return 2 * max - value;
-	}
 }
 
 double Clamp( double value, double min, double max )
 {
 	if ( abs( max - value ) < EPSILON )
-	{
 		return max;
-	}
 	
 	if ( abs( min - value ) < EPSILON )
-	{
 		return min;
-	}
 
 	return value;
 }
@@ -90,14 +74,10 @@ double Clamp( double value, double min, double max )
 int Clamp( int value, int min, int max )
 {
 	if ( value >= max )
-	{
 		return max;
-	}
 	
 	if ( value <= min )
-	{
 		return min;
-	}
 
 	return value;
 }
@@ -108,10 +88,7 @@ bool IsPOT( const double value )
 	double res = pow - floor( pow );
 
 	if ( res < EPSILON )
-	{
-		// Equal 0 -> is pot
-		return true;
-	}
+		return true; // Equal 0 -> is pot
 
 	return false;
 }
@@ -127,12 +104,10 @@ double RandomRange( const double min, const double max )
 }
 
 double Angle(double x1, double y1, double x2, double y2) {
-	// TAREA: Implementar funcion
 	return WrapValue( DegATan2( y2 - y1, x2 - x1 ), DEG360 );
 }
 
 double Distance(double x1, double y1, double x2, double y2) {
-	// TAREA: Implementar funcion
 	double dNewX = x1 - x2;
 	double dNewY = y1 - y2;
 
@@ -144,7 +119,9 @@ bool ValueInRange(double value, double min, double max) {
 }
 
 bool PointInRect(double x, double y, double rectx, double recty, double width, double height) {
-	// TAREA: Implementar funcion
+	if ( x >= rectx && x <= rectx + width && 
+		y <= recty && y >= recty - height )
+		return true;
 	return false;
 }
 
@@ -154,12 +131,31 @@ void ClosestPointToRect(double x, double y, double rectx, double recty, double w
 }
 
 bool RectsOverlap(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2) {
-	// TAREA: Implementar funcion
+	uint32 maxgapx = abs( x1 - x2 + width2 );
+	uint32 maxgapy = abs( y1 - y2 - height2 );
+	if ( maxgapx <= width1 + width2 && maxgapy <= height1 + height2 )
+		return true;
 	return false;
 }
 
-void OverlappingRect(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2, double* outx, double* outy, double* outwidth, double* outheight) {
-	// TAREA: Implementar funcion
+void OverlappingRect(double x1, double y1, double width1, double height1, double x2, double y2, double width2, 
+	double height2, double* outx, double* outy, double* outwidth, double* outheight) {
+		if ( x1 < x2 + width2 )
+			*outx = x1;
+		else
+			*outx = x2;
+		if ( y1 < y2 + height2 )
+			*outy = y1;
+		else
+			*outy = y2;
+		if ( x1 + width1 > x2 )
+			*outwidth = x1 + width1 - *outx;
+		else
+			*outwidth = x2 + width2 - *outx;
+		if ( y1 + height1 > y2 )
+			*outheight = y1 - height1 - *outy;
+		else
+			*outheight = y2 - height2 - *outy;
 }
 
 void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, double* screenY) {

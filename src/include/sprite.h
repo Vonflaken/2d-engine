@@ -71,6 +71,8 @@ public:
     virtual bool CheckCollision(const Map* map);
 	virtual const Sprite* CollisionSprite() const { return colSprite; }
 	virtual bool DidCollide() const { return collided; }
+	virtual void SetColSprite( Sprite *sprite ) { colSprite = sprite; }
+	virtual void SetCollided( bool collide ) { this->collided = collided; }
 
     virtual void RotateTo( double angle, double speed );
     virtual void MoveTo( double x, double y, double speedX, double speedY = 0.00 );

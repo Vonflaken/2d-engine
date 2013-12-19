@@ -1,9 +1,11 @@
 #ifndef UGINE_MATH_H
 #define UGINE_MATH_H
 
-#define DEG360 360 // Repetido en math.cpp
+#include "types.h"
 
-const double EPSILON = 0.00001; // Repetido en math.cpp
+#define DEG360 360
+
+const double EPSILON = 0.00001;
 
 template <typename T> T min(T a, T b) { return (a < b) ? a : b; }
 template <typename T> T max(T a, T b) { return (a > b) ? a : b; }

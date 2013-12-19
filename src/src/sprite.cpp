@@ -1,12 +1,12 @@
 #include "../include/sprite.h"
-//#include "../include/rectcollision.h"
+#include "../include/rectcollision.h"
 #include "../include/image.h"
 //#include "../include/map.h"
 #include "../include/math.h"
 #include "../include/vector2d.h"
 //#include "../include/pixelcollision.h"
 #include "../include/renderer.h"
-//#include "../include/circlecollision.h"
+#include "../include/circlecollision.h"
 #include <math.h>
 
 Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double colheight, 
@@ -58,11 +58,42 @@ Sprite::~Sprite()
 }
 
 void Sprite::SetCollision(CollisionMode mode) {
-	// TAREA: Implementar
+	delete collision;
+	switch( mode )
+	{
+		case COLLISION_NONE:
+			collision = 0;
+			break;
+		case COLLISION_CIRCLE:
+			colx = x;
+			coly = y;
+			collision = new CircleCollision( &colx, &coly, &radius );
+			break;
+		case COLLISION_RECT:
+			colwidth = image->GetWidth();
+			colheight = image->GetHeight();
+			collision = new RectCollision( &colx, &coly, &colwidth, &colheight );
+			break;
+		case COLLISION_PIXEL:
+			break;
+	}
 }
 
 bool Sprite::CheckCollision(Sprite* sprite) {
-	// TAREA: Implementar
+	const Collision * otherCollision = sprite->GetCollision();
+	if ( collision && otherCollision )
+	{
+		if ( collision->DoesCollide( sprite->GetCollision() ) )
+		{
+			colSprite = sprite;
+			collided = true;
+			sprite->SetColSprite( this );
+			sprite->SetCollided( true );
+			
+			return true;
+		}
+		return false;
+	}
 	return false;
 }
 
@@ -195,9 +226,16 @@ void Sprite::Render() const
 }
 
 void Sprite::UpdateCollisionBox() {
-	// TAREA: Implementar
+	double cx = x - image->GetHandleX() * fabs( scalex );
+	double cy = y - image->GetHandleY() * fabs( scaley );
+	double cw = image->GetWidth() * fabs( scalex );
+	double ch = image->GetHeight() * fabs( scaley );
+	UpdateCollisionBox( cx, cy, cw, ch );
 }
 
 void Sprite::UpdateCollisionBox(double x, double y, double w, double h) {
-	// TAREA: Implementar
+	colx = x;
+	coly = y;
+	colwidth = w;
+	colheight = h;
 }

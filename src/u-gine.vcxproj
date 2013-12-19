@@ -15,6 +15,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\button.cpp" />
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\collisionmanager.cpp" />
     <ClCompile Include="src\control.cpp" />
     <ClCompile Include="src\emitter.cpp" />
     <ClCompile Include="src\font.cpp" />
@@ -37,6 +38,9 @@
     <ClInclude Include="include\array.h" />
     <ClInclude Include="include\button.h" />
     <ClInclude Include="include\camera.h" />
+    <ClInclude Include="include\circlecollision.h" />
+    <ClInclude Include="include\collision.h" />
+    <ClInclude Include="include\collisionmanager.h" />
     <ClInclude Include="include\control.h" />
     <ClInclude Include="include\dictionary.h" />
     <ClInclude Include="include\emitter.h" />
@@ -51,6 +55,7 @@
     <ClInclude Include="include\message.h" />
     <ClInclude Include="include\parallaxscene.h" />
     <ClInclude Include="include\particle.h" />
+    <ClInclude Include="include\rectcollision.h" />
     <ClInclude Include="include\renderer.h" />
     <ClInclude Include="include\resourcemanager.h" />
     <ClInclude Include="include\scene.h" />
