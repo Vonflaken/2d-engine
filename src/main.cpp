@@ -34,6 +34,7 @@ int main(int argc, char* argv[])
 
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{
+		// FIXME: Dejar que el ResourceManager se haga cargo de liberar recursos( imágenes... ). Cambiar sistema de referencias a una imagen y poner punteros a null ( o 0 ) en vez de delete
 		screen.SetTitle( String::FromInt( imgStar->GetReferences() ) );
 		if ( BASIC )
 		{
