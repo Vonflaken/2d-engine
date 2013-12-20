@@ -4,7 +4,7 @@
 //#include "../include/map.h"
 #include "../include/math.h"
 #include "../include/vector2d.h"
-//#include "../include/pixelcollision.h"
+#include "../include/pixelcollision.h"
 #include "../include/renderer.h"
 #include "../include/circlecollision.h"
 #include <math.h>
@@ -73,6 +73,7 @@ void Sprite::SetCollision(CollisionMode mode) {
 			collision = new RectCollision( &colx, &coly, &colwidth, &colheight );
 			break;
 		case COLLISION_PIXEL:
+			collision = new CollisionPixelData( this->image->GetFilename() );
 			break;
 	}
 }
