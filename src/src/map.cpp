@@ -91,7 +91,7 @@ bool Map::CheckCollision( const Collision* collision ) const
 				boxX = x * GetTileWidth();
 				boxY = y * GetTileHeight();
 
-				if ( collision->DoesCollide( &boxCol ) )
+				if ( collision && collision->DoesCollide( &boxCol ) )
 					return true;
 			}
 		}

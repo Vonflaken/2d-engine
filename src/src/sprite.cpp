@@ -1,7 +1,7 @@
 #include "../include/sprite.h"
 #include "../include/rectcollision.h"
 #include "../include/image.h"
-//#include "../include/map.h"
+#include "../include/map.h"
 #include "../include/math.h"
 #include "../include/vector2d.h"
 #include "../include/pixelcollision.h"
@@ -29,6 +29,7 @@ Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double c
 	this->firstFrame = firstFrame;
 	this->lastFrame = lastFrame;
 	currentFrame = this->firstFrame;
+	nextFrameTimer = 0;
 	blendMode = Renderer::BlendMode::ALPHA;
 	this->r = r;
 	this->g = g;
@@ -95,8 +96,11 @@ bool Sprite::CheckCollision(Sprite* sprite) {
 	return false;
 }
 
-bool Sprite::CheckCollision(const Map* map) {
-	// TAREA: Implementar
+bool Sprite::CheckCollision( const Map* map )
+{
+	if ( map && map->CheckCollision( collision ) )
+		return true;
+
 	return false;
 }
 
@@ -186,6 +190,13 @@ void Sprite::Update( double elapsed, const Map* map )
 	colSprite = NULL;
 	collided = false;
 
+	nextFrameTimer += animFPS * elapsed;
+	if ( nextFrameTimer > 1 )
+	{
+		currentFrame++;
+		nextFrameTimer = 0;
+	}
+
 	if ( rotating )
 	{
 		if ( sgn( deegresToRotate ) > 0.00 )
@@ -204,17 +215,27 @@ void Sprite::Update( double elapsed, const Map* map )
 
 	if ( moving )
 	{
-		x += movingSpeedX * elapsed;
-		y += movingSpeedY * elapsed;
-
-		MoveTo( toX, toY, movingSpeedX, movingSpeedY );
-		
 		prevX = x;
 		prevY = y;
+
+		x += movingSpeedX * elapsed;
+		UpdateCollisionBox();
+		if ( CheckCollision( map ) )
+			x = prevX;
+		y += movingSpeedY * elapsed;
+		UpdateCollisionBox();
+		if ( CheckCollision( map ) )
+			y = prevY;
+
+		if ( prevX == x && prevY == y )
+			moving = false;
+		else
+			MoveTo( toX, toY, movingSpeedX, movingSpeedY );
 	}
 
 	// Informacion final de colision
 	UpdateCollisionBox();
+	CheckCollision( map );
 }
 
 void Sprite::Render() const

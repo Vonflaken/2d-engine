@@ -12,17 +12,18 @@ int main(int argc, char* argv[])
 
 	screen.Open(800, 600, false);
 
-	// PRÁCTICA_11
+	// PRÁCTICA_6
 	
 	// Basic
-	MapScene* scene = new MapScene( resourceManager.LoadMap( "data/maps/map.tmx" ) );
-	Camera* camera = new Camera();
-	scene->SetCamera( camera );
-	Sprite* sptAlien = scene->CreateSprite( resourceManager.LoadImage( "data/images/alien.png" ) );
+	Scene* scene = new Scene();
+	Sprite* sptAlien = scene->CreateSprite( resourceManager.LoadImage( "data/anims/alienanim.png", 8, 1 ) );
+	sptAlien->SetFPS( 16 );
+	sptAlien->GetImage()->SetMidHandle();
+	sptAlien->SetScale( 4, 4 );
 	sptAlien->SetPosition( 400, 300 );
-	scene->GetCamera().FollowSprite( sptAlien );
-	scene->GetCamera().SetBounds( 0, 0, scene->GetMap()->GetWidth(), scene->GetMap()->GetHeight() );
 	// Advanced
+	SkeletonSprite* sptBones = new SkeletonSprite( "data/anims/animation.xml" );
+	sptBones->SetFPS( 32 );
 
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{
@@ -33,11 +34,12 @@ int main(int argc, char* argv[])
 		int8 axeY = screen.GetAxis( "vertical" );
 		if ( BASIC )
 		{
+			sptAlien->RotateTo( 35 * axeX, 100 );
 			sptAlien->SetPosition( sptAlien->GetX() + axeX, sptAlien->GetY() + axeY );
 		}
 		else
 		{
-			
+			sptBones->SetPosition( screen.GetMouseX(), screen.GetMouseY() );
 		}
 		
 		scene->Update( screen.ElapsedTime() );
