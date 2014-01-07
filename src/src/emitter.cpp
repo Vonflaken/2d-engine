@@ -25,7 +25,8 @@ Emitter::Emitter( Image * image, bool autofade )
 
 Emitter::~Emitter()
 {
-	image->RemoveReference();
+	// image->RemoveReference();
+	image = 0;
 }
 
 void Emitter::Update( double elapsed )

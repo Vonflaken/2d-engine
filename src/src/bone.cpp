@@ -134,6 +134,7 @@ void Bone::Render()
 		// Update image looks
 		image->SetHandle( handleX * image->GetWidth(), handleY * image->GetHeight() );
 		Renderer::Instance().DrawImage( image, 0.0, 0.0, 0, currentScaleX * image->GetWidth(), currentScaleY * image->GetHeight() );
+		glTranslated( pivotX * image->GetWidth(), pivotY * image->GetHeight(), 0.0 );
 	}
 
 	// Call children´s Render

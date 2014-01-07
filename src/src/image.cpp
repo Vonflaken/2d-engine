@@ -64,7 +64,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 		stbi_image_free( buffer );
 		buffer = NULL;
 	}
-	// Generamos la textura
+	// Generate texture
 	// FIXME: Rehacer sin el condicional -> aplicando el mismo buffer
 	if ( buffer ) {
 		// TAREA: Generar la textura de OpenGL
