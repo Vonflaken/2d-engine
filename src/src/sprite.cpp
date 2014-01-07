@@ -73,7 +73,7 @@ void Sprite::SetCollision(CollisionMode mode) {
 			collision = new RectCollision( &colx, &coly, &colwidth, &colheight );
 			break;
 		case COLLISION_PIXEL:
-			collision = new CollisionPixelData( this->image->GetFilename() );
+			// collision = new CollisionPixelData( this->image->GetFilename() );
 			break;
 	}
 }

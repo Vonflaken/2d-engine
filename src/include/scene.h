@@ -22,6 +22,7 @@ public:
     Scene(Image* backgroundImg = 0);
 	virtual ~Scene();
 
+	virtual void SetCamera( Camera* camera ) { this->camera = *camera; }
     virtual const Camera& GetCamera() const { return camera; }
     virtual Camera& GetCamera() { return camera; }
 

@@ -33,9 +33,9 @@ void ParallaxScene::Update( double elapsed, Map * map )
 
 void ParallaxScene::RenderBackground() const
 {
-	Renderer::Instance().DrawTiledImage( backLayer, 0.00, 0.00, Screen::Instance().GetWidth(), 
-		Screen::Instance().GetHeight(), backX, backY );
+	if ( backLayer )
+		Renderer::Instance().DrawTiledImage( backLayer, 0.00, 0.00, Screen::Instance().GetWidth(), Screen::Instance().GetHeight(), backX, backY );
 
-	Renderer::Instance().DrawTiledImage( frontLayer, 0.00, 0.00, Screen::Instance().GetWidth(), 
-		Screen::Instance().GetHeight(), frontX, frontY );
+	if ( frontLayer )
+		Renderer::Instance().DrawTiledImage( frontLayer, 0.00, 0.00, Screen::Instance().GetWidth(), Screen::Instance().GetHeight(), frontX, frontY );
 }
