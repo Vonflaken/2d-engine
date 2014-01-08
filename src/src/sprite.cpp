@@ -54,7 +54,6 @@ Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double c
 
 Sprite::~Sprite()
 {
-	// image->RemoveReference();
 	delete collision;
     image = 0;
 }

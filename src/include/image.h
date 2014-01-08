@@ -36,9 +36,7 @@ public:
 	virtual void SetColorComp( uint8 colorComp ) { this->colorComp = colorComp; }
 	virtual uint8 GetColorComp() { return colorComp; }
     virtual uint32 GetTexId() const { return gltex; }
-	void AddReference() { references++; }
-	void RemoveReference() { references--; if ( references <= 0 ) delete this; }
-	uint32 GetReferences() { return references; }
+
 private:
 	unsigned char *buffer;
     String filename;
@@ -48,7 +46,6 @@ private:
     uint32 gltex;
     double lastU, lastV;
 	int colorComp; // Tipo original: uint8
-	uint32 references;
 
 public:
 	class Glyph

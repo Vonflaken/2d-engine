@@ -6,7 +6,6 @@
 Emitter::Emitter( Image * image, bool autofade )
 {
 	this->image = image;
-	this->image->AddReference();
 	this->autofade = autofade;
 	blendMode = Renderer::ADDITIVE;
 	x = y = 0.00;
@@ -25,7 +24,6 @@ Emitter::Emitter( Image * image, bool autofade )
 
 Emitter::~Emitter()
 {
-	// image->RemoveReference();
 	image = 0;
 }
 

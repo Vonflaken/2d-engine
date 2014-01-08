@@ -2,7 +2,7 @@
 
 #include "include/u-gine.h"
 
-#define BASIC true
+const bool BASIC = true;
 
 int main(int argc, char* argv[])
 {
@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 	// PRÁCTICA_6
 	
 	// Basic
-	Scene* scene = new Scene();
+	MapScene* scene = new MapScene( resourceManager.LoadMap( "data/maps/map.tmx" ), 0, 0 );
 	Sprite* sptAlien = scene->CreateSprite( resourceManager.LoadImage( "data/anims/alienanim.png", 8, 1 ) );
 	sptAlien->SetFPS( 16 );
 	sptAlien->GetImage()->SetMidHandle();
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{
 		renderer.Clear();
-		// FIXME: Dejar que el ResourceManager se haga cargo de liberar recursos( imágenes... ). Cambiar sistema de referencias a una imagen y poner punteros a null ( o 0 ) en vez de delete
+
 		renderer.SetBlendMode( renderer.ALPHA );
 		
 		int8 axeX = screen.GetAxis( "horizontal" );
@@ -42,6 +42,8 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
+			if ( sptBones->GetCurrentFrame() == sptBones->GetLastFrame() )
+				sptBones->SetCurrentFrame( 0 );
 			sptBones->SetPosition( screen.GetMouseX(), screen.GetMouseY() );
 			sptBones->Update( screen.ElapsedTime() );
 			sptBones->Render();

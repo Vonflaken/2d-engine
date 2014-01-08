@@ -158,6 +158,8 @@ void OverlappingRect(double x1, double y1, double width1, double height1, double
 			*outheight = y2 + height2 - *outy;
 }
 
-void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, double* screenY) {
-	// TAREA: Implementar funcion
+void TransformIsoCoords( double isoX, double isoY, double isoZ, double* screenX, double* screenY )
+{
+	*screenX = ( isoX - isoY ) * DegCos( 26.6 );
+	*screenY = isoZ + ( isoX + isoY ) * DegSin( 26.6 );
 }
