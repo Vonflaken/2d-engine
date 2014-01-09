@@ -12,7 +12,8 @@ int main(int argc, char* argv[])
 
 	// PRÁCTICA_6
 	
-	IsometricScene* isoScene = new IsometricScene( resourceManager.LoadIsometricMap( "data/maps/isometric.tmx" ) );
+	IsometricMap* isoMap = resourceManager.LoadIsometricMap( "data/maps/isometric.tmx" );
+	IsometricScene* isoScene = new IsometricScene( isoMap );
 	isoScene->SetCamera( new Camera() );
 	IsometricSprite* isoSprite = isoScene->CreateSprite( resourceManager.LoadImage( "data/anims/isoplayer.png", 8, 8 ) );
 	isoSprite->SetCollision( Sprite::COLLISION_RECT );
@@ -61,6 +62,9 @@ int main(int argc, char* argv[])
 			isoSprite->SetCurrentFrame( 56 );
 		}
 		isoSprite->SetPosition( isoSprite->GetX() + axeX, isoSprite->GetY() + axeY );
+
+		isoScene->Update( screen.ElapsedTime(), isoMap );
+		isoScene->Render();
 
 		// Refrescamos la pantalla
 		screen.Refresh();

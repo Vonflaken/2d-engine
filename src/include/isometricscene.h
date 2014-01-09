@@ -5,6 +5,7 @@
 #include "isometricmap.h"
 #include "isometricsprite.h"
 
+class IsometricMap;
 
 class IsometricScene : public MapScene
 {
