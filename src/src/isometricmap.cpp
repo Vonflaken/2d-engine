@@ -1,4 +1,5 @@
 #include "../include/isometricmap.h"
+#include "../include/isometricscene.h"
 #include "../include/image.h"
 #include "../include/sprite.h"
 #include "../include/resourcemanager.h"
@@ -44,6 +45,16 @@ void IsometricMap::GenerateLayerSprites( IsometricScene* scene )
 			if ( GetFirstColId() == topLayerIds[ i ] )
 				sprite->SetCollision( Sprite::COLLISION_RECT );
 			// sprite->SetPosition(); calcular x e y a partir de fila*ancho y column*altura respectivamente, cómo calcular las filas y cols a partir de los ids?
+			for ( uint32 y = 0; y < GetRows(); y++ )
+			{
+				for ( uint32 x = 0; x < GetColumns(); x++ )
+				{
+					if ( GetTileId( x, y ) == topLayerIds[ i ] )
+					{
+						sprite->SetPosition( y * GetTileWidth(), x * GetTileHeight() );
+					}
+				}
+			}
 		}
 	}
 }

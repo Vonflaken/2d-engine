@@ -2,8 +2,6 @@
 
 #include "include/u-gine.h"
 
-const bool BASIC = true;
-
 int main(int argc, char* argv[])
 {
 	Screen & screen = Screen::Instance();
@@ -14,16 +12,17 @@ int main(int argc, char* argv[])
 
 	// PRÁCTICA_6
 	
-	// Basic
-	MapScene* scene = new MapScene( resourceManager.LoadMap( "data/maps/map.tmx" ), 0, 0 );
-	Sprite* sptAlien = scene->CreateSprite( resourceManager.LoadImage( "data/anims/alienanim.png", 8, 1 ) );
-	sptAlien->SetFPS( 16 );
-	sptAlien->GetImage()->SetMidHandle();
-	sptAlien->SetScale( 4, 4 );
-	sptAlien->SetPosition( 400, 300 );
-	// Advanced
-	SkeletonSprite* sptBones = new SkeletonSprite( "data/anims/animation.xml" );
-	sptBones->SetFPS( 32 );
+	IsometricScene* isoScene = new IsometricScene( resourceManager.LoadIsometricMap( "data/maps/isometric.tmx" ) );
+	isoScene->SetCamera( new Camera() );
+	IsometricSprite* isoSprite = isoScene->CreateSprite( resourceManager.LoadImage( "data/anims/isoplayer.png", 8, 8 ) );
+	isoSprite->SetCollision( Sprite::COLLISION_RECT );
+	isoSprite->SetPosition( isoScene->GetMap()->GetTileWidth() * 1.5, isoScene->GetMap()->GetTileHeight() * 1.5 );
+	isoScene->GetCamera().FollowSprite( isoSprite );
+
+	bool leftPushed = false;
+	bool rightPushed = false;
+	bool upPushed = false;
+	bool downPushed = false;
 
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{
@@ -33,21 +32,35 @@ int main(int argc, char* argv[])
 		
 		int8 axeX = screen.GetAxis( "horizontal" );
 		int8 axeY = screen.GetAxis( "vertical" );
-		if ( BASIC )
+		if ( axeX < 0 && !leftPushed )
 		{
-			sptAlien->RotateTo( 35 * -axeX, 100 );
-			sptAlien->SetPosition( sptAlien->GetX() + axeX, sptAlien->GetY() + axeY );
-			scene->Update( screen.ElapsedTime() );
-			scene->Render();
+			leftPushed = true;
+
+			isoSprite->SetFrameRange( 0, 0 + 4 );
+			isoSprite->SetCurrentFrame( 0 );
 		}
-		else
+		if ( axeX > 0 && !rightPushed )
 		{
-			if ( sptBones->GetCurrentFrame() == sptBones->GetLastFrame() )
-				sptBones->SetCurrentFrame( 0 );
-			sptBones->SetPosition( screen.GetMouseX(), screen.GetMouseY() );
-			sptBones->Update( screen.ElapsedTime() );
-			sptBones->Render();
+			leftPushed = true;
+
+			isoSprite->SetFrameRange( 40, 40 + 4 );
+			isoSprite->SetCurrentFrame( 40 );
 		}
+		if ( axeY < 0 && !upPushed )
+		{
+			leftPushed = true;
+
+			isoSprite->SetFrameRange( 24, 24 + 4 );
+			isoSprite->SetCurrentFrame( 24 );
+		}
+		if ( axeY > 0 && !downPushed )
+		{
+			leftPushed = true;
+
+			isoSprite->SetFrameRange( 56, 56 + 4 );
+			isoSprite->SetCurrentFrame( 56 );
+		}
+		isoSprite->SetPosition( isoSprite->GetX() + axeX, isoSprite->GetY() + axeY );
 
 		// Refrescamos la pantalla
 		screen.Refresh();

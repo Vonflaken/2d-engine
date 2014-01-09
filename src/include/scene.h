@@ -43,8 +43,10 @@ protected:
     virtual void RenderSprites(Layer layer) const;
     virtual void RenderEmitters(Layer layer) const;
     virtual void AddSprite(Sprite* sprite, Layer layer) { sprites[layer].Add(sprite); }
-    virtual const Array<Sprite*>& GetSprites(Layer layer) const { return sprites[layer]; }
-    virtual Array<Sprite*>& GetSprites(Layer layer) { return sprites[layer]; }
+	template <class T>
+    const Array<Sprite*>& GetSprites(T layer) const { return sprites[layer]; }
+    template <class T>
+	Array<Sprite*>& GetSprites(T layer) { return sprites[layer]; }
 private:
     Camera camera;
     uint8 backr, backg, backb;
