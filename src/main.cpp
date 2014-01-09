@@ -10,58 +10,58 @@ int main(int argc, char* argv[])
 
 	screen.Open(800, 600, false);
 
-	// PRÁCTICA_6
+	// PRÁCTICA_12
 	
-	IsometricMap* isoMap = resourceManager.LoadIsometricMap( "data/maps/isometric.tmx" );
+	double screenX = 0.0;
+	double screenY = 0.0;
+
+	IsometricMap* isoMap = resourceManager.LoadIsometricMap( "data/maps/isometric.tmx", 11 );
 	IsometricScene* isoScene = new IsometricScene( isoMap );
-	isoScene->SetCamera( new Camera() );
 	IsometricSprite* isoSprite = isoScene->CreateSprite( resourceManager.LoadImage( "data/anims/isoplayer.png", 8, 8 ) );
 	isoSprite->SetCollision( Sprite::COLLISION_RECT );
-	isoSprite->SetPosition( isoScene->GetMap()->GetTileWidth() * 1.5, isoScene->GetMap()->GetTileHeight() * 1.5 );
+	TransformIsoCoords( isoScene->GetMap()->GetTileWidth() * 1.5, isoScene->GetMap()->GetTileHeight() * 1.5, 0.0, &screenX, &screenY );
+	isoSprite->SetPosition( screenX, screenY );
 	isoScene->GetCamera().FollowSprite( isoSprite );
-
 	bool leftPushed = false;
-	bool rightPushed = false;
-	bool upPushed = false;
-	bool downPushed = false;
-
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{
 		renderer.Clear();
 
 		renderer.SetBlendMode( renderer.ALPHA );
-		
+
 		int8 axeX = screen.GetAxis( "horizontal" );
 		int8 axeY = screen.GetAxis( "vertical" );
-		if ( axeX < 0 && !leftPushed )
+		if ( glfwGetKey( GLFW_KEY_LEFT ) && !leftPushed )
 		{
 			leftPushed = true;
-
 			isoSprite->SetFrameRange( 0, 0 + 4 );
 			isoSprite->SetCurrentFrame( 0 );
 		}
-		if ( axeX > 0 && !rightPushed )
+		if ( glfwGetKey( GLFW_KEY_RIGHT ) )
 		{
-			leftPushed = true;
-
 			isoSprite->SetFrameRange( 40, 40 + 4 );
 			isoSprite->SetCurrentFrame( 40 );
 		}
-		if ( axeY < 0 && !upPushed )
+		if ( glfwGetKey( GLFW_KEY_UP ) )
 		{
-			leftPushed = true;
-
 			isoSprite->SetFrameRange( 24, 24 + 4 );
 			isoSprite->SetCurrentFrame( 24 );
 		}
-		if ( axeY > 0 && !downPushed )
+		if ( glfwGetKey( GLFW_KEY_DOWN ) )
 		{
-			leftPushed = true;
-
 			isoSprite->SetFrameRange( 56, 56 + 4 );
 			isoSprite->SetCurrentFrame( 56 );
 		}
-		isoSprite->SetPosition( isoSprite->GetX() + axeX, isoSprite->GetY() + axeY );
+		if ( axeY == 0 && axeX == 0 )
+		{
+			isoSprite->SetFPS( 0 );
+			leftPushed = false;
+		}
+		else
+			isoSprite->SetFPS( 30 );
+
+		//TransformIsoCoords( isoSprite->GetScreenX() + axeX, isoSprite->GetScreenY() + axeY, 0.0, &screenX, &screenY );
+		//isoSprite->SetPosition( screenX, screenY );
 
 		isoScene->Update( screen.ElapsedTime(), isoMap );
 		isoScene->Render();

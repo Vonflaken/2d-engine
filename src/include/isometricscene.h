@@ -17,7 +17,7 @@ public:
 	virtual void Update( double elapsed, Map* map = NULL );
 
 protected:
-	static bool CompareSprites( Sprite*& first, Sprite*& second ) { return first->GetY() < second->GetY(); }
+	static bool CompareSprites( Sprite*& first, Sprite*& second ) { return first->GetScreenY() <= second->GetScreenY(); }
 };
 
 #endif

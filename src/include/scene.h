@@ -22,7 +22,6 @@ public:
     Scene(Image* backgroundImg = 0);
 	virtual ~Scene();
 
-	virtual void SetCamera( Camera* camera ) { this->camera = *camera; }
     virtual const Camera& GetCamera() const { return camera; }
     virtual Camera& GetCamera() { return camera; }
 
@@ -43,10 +42,8 @@ protected:
     virtual void RenderSprites(Layer layer) const;
     virtual void RenderEmitters(Layer layer) const;
     virtual void AddSprite(Sprite* sprite, Layer layer) { sprites[layer].Add(sprite); }
-	template <class T>
-    const Array<Sprite*>& GetSprites(T layer) const { return sprites[layer]; }
-    template <class T>
-	Array<Sprite*>& GetSprites(T layer) { return sprites[layer]; }
+    const Array<Sprite*>& GetSprites( Layer layer ) const { return sprites[layer]; }
+	Array<Sprite*>& GetSprites( Layer layer ) { return sprites[layer]; }
 private:
     Camera camera;
     uint8 backr, backg, backb;

@@ -76,7 +76,7 @@ void Scene::Render() const {
 }
 
 void Scene::RenderSprites(Layer layer) const {
-    for ( uint32 i = 0; i < sprites[layer].Size(); i++ ) sprites[layer][i]->Render();
+	for ( uint32 i = 0; i < sprites[layer].Size(); i++ ) sprites[layer][i]->Render();
 }
 
 void Scene::RenderEmitters(Layer layer) const {

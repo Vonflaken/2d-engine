@@ -13,7 +13,6 @@ Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double c
 		uint16 firstFrame, uint16 lastFrame, uint8 r, uint8 g, uint8 b, uint8 a )
 {
 	this->image = image;
-	// this->image->AddReference();
 	x = 0.00;
 	y = 0.00;
 	z = 0.00;
@@ -25,7 +24,7 @@ Sprite::Sprite(Image* image, double colx, double coly, double colwidth, double c
 	scalex = 1.00;
 	scaley = 1.00;
 	radius = colwidth / 2;
-	animFPS = 25;
+	animFPS = 0;
 	this->firstFrame = firstFrame;
 	this->lastFrame = lastFrame;
 	currentFrame = this->firstFrame;
