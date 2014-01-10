@@ -4,7 +4,6 @@
 #include "../include/sprite.h"
 #include "../include/resourcemanager.h"
 #include "../lib/rapidxml.hpp"
-#include <limits.h>
 
 using namespace rapidxml;
 
@@ -30,8 +29,7 @@ IsometricMap::IsometricMap( const String& filename, uint16 firstColId ) : Map( f
  		tileNode = tileNode->next_sibling( "tile" );
 	}
 
-	Image* image = GetImage();
-	image->SetHandle( image->GetHandleX() + GetTileWidth(), image->GetHeight() - image->GetHandleY() - GetTileHeight() );
+	GetImage()->SetHandle( GetImage()->GetHandleX() + GetTileWidth(), GetImage()->GetHeight() - GetImage()->GetHandleY() - GetTileHeight() );
 }
 
 void IsometricMap::GenerateLayerSprites( IsometricScene* scene )
@@ -40,6 +38,7 @@ void IsometricMap::GenerateLayerSprites( IsometricScene* scene )
 	double screenY = 0.0;
 	int32 tileId = -1;
 
+	// Generate second layer sprites
 	for ( int y = 0; y < GetRows(); y++ )
 	{
 		for ( int x = 0; x < GetColumns(); x++ )
@@ -47,12 +46,11 @@ void IsometricMap::GenerateLayerSprites( IsometricScene* scene )
 			tileId = GetLayerId( x, y );
 			if ( tileId >= 0 )
 			{
-				IsometricSprite* sprite = scene->CreateSprite( ResourceManager::Instance().LoadImage( GetImage()->GetFilename() ) );
-				sprite->SetCurrentFrame( tileId );
-				if ( GetFirstColId() == tileId + 1 )
+				IsometricSprite* sprite = scene->CreateSprite( GetImage() );
+				if ( tileId >= GetFirstColId() )
 					sprite->SetCollision( Sprite::COLLISION_RECT );
-				TransformIsoCoords( y , x , 0.0, &screenX, &screenY );
-				sprite->SetPosition( screenX * GetTileWidth(), screenY * GetTileHeight() );
+				sprite->SetCurrentFrame( tileId );
+				sprite->SetPosition( x * GetTileWidth(), y * GetTileHeight() );
 			}
 		}
 	}
@@ -72,8 +70,8 @@ void IsometricMap::Render() const
 			tileId = GetTileId( x, y );
 			if ( tileId >= 0 )
 			{
-				TransformIsoCoords( y, x, 0.0, &screenX, &screenY );
-				Renderer::Instance().DrawImage( GetImage(), screenX * GetTileWidth(), screenY * GetTileHeight(), tileId );
+				TransformIsoCoords( x * GetTileWidth(), y * GetTileHeight(), 0.0, &screenX, &screenY );
+				Renderer::Instance().DrawImage( GetImage(), screenX, screenY, tileId );
 			}
 		}
 	}

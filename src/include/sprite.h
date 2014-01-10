@@ -19,8 +19,7 @@ public:
 		COLLISION_RECT
 	};
 
-	Sprite( Image* image, double colx = 1, double coly =  1, double colwidth = 0, double colheight = 0, 
-		uint16 firstFrame = 0, uint16 lastFrame = 0, uint8 r = 255, uint8 g = 255, uint8 b = 255, uint8 a = 255 );
+	Sprite( Image* image );
 	virtual ~Sprite();
 
 	virtual void SetImage(Image* image) { this->image = image; }

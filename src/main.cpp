@@ -12,17 +12,20 @@ int main(int argc, char* argv[])
 
 	// PRÁCTICA_12
 	
-	double screenX = 0.0;
-	double screenY = 0.0;
+	double screenX = 0;
+	double screenY = 0;
+	bool leftPushed = false;
+	bool rightPushed = false;
+	bool upPushed = false;
+	bool downPushed = false;
 
 	IsometricMap* isoMap = resourceManager.LoadIsometricMap( "data/maps/isometric.tmx", 11 );
 	IsometricScene* isoScene = new IsometricScene( isoMap );
 	IsometricSprite* isoSprite = isoScene->CreateSprite( resourceManager.LoadImage( "data/anims/isoplayer.png", 8, 8 ) );
 	isoSprite->SetCollision( Sprite::COLLISION_RECT );
-	TransformIsoCoords( isoScene->GetMap()->GetTileWidth() * 1.5, isoScene->GetMap()->GetTileHeight() * 1.5, 0.0, &screenX, &screenY );
-	isoSprite->SetPosition( screenX, screenY );
+	isoSprite->SetPosition( isoScene->GetMap()->GetTileWidth() * 1.5, isoScene->GetMap()->GetTileHeight() * 1.5 );
 	isoScene->GetCamera().FollowSprite( isoSprite );
-	bool leftPushed = false;
+	
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{
 		renderer.Clear();
@@ -37,18 +40,21 @@ int main(int argc, char* argv[])
 			isoSprite->SetFrameRange( 0, 0 + 4 );
 			isoSprite->SetCurrentFrame( 0 );
 		}
-		if ( glfwGetKey( GLFW_KEY_RIGHT ) )
+		if ( glfwGetKey( GLFW_KEY_RIGHT ) && !rightPushed )
 		{
+			rightPushed = true;
 			isoSprite->SetFrameRange( 40, 40 + 4 );
 			isoSprite->SetCurrentFrame( 40 );
 		}
-		if ( glfwGetKey( GLFW_KEY_UP ) )
+		if ( glfwGetKey( GLFW_KEY_UP ) && !upPushed )
 		{
+			upPushed = true;
 			isoSprite->SetFrameRange( 24, 24 + 4 );
 			isoSprite->SetCurrentFrame( 24 );
 		}
-		if ( glfwGetKey( GLFW_KEY_DOWN ) )
+		if ( glfwGetKey( GLFW_KEY_DOWN ) && !downPushed )
 		{
+			downPushed = true;
 			isoSprite->SetFrameRange( 56, 56 + 4 );
 			isoSprite->SetCurrentFrame( 56 );
 		}
@@ -56,12 +62,14 @@ int main(int argc, char* argv[])
 		{
 			isoSprite->SetFPS( 0 );
 			leftPushed = false;
+			rightPushed = false;
+			upPushed = false;
+			downPushed = false;
 		}
 		else
-			isoSprite->SetFPS( 30 );
+			isoSprite->SetFPS( 25 );
 
-		//TransformIsoCoords( isoSprite->GetScreenX() + axeX, isoSprite->GetScreenY() + axeY, 0.0, &screenX, &screenY );
-		//isoSprite->SetPosition( screenX, screenY );
+		isoSprite->SetPosition( isoSprite->GetScreenX() + axeX, isoSprite->GetScreenX() + axeY );
 
 		isoScene->Update( screen.ElapsedTime(), isoMap );
 		isoScene->Render();

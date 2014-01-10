@@ -19,7 +19,6 @@ void IsometricScene::Update( double elapsed, Map* map )
 
 	for ( int i = 0; i < LAYER_COUNT; i++ )
 	{
-		Array< Sprite* > sprites = GetSprites( ( Layer ) i );
-		sprites.Sort( CompareSprites );
+		GetSprites( ( Layer ) i ).Sort( CompareSprites );
 	}
 }
