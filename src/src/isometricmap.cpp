@@ -32,7 +32,7 @@ IsometricMap::IsometricMap( const String& filename, uint16 firstColId ) : Map( f
 	GetImage()->SetHandle( GetImage()->GetHandleX() + GetTileWidth(), GetImage()->GetHeight() - GetImage()->GetHandleY() - GetTileHeight() );
 }
 
-void IsometricMap::GenerateLayerSprites( IsometricScene* scene )
+void IsometricMap::GenerateLayerSprites( IsometricScene* isoScene )
 {
 	double screenX = 0.0;
 	double screenY = 0.0;
@@ -46,8 +46,8 @@ void IsometricMap::GenerateLayerSprites( IsometricScene* scene )
 			tileId = GetLayerId( x, y );
 			if ( tileId >= 0 )
 			{
-				IsometricSprite* sprite = scene->CreateSprite( GetImage() );
-				if ( tileId >= GetFirstColId() )
+				IsometricSprite* sprite = isoScene->CreateSprite( GetImage() );
+				if ( tileId >= GetFirstColId() - 1 )
 					sprite->SetCollision( Sprite::COLLISION_RECT );
 				sprite->SetCurrentFrame( tileId );
 				sprite->SetPosition( x * GetTileWidth(), y * GetTileHeight() );

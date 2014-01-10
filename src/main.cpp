@@ -18,12 +18,14 @@ int main(int argc, char* argv[])
 	bool rightPushed = false;
 	bool upPushed = false;
 	bool downPushed = false;
+	double deltaPosX = 0;
+	double deltaPosY = 0;
 
 	IsometricMap* isoMap = resourceManager.LoadIsometricMap( "data/maps/isometric.tmx", 11 );
 	IsometricScene* isoScene = new IsometricScene( isoMap );
 	IsometricSprite* isoSprite = isoScene->CreateSprite( resourceManager.LoadImage( "data/anims/isoplayer.png", 8, 8 ) );
 	isoSprite->SetCollision( Sprite::COLLISION_RECT );
-	isoSprite->SetPosition( isoScene->GetMap()->GetTileWidth() * 1.5, isoScene->GetMap()->GetTileHeight() * 1.5 );
+	isoSprite->SetPosition( isoMap->GetTileWidth() * 1.5, isoMap->GetTileHeight() * 1.5 );
 	isoScene->GetCamera().FollowSprite( isoSprite );
 	
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
@@ -37,30 +39,41 @@ int main(int argc, char* argv[])
 		if ( glfwGetKey( GLFW_KEY_LEFT ) && !leftPushed )
 		{
 			leftPushed = true;
+			rightPushed = false;
+			upPushed = false;
+			downPushed = false;
 			isoSprite->SetFrameRange( 0, 0 + 4 );
 			isoSprite->SetCurrentFrame( 0 );
 		}
 		if ( glfwGetKey( GLFW_KEY_RIGHT ) && !rightPushed )
 		{
 			rightPushed = true;
+			leftPushed = false;
+			upPushed = false;
+			downPushed = false;
 			isoSprite->SetFrameRange( 40, 40 + 4 );
 			isoSprite->SetCurrentFrame( 40 );
 		}
 		if ( glfwGetKey( GLFW_KEY_UP ) && !upPushed )
 		{
 			upPushed = true;
+			leftPushed = false;
+			rightPushed = false;
+			downPushed = false;
 			isoSprite->SetFrameRange( 24, 24 + 4 );
 			isoSprite->SetCurrentFrame( 24 );
 		}
 		if ( glfwGetKey( GLFW_KEY_DOWN ) && !downPushed )
 		{
 			downPushed = true;
+			leftPushed = false;
+			rightPushed = false;
+			upPushed = false;
 			isoSprite->SetFrameRange( 56, 56 + 4 );
 			isoSprite->SetCurrentFrame( 56 );
 		}
 		if ( axeY == 0 && axeX == 0 )
 		{
-			isoSprite->SetFPS( 0 );
 			leftPushed = false;
 			rightPushed = false;
 			upPushed = false;
@@ -69,7 +82,17 @@ int main(int argc, char* argv[])
 		else
 			isoSprite->SetFPS( 25 );
 
-		isoSprite->SetPosition( isoSprite->GetScreenX() + axeX, isoSprite->GetScreenX() + axeY );
+		if ( fabs( deltaPosX - isoSprite->GetX() ) < EPSILON && fabs( deltaPosY - isoSprite->GetY() ) < EPSILON )
+			isoSprite->SetFPS( 0 );
+		if ( axeX != 0 || axeY != 0 )
+			isoSprite->MoveTo( isoSprite->GetX() + axeX * isoMap->GetTileWidth() / 2, isoSprite->GetY() + axeY * isoMap->GetTileHeight() / 2, 75, 75 );
+		if ( isoSprite->CollisionSprite() )
+		{
+			isoSprite->SetX( deltaPosX );
+			isoSprite->SetY( deltaPosY );
+		}
+		deltaPosX = isoSprite->GetX();
+		deltaPosY = isoSprite->GetY();
 
 		isoScene->Update( screen.ElapsedTime(), isoMap );
 		isoScene->Render();

@@ -19,6 +19,6 @@ void IsometricScene::Update( double elapsed, Map* map )
 
 	for ( int i = 0; i < LAYER_COUNT; i++ )
 	{
-		GetSprites( ( Layer ) i ).Sort( CompareSprites );
+		GetSprites( ( Layer )i ).Sort( CompareSprites );
 	}
 }

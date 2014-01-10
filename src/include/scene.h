@@ -10,7 +10,8 @@ class Image;
 class Map;
 class Sprite;
 
-class Scene {
+class Scene
+{
 public:
 	enum Layer {
 		LAYER_BACK,
@@ -36,6 +37,7 @@ public:
 
     virtual void Update(double elapsed, Map* map = 0);
     virtual void Render() const;
+
 protected:
     virtual void RenderBackground() const {}
     virtual void RenderAfterBackground() const {}
@@ -44,6 +46,7 @@ protected:
     virtual void AddSprite(Sprite* sprite, Layer layer) { sprites[layer].Add(sprite); }
     const Array<Sprite*>& GetSprites( Layer layer ) const { return sprites[layer]; }
 	Array<Sprite*>& GetSprites( Layer layer ) { return sprites[layer]; }
+
 private:
     Camera camera;
     uint8 backr, backg, backb;

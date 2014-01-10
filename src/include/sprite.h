@@ -12,7 +12,8 @@ class Map;
 class Sprite
 {
 public:
-	enum CollisionMode {
+	enum CollisionMode
+	{
 		COLLISION_NONE,
 		COLLISION_CIRCLE,
 		COLLISION_PIXEL,
@@ -23,7 +24,7 @@ public:
 	virtual ~Sprite();
 
 	virtual void SetImage(Image* image) { this->image = image; }
-    virtual Image* GetImage() const { return image; }
+    virtual const Image* GetImage() const { return image; }
 
     virtual void SetPosition(double x, double y, double z = 0) { this->x = x; this->y = y; this->z = z; }
     virtual void SetX(double x) { this->x = x; }

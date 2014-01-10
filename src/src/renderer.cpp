@@ -85,6 +85,11 @@ void Renderer::DrawEllipse(double x, double y, double xradius, double yradius) c
 	glDrawArrays(GL_TRIANGLE_FAN, 0, ELLIPSEPOINTS);
 }
 
+void Renderer::DrawParallelogram( double x, double y, double offset, double width, double height ) const
+{
+	// TODO: Implementar
+}
+
 void Renderer::DrawImage(const Image* image, double x, double y, uint16 frame, double width, double height, double ang) const {
     if ( width == 0  ||  height == 0 ) {
         width = image->GetWidth();

@@ -186,6 +186,7 @@ void Sprite::Update( double elapsed, const Map* map )
 
 		if ( x < toX )
 		{
+			// Right
 			x += movingSpeedX * elapsed;
 			UpdateCollisionBox();
 			if ( map && CheckCollision( map ) )
@@ -195,6 +196,7 @@ void Sprite::Update( double elapsed, const Map* map )
 		}
 		else
 		{
+			// Left
 			x -= movingSpeedX * elapsed;
 			UpdateCollisionBox();
 			if ( map && CheckCollision( map ) )
@@ -204,6 +206,7 @@ void Sprite::Update( double elapsed, const Map* map )
 		}
 		if ( y < toY )
 		{
+			// Down
 			y += movingSpeedY * elapsed;
 			UpdateCollisionBox();
 			if ( map && CheckCollision( map ) )
@@ -213,6 +216,7 @@ void Sprite::Update( double elapsed, const Map* map )
 		}
 		else
 		{
+			// Up
 			y -= movingSpeedY * elapsed;
 			UpdateCollisionBox();
 			if ( map && CheckCollision( map ) )
@@ -231,6 +235,13 @@ void Sprite::Update( double elapsed, const Map* map )
 
 void Sprite::Render() const
 {
+	// ---------- DEBUG COLLISION BOXES ----------- //
+	Renderer::Instance().SetColor( 255, 0, 0, 255 );
+	double screencolx, screencoly;
+	TransformIsoCoords( colx, coly, 0, &screencolx, &screencoly );
+	Renderer::Instance().DrawParallelogram( screencolx, screencoly, 0, colwidth, colheight );
+	// --------------------------------------------//
+
 	Renderer::Instance().SetBlendMode( blendMode );
 	Renderer::Instance().SetColor( GetRed(), GetGreen(), GetBlue(), GetAlpha() );
 	Renderer::Instance().DrawImage( image, GetScreenX(), GetScreenY(), currentFrame, image->GetWidth() * scalex, image->GetHeight() * scaley, angle );
