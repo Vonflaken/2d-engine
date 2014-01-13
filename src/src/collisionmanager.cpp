@@ -29,6 +29,7 @@ bool CollisionManager::CircleToRect( double cx, double cy, double cr, double rx,
 {
 	double lookatx = 0;
 	double lookaty = 0;
+
 	ClosestPointToRect( cx, cy, rx, ry, rw, rh, &lookatx, &lookaty );
 	if ( Distance( cx, cy, lookatx, lookaty ) < cr )
 		return true;

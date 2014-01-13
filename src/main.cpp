@@ -88,6 +88,7 @@ int main(int argc, char* argv[])
 			isoSprite->MoveTo( isoSprite->GetX() + axeX * isoMap->GetTileWidth() / 2, isoSprite->GetY() + axeY * isoMap->GetTileHeight() / 2, 75, 75 );
 		if ( isoSprite->CollisionSprite() )
 		{
+			isoSprite->SetFPS( 0 );
 			isoSprite->SetX( deltaPosX );
 			isoSprite->SetY( deltaPosY );
 		}

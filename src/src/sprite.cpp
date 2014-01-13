@@ -235,13 +235,14 @@ void Sprite::Update( double elapsed, const Map* map )
 
 void Sprite::Render() const
 {
+	/*
 	// ---------- DEBUG COLLISION BOXES ----------- //
 	Renderer::Instance().SetColor( 255, 0, 0, 255 );
 	double screencolx, screencoly;
 	TransformIsoCoords( colx, coly, 0, &screencolx, &screencoly );
-	Renderer::Instance().DrawParallelogram( screencolx, screencoly, 0, colwidth, colheight );
+	Renderer::Instance().DrawParallelogram( screencolx, screencoly, 0, 0, colwidth, colheight );
 	// --------------------------------------------//
-
+	*/
 	Renderer::Instance().SetBlendMode( blendMode );
 	Renderer::Instance().SetColor( GetRed(), GetGreen(), GetBlue(), GetAlpha() );
 	Renderer::Instance().DrawImage( image, GetScreenX(), GetScreenY(), currentFrame, image->GetWidth() * scalex, image->GetHeight() * scaley, angle );
