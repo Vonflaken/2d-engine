@@ -85,9 +85,14 @@ void Renderer::DrawEllipse(double x, double y, double xradius, double yradius) c
 	glDrawArrays(GL_TRIANGLE_FAN, 0, ELLIPSEPOINTS);
 }
 
-void Renderer::DrawParallelogram( double x, double y, double offset, double width, double height ) const
+void Renderer::DrawParallelogram( double x, double y, double offsetx, double offsety, double width, double height ) const
 {
-	// TODO: Implementar
+	GLdouble vertex[] = { x, y, x + width, y - offsety, x + offsetx, y + height, x + width + offsetx, y + height - offsety };
+	GLdouble texCoords[] = { 0, 0, 0, 0, 0, 0, 0, 8 };
+	glBindTexture( GL_TEXTURE_2D, 0 );
+	glVertexPointer(2, GL_DOUBLE, 0, vertex );
+	glTexCoordPointer( 2, GL_DOUBLE, 0, texCoords );
+	glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
 }
 
 void Renderer::DrawImage(const Image* image, double x, double y, uint16 frame, double width, double height, double ang) const {

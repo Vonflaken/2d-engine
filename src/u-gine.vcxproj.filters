@@ -101,6 +101,9 @@
     <ClCompile Include="src\isometricscene.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\label.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\array.h">
@@ -242,6 +245,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\isometricscene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\label.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

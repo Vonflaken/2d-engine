@@ -71,7 +71,7 @@ void Scene::Render() const {
 	RenderAfterBackground();
 	for ( int i = 0; i < LAYER_COUNT; i++ ) {
 		RenderSprites((Layer)i);
-			RenderEmitters((Layer)i);
+		RenderEmitters((Layer)i);
 	}
 }
 

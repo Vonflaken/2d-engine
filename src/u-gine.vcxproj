@@ -27,6 +27,7 @@
     <ClCompile Include="src\isometricmap.cpp" />
     <ClCompile Include="src\isometricscene.cpp" />
     <ClCompile Include="src\isometricsprite.cpp" />
+    <ClCompile Include="src\label.cpp" />
     <ClCompile Include="src\map.cpp" />
     <ClCompile Include="src\math.cpp" />
     <ClCompile Include="src\parallaxscene.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="include\isometricmap.h" />
     <ClInclude Include="include\isometricscene.h" />
     <ClInclude Include="include\isometricsprite.h" />
+    <ClInclude Include="include\label.h" />
     <ClInclude Include="include\map.h" />
     <ClInclude Include="include\mapscene.h" />
     <ClInclude Include="include\math.h" />
