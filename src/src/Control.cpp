@@ -253,6 +253,9 @@ void Control::setScale( const double scalex, const double scaley )
 {
 	m_scalex = scalex;
 	m_scaley = scaley;
+
+	m_size.x *= scalex;
+	m_size.y *= scaley;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
