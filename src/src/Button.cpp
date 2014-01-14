@@ -12,7 +12,6 @@
 Button::Button()
 {
 	m_pushed = false;
-	m_enabled = true;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -26,7 +25,7 @@ bool Button::init( const std::string name, const Vector2& position, const String
 	m_pushImage			= ResourceManager::Instance().LoadImage( pushImage );
 	m_disabledImage		= ResourceManager::Instance().LoadImage( disabledImage );
 	m_size				= Vector2( ( float )m_normalImage->GetWidth(), ( float )m_normalImage->GetHeight() );
-	m_label				= new Label( font, text, position );
+	m_label				= new Label( font, text, position + Vector2( 60.0, 55.0 ) );
 
 	return true;
 }
@@ -54,24 +53,24 @@ void Button::render()
 		{
 			if( m_pushed )
 			{
-				Renderer::Instance().DrawImage( m_pushImage, pos.x, pos.y );
+				Renderer::Instance().DrawImage( m_pushImage, pos.x, pos.y, 0, m_pushImage->GetWidth() * m_scalex, m_pushImage->GetHeight() * m_scaley );
 			}
 			else if( !m_pushed )
 			{
-				Renderer::Instance().DrawImage( m_normalImage, pos.x, pos.y );
+				Renderer::Instance().DrawImage( m_normalImage, pos.x, pos.y, 0, m_normalImage->GetWidth() * m_scalex, m_normalImage->GetHeight() * m_scaley );
 			}
 		}
 		else
 		{
 			if ( m_disabledImage )
-				Renderer::Instance().DrawImage( m_disabledImage, pos.x, pos.y );
+				Renderer::Instance().DrawImage( m_disabledImage, pos.x, pos.y, 0, m_disabledImage->GetWidth() * m_scalex, m_disabledImage->GetHeight() * m_scaley );
 			else
-				Renderer::Instance().DrawImage( m_normalImage, pos.x, pos.y ); // m_disabledImage fallback
+				Renderer::Instance().DrawImage( m_normalImage, pos.x, pos.y, 0, m_normalImage->GetWidth() * m_scalex, m_normalImage->GetHeight() * m_scaley ); // m_disabledImage fallback
 		}
-	}
 
-	// Render text
-	m_label->Render();
+		// Render text
+		m_label->Render();
+	}
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -101,22 +100,6 @@ void Button::onInputEvent( const Message& message )
 //------------------------------------------------------------------------------------------------------------------------------------------
 void Button::destroy()
 {
-	if( m_normalImage )
-	{
-		delete m_normalImage;
-		m_normalImage = NULL;
-	}
-	if( m_pushImage )
-	{
-		delete m_pushImage;
-		m_pushImage = NULL;
-	}
-	if ( m_disabledImage )
-	{
-		delete m_disabledImage;
-		m_disabledImage = NULL;
-	}
-
 	delete m_label;
 	m_label = NULL;
 }

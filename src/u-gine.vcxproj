@@ -16,6 +16,7 @@
     <ClCompile Include="src\bone.cpp" />
     <ClCompile Include="src\button.cpp" />
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\checkbox.cpp" />
     <ClCompile Include="src\collisionmanager.cpp" />
     <ClCompile Include="src\collisionpixeldata.cpp" />
     <ClCompile Include="src\control.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="include\bonedata.h" />
     <ClInclude Include="include\button.h" />
     <ClInclude Include="include\camera.h" />
+    <ClInclude Include="include\checkbox.h" />
     <ClInclude Include="include\circlecollision.h" />
     <ClInclude Include="include\collision.h" />
     <ClInclude Include="include\collisionmanager.h" />
