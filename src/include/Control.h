@@ -39,6 +39,10 @@ public:
 	void setPosition( const Vector2& position );
 	Vector2 getPosition() const;
 
+	void setScale( const double scalex, const double scaley );
+	double getScaleX() const;
+	double getScaleY() const;
+
 	Vector2 getSize() const;
 
 	void setFocus( bool focus );
@@ -70,6 +74,7 @@ protected:
 	std::list<Control*>									m_children;
 	Control*											m_parent;
 	list<IEventListener*>								m_eventListeners;
+	double												m_scalex, m_scaley;
 
 	static int											s_id;
 };

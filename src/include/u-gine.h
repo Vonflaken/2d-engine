@@ -27,5 +27,10 @@
 #include "string.h"
 #include "types.h"
 #include "inputmanager.h"
+#include "guimanager.h"
+#include "button.h"
+#include "window.h"
+#include "ieventlistener.h"
+#include "checkbox.h"
 
 #endif

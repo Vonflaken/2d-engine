@@ -29,9 +29,6 @@ protected:
 	Image*								m_disabledImage;
 	Label*								m_label;
 	bool								m_pushed;
-
-public:
-	bool								m_enabled;
 };
 
 
