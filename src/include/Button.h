@@ -19,9 +19,12 @@ public:
 	virtual void update();
 	virtual void render();
 	virtual void onInputEvent( const Message& message );
+	virtual void setHandle( int32 handlex, int32 handley );
+    virtual void setMidHandle();
+	virtual Vector2 getHandle() const;
 	virtual void destroy();
 
-	virtual void setText( String& text ) { m_label->SetText( text ); }
+	virtual void setText( String& text );
 
 protected:
 	Image*								m_normalImage;

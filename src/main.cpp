@@ -2,7 +2,6 @@
 
 #include "include/u-gine.h"
 
-const bool GUIPractice = true;
 
 // Práctica de Interfaces
 
@@ -46,24 +45,6 @@ int main(int argc, char* argv[])
 
 	screen.Open(800, 600, false);
 
-	// PRÁCTICA_12
-	
-	double screenX = 0;
-	double screenY = 0;
-	bool leftPushed = false;
-	bool rightPushed = false;
-	bool upPushed = false;
-	bool downPushed = false;
-	double deltaPosX = 0;
-	double deltaPosY = 0;
-
-	IsometricMap* isoMap = resourceManager.LoadIsometricMap( "data/maps/isometric.tmx", 11 );
-	IsometricScene* isoScene = new IsometricScene( isoMap );
-	IsometricSprite* isoSprite = isoScene->CreateSprite( resourceManager.LoadImage( "data/anims/isoplayer.png", 8, 8 ) );
-	isoSprite->SetCollision( Sprite::COLLISION_RECT );
-	isoSprite->SetPosition( isoMap->GetTileWidth() * 1.5, isoMap->GetTileHeight() * 1.5 );
-	isoScene->GetCamera().FollowSprite( isoSprite );
-
 	// Práctica de Interfaces
 
 	font = resourceManager.LoadFont( "data/fonts/monospaced.png" );
@@ -76,79 +57,8 @@ int main(int argc, char* argv[])
 	{
 		renderer.Clear();
 
-		renderer.SetBlendMode( renderer.ALPHA );
-
-		if ( !GUIPractice )
-		{
-			int8 axeX = screen.GetAxis( "horizontal" );
-			int8 axeY = screen.GetAxis( "vertical" );
-			if ( glfwGetKey( GLFW_KEY_LEFT ) && !leftPushed )
-			{
-				leftPushed = true;
-				rightPushed = false;
-				upPushed = false;
-				downPushed = false;
-				isoSprite->SetFrameRange( 0, 0 + 4 );
-				isoSprite->SetCurrentFrame( 0 );
-			}
-			if ( glfwGetKey( GLFW_KEY_RIGHT ) && !rightPushed )
-			{
-				rightPushed = true;
-				leftPushed = false;
-				upPushed = false;
-				downPushed = false;
-				isoSprite->SetFrameRange( 40, 40 + 4 );
-				isoSprite->SetCurrentFrame( 40 );
-			}
-			if ( glfwGetKey( GLFW_KEY_UP ) && !upPushed )
-			{
-				upPushed = true;
-				leftPushed = false;
-				rightPushed = false;
-				downPushed = false;
-				isoSprite->SetFrameRange( 24, 24 + 4 );
-				isoSprite->SetCurrentFrame( 24 );
-			}
-			if ( glfwGetKey( GLFW_KEY_DOWN ) && !downPushed )
-			{
-				downPushed = true;
-				leftPushed = false;
-				rightPushed = false;
-				upPushed = false;
-				isoSprite->SetFrameRange( 56, 56 + 4 );
-				isoSprite->SetCurrentFrame( 56 );
-			}
-			if ( axeY == 0 && axeX == 0 )
-			{
-				leftPushed = false;
-				rightPushed = false;
-				upPushed = false;
-				downPushed = false;
-			}
-			else
-				isoSprite->SetFPS( 25 );
-
-			if ( fabs( deltaPosX - isoSprite->GetX() ) < EPSILON && fabs( deltaPosY - isoSprite->GetY() ) < EPSILON )
-				isoSprite->SetFPS( 0 );
-			if ( axeX != 0 || axeY != 0 )
-				isoSprite->MoveTo( isoSprite->GetX() + axeX * isoMap->GetTileWidth() / 2, isoSprite->GetY() + axeY * isoMap->GetTileHeight() / 2, 75, 75 );
-			if ( isoSprite->CollisionSprite() )
-			{
-				isoSprite->SetFPS( 0 );
-				isoSprite->SetX( deltaPosX );
-				isoSprite->SetY( deltaPosY );
-			}
-			deltaPosX = isoSprite->GetX();
-			deltaPosY = isoSprite->GetY();
-
-			isoScene->Update( screen.ElapsedTime(), isoMap );
-			isoScene->Render();
-		}
-		else
-		{
-			GUIManager::instance().update();
-			GUIManager::instance().render();
-		}
+		GUIManager::instance().update();
+		GUIManager::instance().render();
 
 		// Refrescamos la pantalla
 		screen.Refresh();
@@ -175,25 +85,33 @@ void CreateGUI()
 
 	// Create start game button
 	Button* btnStart = new Button();
-	btnStart->init( "start", Vector2( 200, 100 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Comenzar partida" ); // Add disabled image
+	btnStart->init( "start", Vector2( window->getSize().x / 2, 100 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Comenzar partida" ); // Add disabled image
+	btnStart->setMidHandle();
+	btnStart->setScale( font->GetTextWidth( "Comenzar partida " ) / 144.0, btnStart->getScaleY() );
 	btnStart->setEventListener( &listener );
 	btnStart->setParent( window );
 
 	// Create settings button
 	Button* btnSetting = new Button();
-	btnSetting->init( "setting", Vector2( 200, 150 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Configuracion" ); // Add disabled image
+	btnSetting->init( "setting", Vector2( window->getSize().x / 2, 150 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Configuracion" ); // Add disabled image
+	btnSetting->setMidHandle();
+	btnSetting->setScale( font->GetTextWidth( "Configuracion " ) / 144.0, btnSetting->getScaleY() );
 	btnSetting->setEventListener( &listener );
 	btnSetting->setParent( window );
 
 	// Create credits button
 	Button* btnCredits = new Button();
-	btnCredits->init( "credits", Vector2( 200, 200 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Creditos" ); // Add disabled image
+	btnCredits->init( "credits", Vector2( window->getSize().x / 2, 200 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Creditos" ); // Add disabled image
+	btnCredits->setMidHandle();
+	btnCredits->setScale( font->GetTextWidth( "Creditos " ) / 144.0, btnCredits->getScaleY() );
 	btnCredits->setEventListener( &listener );
 	btnCredits->setParent( window );
 
 	// Create exit button
 	Button* btnExit = new Button();
-	btnExit->init( "exit", Vector2( 200, 250 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Salir" ); // Add disabled image
+	btnExit->init( "exit", Vector2( window->getSize().x / 2, 250 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Salir" ); // Add disabled image
+	btnExit->setMidHandle();
+	btnExit->setScale( font->GetTextWidth( "Salir " ) / 144.0, btnExit->getScaleY() );
 	btnExit->setEventListener( &listener );
 	btnExit->setParent( window );
 }

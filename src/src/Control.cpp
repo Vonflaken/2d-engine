@@ -2,6 +2,7 @@
 #include <list>
 #include <algorithm>
 #include "../include/guimanager.h"
+#include "../include/math.h"
 
 int Control::s_id = 1000;
 
@@ -28,12 +29,9 @@ Control::Control()
 //------------------------------------------------------------------------------------------------------------------------------------------
 bool Control::isPointInside( const Vector2& point ) const
 {
-	Vector2 pos = getAbsolutePosition();
-	if( point.x >= pos.x && point.x <= pos.x + m_size.x &&
-		point.y >= pos.y && point.y <= pos.y + m_size.y )
-	{
+	Vector2 pos = getAbsolutePosition() - ( getHandle() / 2.0f ) * Vector2( m_scalex, m_scaley );
+	if( PointInRect( point.x, point.y, pos.x, pos.y, m_size.x, m_size.y ) )
 		return true;
-	}
 
 	return false;
 }

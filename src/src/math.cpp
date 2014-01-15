@@ -120,7 +120,7 @@ bool ValueInRange(double value, double min, double max) {
 
 bool PointInRect(double x, double y, double rectx, double recty, double width, double height) {
 	if ( x >= rectx && x <= rectx + width && 
-		y <= recty && y >= recty - height )
+		y >= recty && y <= recty + height )
 		return true;
 	return false;
 }

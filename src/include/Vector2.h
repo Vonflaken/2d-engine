@@ -18,6 +18,21 @@ struct Vector2
 		return Vector2(x-v.x, y-v.y);	
 	}
 
+	const Vector2 operator *(const Vector2 &v) const
+	{
+		return Vector2( x * ( v.x + v.y ), y * ( v.x + v.y ) );
+	}
+
+	const Vector2 operator /(const Vector2 &v) const
+	{
+		return Vector2( x / ( v.x + v.y ), y / ( v.x + v.y ) );
+	}
+
+	const Vector2 operator /(const float f) const
+	{
+		return Vector2( x / f, y / f );
+	}
+
 	bool operator==(const Vector2 &v)
 	{	
 		return (x==v.x && y==v.y);

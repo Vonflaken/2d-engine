@@ -47,7 +47,7 @@ void IsometricMap::GenerateLayerSprites( IsometricScene* isoScene )
 			if ( tileId >= 0 )
 			{
 				IsometricSprite* sprite = isoScene->CreateSprite( GetImage() );
-				if ( tileId >= GetFirstColId() - 1 )
+				if ( tileId >= GetFirstColId() )
 					sprite->SetCollision( Sprite::COLLISION_RECT );
 				sprite->SetCurrentFrame( tileId );
 				sprite->SetPosition( x * GetTileWidth(), y * GetTileHeight() );

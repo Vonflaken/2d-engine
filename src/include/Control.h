@@ -6,6 +6,7 @@
 #include "IEventListener.h"
 #include <list>
 #include <string>
+#include "types.h"
 
 
 using namespace std;
@@ -23,6 +24,9 @@ public:
 	virtual void update() = 0;
 	virtual void render() = 0;
 	virtual void onInputEvent( const Message& message ) = 0;
+	virtual void setHandle( int32 handlex, int32 handley ) = 0;
+    virtual void setMidHandle() = 0;
+	virtual Vector2 getHandle() const = 0;
 	virtual void destroy() = 0;
 
 	void setEventListener( IEventListener* eventListener );

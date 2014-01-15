@@ -25,7 +25,10 @@ bool Button::init( const std::string name, const Vector2& position, const String
 	m_pushImage			= ResourceManager::Instance().LoadImage( pushImage );
 	m_disabledImage		= ResourceManager::Instance().LoadImage( disabledImage );
 	m_size				= Vector2( ( float )m_normalImage->GetWidth(), ( float )m_normalImage->GetHeight() );
-	m_label				= new Label( font, text, position + Vector2( 60.0, 55.0 ) );
+	m_label				= new Label( font, text, position );
+
+	if ( !m_normalImage || !m_pushImage )
+		return false; // Not valid
 
 	return true;
 }
@@ -37,6 +40,8 @@ void Button::update()
 {
 	if( !m_pointerIsOver )
 		m_pushed = false;
+
+	m_label->SetPosition( getAbsolutePosition() - ( getHandle() / 2.0f ) * Vector2( m_scalex, m_scaley ) );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -93,6 +98,51 @@ void Button::onInputEvent( const Message& message )
 			break;
 		}
 	}
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void Button::setHandle( int32 handlex, int32 handley )
+{
+	if ( m_normalImage )
+		m_normalImage->SetHandle( handlex, handley );
+	if ( m_pushImage )
+		m_pushImage->SetHandle( handlex, handley );
+	if ( m_disabledImage )
+		m_disabledImage->SetHandle( handlex, handley );
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void Button::setMidHandle()
+{
+	if ( m_normalImage )
+		m_normalImage->SetMidHandle();
+	if ( m_pushImage )
+		m_pushImage->SetMidHandle();
+	if ( m_disabledImage )
+		m_disabledImage->SetMidHandle();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+Vector2 Button::getHandle() const
+{
+	if ( m_normalImage )
+		return Vector2( (float)m_normalImage->GetHandleX(), (float)m_normalImage->GetHandleY() );
+
+	return Vector2( 0, 0 );
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void Button::setText( String& text )
+{
+	m_label->SetText( text );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------

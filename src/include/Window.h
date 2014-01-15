@@ -16,6 +16,9 @@ public:
 	void update();
 	void render();
 	void onInputEvent( const Message& message );
+	void setHandle( int32 handlex, int32 handley );
+	void setMidHandle();
+	Vector2 getHandle() const;
 	void destroy();
 
 protected:

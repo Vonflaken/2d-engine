@@ -14,9 +14,12 @@ Window::Window()
 bool Window::init( const std::string name, const Vector2& position, const std::string& backgroungImage )
 {
 	m_name					= name;
-	m_position			= position;
+	m_position				= position;
 	m_canvas				= new Image( backgroungImage.c_str() );
 	m_size					= Vector2( (float)m_canvas->GetWidth(), (float)m_canvas->GetHeight() );
+
+	if ( !m_canvas )
+		return false; // Not valid
 
 	return true;
 }
@@ -27,7 +30,7 @@ bool Window::init( const std::string name, const Vector2& position, const std::s
 bool Window::init( const std::string name )
 {
 	m_name					= name;
-	m_position			= Vector2( 0, 0 );
+	m_position				= Vector2( 0, 0 );
 	m_size					= GUIManager::instance().getScreenSize();
 
 	return true;
@@ -66,6 +69,35 @@ void Window::onInputEvent( const Message& message )
 		NOTIFY_LISTENERS( onClick( this ) );
 		break;
 	}	
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void Window::setHandle( int32 handlex, int32 handley )
+{
+	if ( m_canvas )
+		m_canvas->SetHandle( handlex, handley );
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void Window::setMidHandle()
+{
+	if ( m_canvas )
+		m_canvas->SetMidHandle();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+Vector2 Window::getHandle() const
+{
+	if ( m_canvas )
+		return Vector2( (float)m_canvas->GetHandleX(), (float)m_canvas->GetHandleY() );
+
+	return Vector2( 0, 0 );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
