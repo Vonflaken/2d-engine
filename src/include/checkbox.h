@@ -7,13 +7,17 @@
 
 class Font;
 
-class Checkbox : protected Button
+class Checkbox : public Button
 {
 public:
 	Checkbox( const std::string name, const Vector2& position, const String& uncheckedImage, const String& checkedImage, const String& disabledImage, Font* font, const String& text );
 
+	virtual void update();
 	virtual void Toogle();
 	virtual bool GetState() const { return checked; }
+
+private:
+	virtual void onInputEvent( const Message& message );
 
 private:
 	bool checked;

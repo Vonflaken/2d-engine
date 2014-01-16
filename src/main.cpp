@@ -5,7 +5,9 @@
 
 // Práctica de Interfaces
 
-void CreateGUI();
+void CreateMenu();
+void CreateStart();
+void CreateSetting();
 void MouseButtonCallback( int button, int action );
 void MousePosCallback( int x, int y );
 
@@ -16,11 +18,11 @@ class Listener : public IEventListener
 		std:string name = sender->getName();
 		if ( name == "start" )
 		{
-
+			CreateStart();
 		}
 		else if ( name == "setting" )
 		{
-
+			CreateSetting();
 		}
 		else if ( name == "credits" )
 		{
@@ -36,6 +38,13 @@ class Listener : public IEventListener
 Listener listener;
 
 Font* font;
+enum eScene
+{
+	MENU,
+	START,
+	SETTING
+};
+eScene renderScene = eScene::MENU;
 
 int main(int argc, char* argv[])
 {
@@ -49,13 +58,30 @@ int main(int argc, char* argv[])
 
 	font = resourceManager.LoadFont( "data/fonts/monospaced.png" );
 
-	CreateGUI();
+	CreateMenu();
 	glfwSetMouseButtonCallback( MouseButtonCallback );
 	glfwSetMousePosCallback( MousePosCallback );
 
 	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
 	{
 		renderer.Clear();
+
+		if ( renderScene == eScene::START )
+		{
+			if ( screen.KeyPressed( GLFW_KEY_SPACE ) )
+			{
+				// Return to menu
+				CreateMenu();
+			}
+		}
+		else if ( renderScene == eScene::SETTING )
+		{
+			if ( screen.KeyPressed( GLFW_KEY_SPACE ) )
+			{
+				// Return to menu
+				CreateMenu();
+			}
+		}
 
 		GUIManager::instance().update();
 		GUIManager::instance().render();
@@ -71,8 +97,10 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-void CreateGUI()
+void CreateMenu()
 {
+	renderScene = eScene::MENU;
+
 	// Init GUI
 	GUIManager& guiManager = GUIManager::instance();
 	guiManager.init();
@@ -114,6 +142,23 @@ void CreateGUI()
 	btnExit->setScale( font->GetTextWidth( "Salir " ) / 144.0, btnExit->getScaleY() );
 	btnExit->setEventListener( &listener );
 	btnExit->setParent( window );
+}
+
+void CreateStart()
+{
+	renderScene = eScene::START;
+	GUIManager::instance().init();
+}
+
+void CreateSetting()
+{
+	renderScene = eScene::SETTING;
+
+	GUIManager& guiManager = GUIManager::instance();
+	guiManager.init();
+
+	Checkbox* cbGore = new Checkbox( "gore", Vector2( 50.f, 50.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Modo gore" );
+	cbGore->setParent( guiManager.getRootControl() );
 }
 
 void MouseButtonCallback( int button, int action )

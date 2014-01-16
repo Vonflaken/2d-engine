@@ -29,7 +29,7 @@ Control::Control()
 //------------------------------------------------------------------------------------------------------------------------------------------
 bool Control::isPointInside( const Vector2& point ) const
 {
-	Vector2 pos = getAbsolutePosition() - ( getHandle() / 2.0f ) * Vector2( m_scalex, m_scaley );
+	Vector2 pos = getAbsolutePosition() - getHandle() * Vector2( m_scalex, m_scaley );
 	if( PointInRect( point.x, point.y, pos.x, pos.y, m_size.x, m_size.y ) )
 		return true;
 

@@ -6,8 +6,35 @@ Checkbox::Checkbox( const std::string name, const Vector2& position, const Strin
 	checked = false;
 }
 
+void Checkbox::update()
+{
+	if( !m_pointerIsOver && !checked )
+		m_pushed = false;
+
+	m_label->SetPosition( getAbsolutePosition() - getHandle() * Vector2( m_scalex, m_scaley ) );
+}
+
 void Checkbox::Toogle()
 {
 	checked = !checked;
 	m_pushed = checked;
+}
+
+void Checkbox::onInputEvent( const Message& message )
+{
+	if ( m_enabled )
+	{
+		switch( message.type )
+		{
+		case mtPointerButtonDown:
+			m_pushed = true;
+			break;
+
+		case mtPointerButtonUp:
+			if( m_pushed )
+				NOTIFY_LISTENERS( onClick( this ) );
+			Toogle();
+			break;
+		}
+	}
 }

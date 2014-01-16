@@ -41,7 +41,7 @@ void Button::update()
 	if( !m_pointerIsOver )
 		m_pushed = false;
 
-	m_label->SetPosition( getAbsolutePosition() - ( getHandle() / 2.0f ) * Vector2( m_scalex, m_scaley ) );
+	m_label->SetPosition( getAbsolutePosition() - getHandle() * Vector2( m_scalex, m_scaley ) );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------

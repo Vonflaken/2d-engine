@@ -20,17 +20,22 @@ struct Vector2
 
 	const Vector2 operator *(const Vector2 &v) const
 	{
-		return Vector2( x * ( v.x + v.y ), y * ( v.x + v.y ) );
+		return Vector2( x * v.x, y * v.y );
 	}
 
 	const Vector2 operator /(const Vector2 &v) const
 	{
-		return Vector2( x / ( v.x + v.y ), y / ( v.x + v.y ) );
+		return Vector2( x / v.x, y / v.y );
 	}
 
 	const Vector2 operator /(const float f) const
 	{
 		return Vector2( x / f, y / f );
+	}
+
+	const Vector2 operator *(const float f) const
+	{
+		return Vector2( x * f, y * f );
 	}
 
 	bool operator==(const Vector2 &v)
