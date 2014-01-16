@@ -107,7 +107,7 @@ void CreateMenu()
 
 	// Create window
 	Window* window = new Window();
-	window->init( "Main", Vector2( 50, 50 ), "data/gui/Window4.png" );
+	window->init( "main", Vector2( 50, 50 ), "data/gui/Window4.png" );
 	window->setEventListener( &listener );
 	guiManager.setRootControl( window );
 
@@ -159,6 +159,12 @@ void CreateSetting()
 
 	Checkbox* cbGore = new Checkbox( "gore", Vector2( 50.f, 50.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Modo gore" );
 	cbGore->setParent( guiManager.getRootControl() );
+
+	Checkbox* cbParticles = new Checkbox( "particles", Vector2( 50.f, 100.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Particulas" );
+	cbParticles->setParent( guiManager.getRootControl() );
+
+	Checkbox* cbAutoSave = new Checkbox( "autosave", Vector2( 50.f, 150.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Auto guardado" );
+	cbAutoSave->setParent( guiManager.getRootControl() );
 }
 
 void MouseButtonCallback( int button, int action )
