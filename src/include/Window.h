@@ -11,7 +11,7 @@ public:
 	Window();
 
 	bool Window::init( const std::string name );
-	bool init( const std::string name, const Vector2& position, const std::string& backgroungImage );
+	bool init( const std::string name, const Vector2& position, const String& backgroungImage );
 
 	void update();
 	void render();

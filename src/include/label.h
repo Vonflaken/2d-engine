@@ -1,27 +1,34 @@
 #ifndef UGINE_LABEL_H
 #define UGINE_LABEL_H
 
+#include "control.h"
 #include "string.h"
 #include "Vector2.h"
 
+
 class Font;
 
-class Label
+class Label : public Control
 {
 public:
-	Label( Font* font, const String& text, const Vector2& position ) : font( font ), text( text ), position( position ) {};
+	bool init( Font* font, const String& text, const Vector2& position );
 
-	virtual void Render() const;
+	virtual void update();
+	virtual void render();
+	virtual void onInputEvent( const Message& message );
+	virtual void setHandle( int32 handlex, int32 handley );
+    virtual void setMidHandle();
+	virtual Vector2 getHandle() const;
+	virtual void destroy();
 
 	virtual void SetText( const String& text ) { this->text = text; }
-	virtual void SetPosition( const Vector2& position ) { this->position = position; }
-	virtual void SetX( const float x ) { position.x = x; }
-	virtual void SetY( const float y ) { position.y = y; }
+
+	virtual String& GetText() { return text; }
+	virtual Font* GetFont() const { return font; }
 
 private:
 	Font* font;
 	String text;
-	Vector2 position;
 };
 
 #endif

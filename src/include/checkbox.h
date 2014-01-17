@@ -10,7 +10,9 @@ class Font;
 class Checkbox : public Button
 {
 public:
-	Checkbox( const std::string name, const Vector2& position, const String& uncheckedImage, const String& checkedImage, const String& disabledImage, Font* font, const String& text );
+	Checkbox();
+
+	bool init( const std::string name, const Vector2& position, const String& uncheckedImage, const String& checkedImage, const String& disabledImage, Font* font, const String& text );
 
 	virtual void update();
 	virtual void Toogle();

@@ -1,17 +1,24 @@
 #include "../include/checkbox.h"
 
-Checkbox::Checkbox( const std::string name, const Vector2& position, const String& uncheckedImage, const String& checkedImage, const String& disabledImage, Font* font, const String& text )
+Checkbox::Checkbox()
 {
-	this->init( name, position, uncheckedImage, checkedImage, disabledImage, font, text );
 	checked = false;
+}
+
+bool Checkbox::init( const std::string name, const Vector2& position, const String& uncheckedImage, const String& checkedImage, const String& disabledImage, Font* font, const String& text )
+{
+	Button::init( name, position, uncheckedImage, checkedImage, disabledImage, font, text );
+
+	if ( m_label )
+		m_label->setPosition( Vector2( m_normalImage->GetWidth() + 20.f, m_normalImage->GetHeight() / 2.f - m_label->GetFont()->GetSize() / 2.f ) ); // FIXME: Remove magic numbers: add vars offsetx and offsety
+
+	return true;
 }
 
 void Checkbox::update()
 {
 	if( !m_pointerIsOver && !checked )
 		m_pushed = false;
-
-	m_label->SetPosition( getAbsolutePosition() - getHandle() * Vector2( m_scalex, m_scaley ) );
 }
 
 void Checkbox::Toogle()

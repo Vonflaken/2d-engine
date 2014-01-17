@@ -8,8 +8,11 @@
 void CreateMenu();
 void CreateStart();
 void CreateSetting();
+void CreateCredits();
 void MouseButtonCallback( int button, int action );
 void MousePosCallback( int x, int y );
+
+void RequestExit();
 
 class Listener : public IEventListener
 {
@@ -26,11 +29,23 @@ class Listener : public IEventListener
 		}
 		else if ( name == "credits" )
 		{
-
+			CreateCredits();
 		}
 		else if ( name == "exit" )
 		{
-
+			RequestExit();
+		}
+		else if ( name == "return" )
+		{
+			CreateMenu();
+		}
+		else if ( name == "accept" )
+		{
+			exit( 0 );
+		}
+		else if ( name == "cancel" )
+		{
+			CreateMenu();
 		}
 	}
 };
@@ -42,7 +57,8 @@ enum eScene
 {
 	MENU,
 	START,
-	SETTING
+	SETTING,
+	CREDITS
 };
 eScene renderScene = eScene::MENU;
 
@@ -62,13 +78,13 @@ int main(int argc, char* argv[])
 	glfwSetMouseButtonCallback( MouseButtonCallback );
 	glfwSetMousePosCallback( MousePosCallback );
 
-	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_ESC ) )
+	while ( screen.IsOpened() && !screen.KeyPressed( GLFW_KEY_BACKSPACE ) )
 	{
 		renderer.Clear();
 
 		if ( renderScene == eScene::START )
 		{
-			if ( screen.KeyPressed( GLFW_KEY_SPACE ) )
+			if ( screen.KeyPressed( GLFW_KEY_ESC ) )
 			{
 				// Return to menu
 				CreateMenu();
@@ -76,7 +92,7 @@ int main(int argc, char* argv[])
 		}
 		else if ( renderScene == eScene::SETTING )
 		{
-			if ( screen.KeyPressed( GLFW_KEY_SPACE ) )
+			if ( screen.KeyPressed( GLFW_KEY_ESC ) )
 			{
 				// Return to menu
 				CreateMenu();
@@ -157,14 +173,51 @@ void CreateSetting()
 	GUIManager& guiManager = GUIManager::instance();
 	guiManager.init();
 
-	Checkbox* cbGore = new Checkbox( "gore", Vector2( 50.f, 50.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Modo gore" );
+	Checkbox* cbGore = new Checkbox();
+	cbGore->init( "gore", Vector2( 50.f, 50.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Modo gore" );
 	cbGore->setParent( guiManager.getRootControl() );
 
-	Checkbox* cbParticles = new Checkbox( "particles", Vector2( 50.f, 100.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Particulas" );
+	Checkbox* cbParticles = new Checkbox();
+	cbParticles->init( "particles", Vector2( 50.f, 150.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Particulas" );
 	cbParticles->setParent( guiManager.getRootControl() );
 
-	Checkbox* cbAutoSave = new Checkbox( "autosave", Vector2( 50.f, 150.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Auto guardado" );
+	Checkbox* cbAutoSave = new Checkbox();
+	cbAutoSave->init( "autosave", Vector2( 50.f, 250.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Auto guardado" );
 	cbAutoSave->setParent( guiManager.getRootControl() );
+}
+
+void CreateCredits()
+{
+	renderScene = eScene::CREDITS;
+
+	GUIManager& guiManager = GUIManager::instance();
+	guiManager.init();
+
+	Label* lbl01 = new Label();
+	lbl01->init( font, "Developed by", Vector2( Screen::Instance().GetWidth() / 2.f , 50.f ) );
+	lbl01->setPosition( Vector2( lbl01->getPosition().x - lbl01->GetFont()->GetTextWidth( lbl01->GetText() ) / 2.f, lbl01->getPosition().y ) ); // Get centered
+	lbl01->setParent( guiManager.getRootControl() );
+
+	Label* lbl02 = new Label();
+	lbl02->init( font, "Ignacio Pascual", Vector2( Screen::Instance().GetWidth() / 2.f , 85.f ) );
+	lbl02->setPosition( Vector2( lbl02->getPosition().x - lbl02->GetFont()->GetTextWidth( lbl02->GetText() ) / 2.f, lbl02->getPosition().y ) ); // Get centered
+	lbl02->setParent( guiManager.getRootControl() );
+
+	Label* lbl03 = new Label();
+	lbl03->init( font, "Build in", Vector2( Screen::Instance().GetWidth() / 2.f , 150.f ) );
+	lbl03->setPosition( Vector2( lbl03->getPosition().x - lbl03->GetFont()->GetTextWidth( lbl03->GetText() ) / 2.f, lbl03->getPosition().y ) ); // Get centered
+	lbl03->setParent( guiManager.getRootControl() );
+
+	Label* lbl04 = new Label();
+	lbl04->init( font, "C++", Vector2( Screen::Instance().GetWidth() / 2.f , 185.f ) );
+	lbl04->setPosition( Vector2( lbl04->getPosition().x - lbl04->GetFont()->GetTextWidth( lbl04->GetText() ) / 2.f, lbl04->getPosition().y ) ); // Get centered
+	lbl04->setParent( guiManager.getRootControl() );
+
+	Button* btnReturn = new Button();
+	btnReturn->init( "return", Vector2( Screen::Instance().GetWidth() / 2.f, 400.f ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Volver" );
+	btnReturn->setMidHandle();
+	btnReturn->setEventListener( &listener );
+	btnReturn->setParent( guiManager.getRootControl() );
 }
 
 void MouseButtonCallback( int button, int action )
@@ -181,4 +234,32 @@ void MouseButtonCallback( int button, int action )
 void MousePosCallback( int x, int y )
 {
 	GUIManager::instance().injectInput( MessagePointerMove( (float)x, (float)y ) ); 
+}
+
+void RequestExit()
+{
+	Window* popup = new Window();
+	popup->init( "popup_exit", Vector2( 0.f, 0.f ), "data/gui/Window4.png" );
+	popup->setScale( 0.5, 0.5 );
+	popup->setEventListener( &listener );
+	popup->setParent( GUIManager::instance().getRootControl() );
+	popup->setPosition( Vector2( GUIManager::instance().getRootControl()->getSize().x / 2.f - popup->getSize().x / 2.f, GUIManager::instance().getRootControl()->getSize().y / 2.f - popup->getSize().y / 2.f) );
+
+	Label* lbl01 = new Label();
+	lbl01->init( font, "Desea salir?", Vector2( 10.f, 5.f ) );
+	lbl01->setParent( popup );
+
+	Button* btnAccept = new Button();
+	btnAccept->init( "accept", Vector2( 0.f, 0.f ), "data/gui/Button_Normal.png", "Button_Push.png", "", font, "Si" );
+	btnAccept->setEventListener( &listener );
+	btnAccept->setParent( popup );
+	btnAccept->setPosition( Vector2( popup->getSize().x / 2.f - btnAccept->getSize().x / 2.f - 20.f, 90.f ) );
+
+	Button* btnCancel = new Button();
+	btnCancel->init( "cancel", Vector2( 0.f, 0.f ), "data/gui/Button_Normal.png", "Button_Push.png", "", font, "No" );
+	btnCancel->setEventListener( &listener );
+	btnCancel->setParent( popup );
+	btnCancel->setPosition( Vector2( popup->getSize().x / 2.f + btnCancel->getSize().x / 2.f + 20.f, 90.f ) );
+
+	popup->setVisible( true );
 }

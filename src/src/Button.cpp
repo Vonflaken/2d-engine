@@ -24,8 +24,10 @@ bool Button::init( const std::string name, const Vector2& position, const String
 	m_normalImage		= ResourceManager::Instance().LoadImage( normalImage );
 	m_pushImage			= ResourceManager::Instance().LoadImage( pushImage );
 	m_disabledImage		= ResourceManager::Instance().LoadImage( disabledImage );
-	m_size				= Vector2( ( float )m_normalImage->GetWidth(), ( float )m_normalImage->GetHeight() );
-	m_label				= new Label( font, text, position );
+	m_size				= Vector2( (float)m_normalImage->GetWidth(), (float)m_normalImage->GetHeight() );
+	m_label				= new Label();
+	m_label->init( font, text, Vector2( 0.f, 0.f ) );
+	m_label->setParent( this );
 
 	if ( !m_normalImage || !m_pushImage )
 		return false; // Not valid
@@ -40,8 +42,6 @@ void Button::update()
 {
 	if( !m_pointerIsOver )
 		m_pushed = false;
-
-	m_label->SetPosition( getAbsolutePosition() - getHandle() * Vector2( m_scalex, m_scaley ) );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -72,9 +72,6 @@ void Button::render()
 			else
 				Renderer::Instance().DrawImage( m_normalImage, pos.x, pos.y, 0, m_normalImage->GetWidth() * m_scalex, m_normalImage->GetHeight() * m_scaley ); // m_disabledImage fallback
 		}
-
-		// Render text
-		m_label->Render();
 	}
 }
 
@@ -150,6 +147,5 @@ void Button::setText( String& text )
 //------------------------------------------------------------------------------------------------------------------------------------------
 void Button::destroy()
 {
-	delete m_label;
-	m_label = NULL;
+
 }

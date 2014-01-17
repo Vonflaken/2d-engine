@@ -90,7 +90,7 @@ uint32 Font::GetTextHeight( const String & text ) const
 
 	for ( int32 i = 0; i < text.Length(); i++ )
 	{
-		otherHeight = ( uint32 ) glyphs[ ( unsigned char ) text[ i ] ].topLeft.y - ( uint32 ) glyphs[ ( unsigned char ) text[ i ] ].bottomRight.y;
+		otherHeight = ( uint32 ) glyphs[ ( unsigned char ) text[ i ] ].bottomRight.y - ( uint32 ) glyphs[ ( unsigned char ) text[ i ] ].topLeft.y;
 		if ( textHeight < otherHeight )
 		{
 			textHeight = otherHeight;
@@ -104,6 +104,7 @@ void Font::Render( const String & text, double x, double y ) const
 {
 	uint32 tmpTextWidth = 0;
 
+	Renderer::Instance().SetBlendMode( Renderer::ALPHA );
 	for ( int i = 0; i < text.Length(); i++ )
 	{
 		Renderer::Instance().DrawImage( this, ( i == 0 ) ? x : x + tmpTextWidth, y, ( unsigned char ) text[ i ] );

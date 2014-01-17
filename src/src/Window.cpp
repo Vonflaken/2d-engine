@@ -2,6 +2,7 @@
 #include "../include/guimanager.h"
 #include "../include/renderer.h"
 #include "../include/image.h"
+#include "../include/resourcemanager.h"
 
 Window::Window()
 {
@@ -11,11 +12,11 @@ Window::Window()
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-bool Window::init( const std::string name, const Vector2& position, const std::string& backgroungImage )
+bool Window::init( const std::string name, const Vector2& position, const String& backgroungImage )
 {
 	m_name					= name;
 	m_position				= position;
-	m_canvas				= new Image( backgroungImage.c_str() );
+	m_canvas				= ResourceManager::Instance().LoadImage( backgroungImage );
 	m_size					= Vector2( (float)m_canvas->GetWidth(), (float)m_canvas->GetHeight() );
 
 	if ( !m_canvas )
@@ -54,7 +55,7 @@ void Window::render()
 		Vector2 pos = getAbsolutePosition();
 
 		Renderer::Instance().SetBlendMode( Renderer::ALPHA );
-		Renderer::Instance().DrawImage( m_canvas, pos.x, pos.y );
+		Renderer::Instance().DrawImage( m_canvas, pos.x, pos.y, 0, m_canvas->GetWidth() * m_scalex, m_canvas->GetHeight() * m_scaley );
 	}
 }
 
@@ -105,9 +106,5 @@ Vector2 Window::getHandle() const
 //------------------------------------------------------------------------------------------------------------------------------------------
 void Window::destroy()
 {
-	if( m_canvas )
-	{
-		delete m_canvas;
-		m_canvas = NULL;
-	}
+
 }
