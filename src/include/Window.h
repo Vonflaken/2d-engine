@@ -10,8 +10,8 @@ class Window : public Control
 public:
 	Window();
 
-	bool Window::init( const std::string name );
-	bool init( const std::string name, const Vector2& position, const String& backgroungImage );
+	bool init( const String name, const int32 depth = 1 );
+	bool init( const String name, const Vector2& position, const String& backgroungImage, const int32 depth = 1 );
 
 	void update();
 	void render();

@@ -59,6 +59,4 @@ struct Vector2
 	float y;
 };
 
-
-
 #endif // _VECTOR2_H_

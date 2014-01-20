@@ -18,7 +18,7 @@ class Listener : public IEventListener
 {
 	void onClick( Control* sender )
 	{
-		std:string name = sender->getName();
+		String name = sender->getName();
 		if ( name == "start" )
 		{
 			CreateStart();
@@ -194,22 +194,22 @@ void CreateCredits()
 	guiManager.init();
 
 	Label* lbl01 = new Label();
-	lbl01->init( font, "Developed by", Vector2( Screen::Instance().GetWidth() / 2.f , 50.f ) );
+	lbl01->init( "lbl01", font, "Developed by", Vector2( Screen::Instance().GetWidth() / 2.f , 50.f ) );
 	lbl01->setPosition( Vector2( lbl01->getPosition().x - lbl01->GetFont()->GetTextWidth( lbl01->GetText() ) / 2.f, lbl01->getPosition().y ) ); // Get centered
 	lbl01->setParent( guiManager.getRootControl() );
 
 	Label* lbl02 = new Label();
-	lbl02->init( font, "Ignacio Pascual", Vector2( Screen::Instance().GetWidth() / 2.f , 85.f ) );
+	lbl02->init( "lbl02", font, "Ignacio Pascual", Vector2( Screen::Instance().GetWidth() / 2.f , 85.f ) );
 	lbl02->setPosition( Vector2( lbl02->getPosition().x - lbl02->GetFont()->GetTextWidth( lbl02->GetText() ) / 2.f, lbl02->getPosition().y ) ); // Get centered
 	lbl02->setParent( guiManager.getRootControl() );
 
 	Label* lbl03 = new Label();
-	lbl03->init( font, "Build in", Vector2( Screen::Instance().GetWidth() / 2.f , 150.f ) );
+	lbl03->init( "lbl03", font, "Build in", Vector2( Screen::Instance().GetWidth() / 2.f , 150.f ) );
 	lbl03->setPosition( Vector2( lbl03->getPosition().x - lbl03->GetFont()->GetTextWidth( lbl03->GetText() ) / 2.f, lbl03->getPosition().y ) ); // Get centered
 	lbl03->setParent( guiManager.getRootControl() );
 
 	Label* lbl04 = new Label();
-	lbl04->init( font, "C++", Vector2( Screen::Instance().GetWidth() / 2.f , 185.f ) );
+	lbl04->init( "lbl04", font, "C++", Vector2( Screen::Instance().GetWidth() / 2.f , 185.f ) );
 	lbl04->setPosition( Vector2( lbl04->getPosition().x - lbl04->GetFont()->GetTextWidth( lbl04->GetText() ) / 2.f, lbl04->getPosition().y ) ); // Get centered
 	lbl04->setParent( guiManager.getRootControl() );
 
@@ -239,24 +239,24 @@ void MousePosCallback( int x, int y )
 void RequestExit()
 {
 	Window* popup = new Window();
-	popup->init( "popup_exit", Vector2( 0.f, 0.f ), "data/gui/Window4.png" );
+	popup->init( "popup_exit", Vector2( 0.f, 0.f ), "data/gui/Window4.png", 0 );
 	popup->setScale( 0.5, 0.5 );
 	popup->setEventListener( &listener );
 	popup->setParent( GUIManager::instance().getRootControl() );
 	popup->setPosition( Vector2( GUIManager::instance().getRootControl()->getSize().x / 2.f - popup->getSize().x / 2.f, GUIManager::instance().getRootControl()->getSize().y / 2.f - popup->getSize().y / 2.f) );
 
 	Label* lbl01 = new Label();
-	lbl01->init( font, "Desea salir?", Vector2( 10.f, 5.f ) );
+	lbl01->init( "exit_ask", font, "Desea salir?", Vector2( 10.f, 5.f ) );
 	lbl01->setParent( popup );
 
 	Button* btnAccept = new Button();
-	btnAccept->init( "accept", Vector2( 0.f, 0.f ), "data/gui/Button_Normal.png", "Button_Push.png", "", font, "Si" );
+	btnAccept->init( "accept", Vector2( 0.f, 0.f ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Si", 0 );
 	btnAccept->setEventListener( &listener );
 	btnAccept->setParent( popup );
 	btnAccept->setPosition( Vector2( popup->getSize().x / 2.f - btnAccept->getSize().x / 2.f - 20.f, 90.f ) );
 
 	Button* btnCancel = new Button();
-	btnCancel->init( "cancel", Vector2( 0.f, 0.f ), "data/gui/Button_Normal.png", "Button_Push.png", "", font, "No" );
+	btnCancel->init( "cancel", Vector2( 0.f, 0.f ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "No", 0 );
 	btnCancel->setEventListener( &listener );
 	btnCancel->setParent( popup );
 	btnCancel->setPosition( Vector2( popup->getSize().x / 2.f + btnCancel->getSize().x / 2.f + 20.f, 90.f ) );

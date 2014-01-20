@@ -12,12 +12,13 @@ Window::Window()
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-bool Window::init( const std::string name, const Vector2& position, const String& backgroungImage )
+bool Window::init( const String name, const Vector2& position, const String& backgroungImage, const int32 depth )
 {
 	m_name					= name;
 	m_position				= position;
 	m_canvas				= ResourceManager::Instance().LoadImage( backgroungImage );
 	m_size					= Vector2( (float)m_canvas->GetWidth(), (float)m_canvas->GetHeight() );
+	m_depth					= depth;
 
 	if ( !m_canvas )
 		return false; // Not valid
@@ -28,11 +29,12 @@ bool Window::init( const std::string name, const Vector2& position, const String
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-bool Window::init( const std::string name )
+bool Window::init( const String name, const int32 depth )
 {
 	m_name					= name;
 	m_position				= Vector2( 0, 0 );
 	m_size					= GUIManager::instance().getScreenSize();
+	m_depth					= depth;
 
 	return true;
 }

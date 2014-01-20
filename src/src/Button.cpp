@@ -17,7 +17,7 @@ Button::Button()
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-bool Button::init( const std::string name, const Vector2& position, const String& normalImage, const String& pushImage, const String& disabledImage, Font* font, const String& text )
+bool Button::init( const String name, const Vector2& position, const String& normalImage, const String& pushImage, const String& disabledImage, Font* font, const String& text, const int32 depth )
 {
 	m_name				= name;
 	m_position			= position;
@@ -25,8 +25,9 @@ bool Button::init( const std::string name, const Vector2& position, const String
 	m_pushImage			= ResourceManager::Instance().LoadImage( pushImage );
 	m_disabledImage		= ResourceManager::Instance().LoadImage( disabledImage );
 	m_size				= Vector2( (float)m_normalImage->GetWidth(), (float)m_normalImage->GetHeight() );
+	m_depth				= depth;
 	m_label				= new Label();
-	m_label->init( font, text, Vector2( 0.f, 0.f ) );
+	m_label->init( "Label of " + name, font, text, Vector2( 0.f, 0.f ), depth );
 	m_label->setParent( this );
 
 	if ( !m_normalImage || !m_pushImage )

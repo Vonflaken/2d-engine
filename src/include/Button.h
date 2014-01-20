@@ -14,7 +14,7 @@ class Button : public Control
 public:
 	Button();
 
-	bool init( const std::string name, const Vector2& position, const String& normalImage, const String& pushImage, const String& disabledImage = "", Font* font = 0, const String& text = "" );
+	bool init( const String name, const Vector2& position, const String& normalImage, const String& pushImage, const String& disabledImage = "", Font* font = 0, const String& text = "", const int32 depth = 1 );
 
 	virtual void update();
 	virtual void render();

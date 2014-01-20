@@ -80,7 +80,7 @@ Vector2 GUIManager::getScreenSize() const
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-Control* GUIManager::findControlByName( const string& name )
+Control* GUIManager::findControlByName( const String& name )
 {
 	if( m_rootControl )
 		return m_rootControl->findControlByName( name );
@@ -91,7 +91,7 @@ Control* GUIManager::findControlByName( const string& name )
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-void GUIManager::deleteControl( const string& name )
+void GUIManager::deleteControl( const String& name )
 {
 	Control* control = findControlByName( name );
 	if( control )

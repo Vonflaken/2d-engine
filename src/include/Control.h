@@ -5,8 +5,8 @@
 #include "Vector2.h"
 #include "IEventListener.h"
 #include <list>
-#include <string>
 #include "types.h"
+#include "string.h"
 
 
 using namespace std;
@@ -31,7 +31,7 @@ public:
 
 	void setEventListener( IEventListener* eventListener );
 
-	string getName() const;
+	String getName() const;
 	virtual Vector2 getAbsolutePosition() const;
 
 	void setVisible( bool show );
@@ -54,6 +54,9 @@ public:
 
 	void setParent( Control* parent );
 
+	void setDepth( int32 depth );
+	int32 getDepth() const;
+
 	bool isPointInside( const Vector2& point ) const;
 
 
@@ -65,20 +68,23 @@ protected:
 
 	void addControl( Control* control );
 	void removeControl( Control* control );
-	Control* findControlByName( const string& name );
+	Control* findControlByName( const String& name );
+
+	static bool CompareControl( Control*& first, Control*& second );
 
 	// Variables
-	std::string											m_name;
+	String												m_name;
 	Vector2												m_position;
 	Vector2												m_size;
 	bool												m_enabled;
 	bool												m_visible;
 	bool												m_focus;
 	bool												m_pointerIsOver;
-	std::list<Control*>									m_children;
+	Array<Control*>										m_children; // FIXME: Cambiar tipo a array
 	Control*											m_parent;
 	list<IEventListener*>								m_eventListeners;
 	double												m_scalex, m_scaley;
+	int32												m_depth;
 
 	static int											s_id;
 };

@@ -11,7 +11,7 @@ class Font;
 class Label : public Control
 {
 public:
-	bool init( Font* font, const String& text, const Vector2& position );
+	bool init( const String name, Font* font, const String& text, const Vector2& position, const int32 depth = 1 );
 
 	virtual void update();
 	virtual void render();

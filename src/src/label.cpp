@@ -2,11 +2,13 @@
 #include "../include/renderer.h"
 
 
-bool Label::init( Font* font, const String& text, const Vector2& position )
+bool Label::init( const String name, Font* font, const String& text, const Vector2& position, const int32 depth )
 {
-	this->font = font;
-	this->text = text;
-	m_position = position;
+	m_name		= name;
+	this->font	= font;
+	this->text	= text;
+	m_position	= position;
+	m_depth		= depth;
 
 	return true;
 }

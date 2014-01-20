@@ -24,6 +24,7 @@ public:
     bool operator>(const String& other) const;
     String operator+(const String& other) const;
     String operator+(char c) const;
+	friend String operator+( const char* word01, const String& word02 );
     String& operator=(const String& other);
     String& operator=(char c);
     String& operator+=(const String& other);
@@ -464,6 +465,15 @@ inline Array<String> String::Split(const String& delim) const {
     arr.Add(str);
 
     return arr;
+}
+
+  // -------------------------------------------------------------------------------------- //
+ //										NOT-MEMBERS											 //
+// -------------------------------------------------------------------------------------- //
+
+inline String operator +( const char* word01, const String& word02 )
+{
+	return String( word01 ) + word02;
 }
 
 #endif // UGINE_STRING_H

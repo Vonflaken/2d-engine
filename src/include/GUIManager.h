@@ -2,7 +2,7 @@
 #include "message.h"
 #include "Vector2.h"
 #include <map>
-#include <string>
+#include "string.h"
 
 using namespace std;
 
@@ -25,8 +25,8 @@ public:
 
 	Vector2 getScreenSize() const;
 
-	Control* findControlByName( const string& name );
-	void deleteControl( const string& name );
+	Control* findControlByName( const String& name );
+	void deleteControl( const String& name );
 
 protected:
 

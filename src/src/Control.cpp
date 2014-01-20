@@ -54,11 +54,9 @@ void Control::processUpdate()
 {
 	update();
 
-	std::list<Control*>::iterator it = m_children.begin();
-	for( ; it != m_children.end(); ++it )
+	for ( int32 i = 0; i < m_children.Size(); i++ )
 	{
-		Control* control = *it;
-		control->processUpdate();
+		m_children[ i ]->processUpdate();
 	}
 }
 
@@ -69,11 +67,9 @@ void Control::processRender()
 {
 	render();
 
-	std::list<Control*>::iterator it = m_children.begin();
-	for( ; it != m_children.end(); ++it )
+	for ( int32 i = 0; i < m_children.Size(); i++ )
 	{
-		Control* control = *it;
-		control->processRender();
+		m_children[ i ]->processRender();
 	}
 }
 
@@ -86,11 +82,9 @@ void Control::processDestroy()
 	destroy();
 
 	// recorre hijos y los destruye
-	std::list<Control*>::iterator it = m_children.begin();
-	for( ; it != m_children.end(); ++it )
+	for ( int32 i = 0; i < m_children.Size(); i++ )
 	{
-		Control* control = *it;
-		control->processDestroy();
+		m_children[ i ]->processDestroy();
 	}
 
 	delete this;
@@ -103,68 +97,72 @@ bool Control::injectInput( const Message& message )
 {
 	bool messageHandled = false;
 
-	// primero vemos si es para algun hijo
-	std::list<Control*>::iterator it = m_children.begin();
-	for( ; it != m_children.end(); ++it )
+	if ( m_enabled && m_visible )
 	{
-		Control* control = *it;
-		messageHandled = control->injectInput( message );
-		if( messageHandled )
-			break;
-	}
-
-	// si no lo ha procesado ningún hijo puede ser para este control
-	if( !messageHandled )
-	{
-		switch( message.type )
+		m_children.Sort( Control::CompareControl );
+		// primero vemos si es para algun hijo
+		for ( int32 i = m_children.Size() - 1; i >= 0; i-- )
 		{
-		case mtPointerMove:
-			{
-				const MessagePointerMove* messagePointer = static_cast<const MessagePointerMove*>(&message);
-				if( isPointInside( Vector2( messagePointer->x, messagePointer->y) ))
-				{
-					m_pointerIsOver = true;
-					onInputEvent( message );
-					messageHandled = true;
-				}
-				else
-				{
-					m_pointerIsOver = false;
-				}
-			}
-			break;
+			Control* control = m_children[ i ];
+			if ( control->isEnabled() && control->isVisible() )
+				messageHandled = control->injectInput( message );
+			if( messageHandled )
+				break;
+		}
 
-		case mtPointerButtonDown:
+		// si no lo ha procesado ningún hijo puede ser para este control
+		if( !messageHandled )
+		{
+			switch( message.type )
 			{
-				const MessagePointerButtonDown* messagePointer = static_cast<const MessagePointerButtonDown*>(&message);
-				if( isPointInside( Vector2( messagePointer->x, messagePointer->y) ))
+			case mtPointerMove:
 				{
-					m_pointerIsOver = true;
-					onInputEvent( message );
-					messageHandled = true;
+					const MessagePointerMove* messagePointer = static_cast<const MessagePointerMove*>(&message);
+					if( isPointInside( Vector2( messagePointer->x, messagePointer->y) ))
+					{
+						m_pointerIsOver = true;
+						onInputEvent( message );
+						messageHandled = true;
+					}
+					else
+					{
+						m_pointerIsOver = false;
+					}
 				}
-				else
-				{
-					m_pointerIsOver = false;
-				}
-			}
-			break;
+				break;
 
-		case mtPointerButtonUp:
-			{
-				const MessagePointerButtonUp* messagePointer = static_cast<const MessagePointerButtonUp*>(&message);
-				if( isPointInside( Vector2( messagePointer->x, messagePointer->y) ))
+			case mtPointerButtonDown:
 				{
-					m_pointerIsOver = true;
-					onInputEvent( message );
-					messageHandled = true;
+					const MessagePointerButtonDown* messagePointer = static_cast<const MessagePointerButtonDown*>(&message);
+					if( isPointInside( Vector2( messagePointer->x, messagePointer->y) ))
+					{
+						m_pointerIsOver = true;
+						onInputEvent( message );
+						messageHandled = true;
+					}
+					else
+					{
+						m_pointerIsOver = false;
+					}
 				}
-				else
+				break;
+
+			case mtPointerButtonUp:
 				{
-					m_pointerIsOver = false;
+					const MessagePointerButtonUp* messagePointer = static_cast<const MessagePointerButtonUp*>(&message);
+					if( isPointInside( Vector2( messagePointer->x, messagePointer->y) ))
+					{
+						m_pointerIsOver = true;
+						onInputEvent( message );
+						messageHandled = true;
+					}
+					else
+					{
+						m_pointerIsOver = false;
+					}
 				}
+				break;
 			}
-			break;
 		}
 	}
 
@@ -191,7 +189,7 @@ void Control::setEventListener( IEventListener* eventListener )
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-string Control::getName() const
+String Control::getName() const
 { 
 	return m_name; 
 }
@@ -299,9 +297,22 @@ bool Control::hasFocus() const
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
+void Control::setDepth( int32 depth )
+{
+	m_depth = depth;
+}
+
+int32 Control::getDepth() const
+{
+	return m_depth;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
 void Control::addControl( Control* control )
 { 
-	m_children.push_back( control ); 
+	m_children.Add( control ); 
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -309,25 +320,31 @@ void Control::addControl( Control* control )
 //------------------------------------------------------------------------------------------------------------------------------------------
 void Control::removeControl( Control* control )
 {
-	m_children.remove( control );
+	m_children.Remove( control );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-Control* Control::findControlByName( const string& name )
+Control* Control::findControlByName( const String& name )
 {
 	if( m_name == name )
 		return this;
 
-	std::list<Control*>::iterator it = m_children.begin();
-	for( ; it != m_children.end(); ++it )
+	for ( int32 i = 0; i < m_children.Size(); i++ )
 	{
-		Control* control = *it;
-		Control* foundControl = control->findControlByName( name );
+		Control* foundControl = m_children[ i ]->findControlByName( name );
 		if( foundControl )
 			return foundControl;
 	}
 
 	return NULL;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+bool Control::CompareControl( Control*& first, Control*& second )
+{
+	return first->getDepth() >= second->getDepth();
 }

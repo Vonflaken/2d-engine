@@ -5,9 +5,9 @@ Checkbox::Checkbox()
 	checked = false;
 }
 
-bool Checkbox::init( const std::string name, const Vector2& position, const String& uncheckedImage, const String& checkedImage, const String& disabledImage, Font* font, const String& text )
+bool Checkbox::init( const String name, const Vector2& position, const String& uncheckedImage, const String& checkedImage, const String& disabledImage, Font* font, const String& text, const int32 depth )
 {
-	Button::init( name, position, uncheckedImage, checkedImage, disabledImage, font, text );
+	Button::init( name, position, uncheckedImage, checkedImage, disabledImage, font, text, depth );
 
 	if ( m_label )
 		m_label->setPosition( Vector2( m_normalImage->GetWidth() + 20.f, m_normalImage->GetHeight() / 2.f - m_label->GetFont()->GetSize() / 2.f ) ); // FIXME: Remove magic numbers: add vars offsetx and offsety

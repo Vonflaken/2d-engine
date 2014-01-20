@@ -12,7 +12,7 @@ class Checkbox : public Button
 public:
 	Checkbox();
 
-	bool init( const std::string name, const Vector2& position, const String& uncheckedImage, const String& checkedImage, const String& disabledImage, Font* font, const String& text );
+	bool init( const String name, const Vector2& position, const String& uncheckedImage, const String& checkedImage, const String& disabledImage, Font* font, const String& text, const int32 depth = 1 );
 
 	virtual void update();
 	virtual void Toogle();
