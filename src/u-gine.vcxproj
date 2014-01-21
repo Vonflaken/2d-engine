@@ -15,6 +15,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\audiobuffer.cpp" />
     <ClCompile Include="src\audioengine.cpp" />
+    <ClCompile Include="src\audiosource.cpp" />
     <ClCompile Include="src\bone.cpp" />
     <ClCompile Include="src\button.cpp" />
     <ClCompile Include="src\camera.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="src\isometricscene.cpp" />
     <ClCompile Include="src\isometricsprite.cpp" />
     <ClCompile Include="src\label.cpp" />
+    <ClCompile Include="src\listener.cpp" />
     <ClCompile Include="src\map.cpp" />
     <ClCompile Include="src\math.cpp" />
     <ClCompile Include="src\parallaxscene.cpp" />
@@ -51,6 +53,7 @@
     <ClInclude Include="include\array.h" />
     <ClInclude Include="include\audiobuffer.h" />
     <ClInclude Include="include\audioengine.h" />
+    <ClInclude Include="include\audiosource.h" />
     <ClInclude Include="include\bone.h" />
     <ClInclude Include="include\bonedata.h" />
     <ClInclude Include="include\button.h" />
@@ -76,6 +79,7 @@
     <ClInclude Include="include\isometricscene.h" />
     <ClInclude Include="include\isometricsprite.h" />
     <ClInclude Include="include\label.h" />
+    <ClInclude Include="include\listener.h" />
     <ClInclude Include="include\map.h" />
     <ClInclude Include="include\mapscene.h" />
     <ClInclude Include="include\math.h" />

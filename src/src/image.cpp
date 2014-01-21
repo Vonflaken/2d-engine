@@ -4,7 +4,6 @@
 #include <math.h>
 #include <stdlib.h>
 
-// TAREA: Declarar funciones de stb_image.c
 
 Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 	this->filename = filename;
@@ -21,7 +20,6 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 
 	if ( filename != "" )
 	{
-		// TAREA: Cargar el buffer de la imagen
 		buffer = stbi_load( filename.ToCString(), &width, &height, &colorComp, colorComp );
 
 		bool isPOTWidth = IsPOT( ( double ) width );
@@ -67,8 +65,8 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 		}
 		// Generate texture
 		// FIXME: Rehacer sin el condicional -> aplicando el mismo buffer
-		if ( buffer ) {
-			// TAREA: Generar la textura de OpenGL
+		if ( buffer )
+		{
 			// Set POT texture
 			glGenTextures( 1, &gltex );
 			glBindTexture( GL_TEXTURE_2D, gltex );
