@@ -32,7 +32,7 @@ public:
     double ReadDouble();
     String ReadCString();
     String ReadCLine();
-    unsigned int ReadBytes(void* buffer, unsigned int count) { return fread(buffer, 1, count, handle); }
+    unsigned int ReadBytes(void* buffer, unsigned int count) { return fread(buffer, 1, count, handle); } // Return the bytes that It´s able to read
 
     void WriteInt8(signed char v) { fwrite(&v, 1, sizeof(char), handle); }
     void WriteInt16(signed short v) { fwrite(&v, 1, sizeof(short), handle); }

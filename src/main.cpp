@@ -64,6 +64,7 @@ eScene renderScene = eScene::MENU;
 
 int main(int argc, char* argv[])
 {
+	AudioBuffer* ab = new AudioBuffer( "data/sounds/music.wav" );
 	Screen & screen = Screen::Instance();
 	const Renderer & renderer = Renderer::Instance();
 	ResourceManager & resourceManager = ResourceManager::Instance();

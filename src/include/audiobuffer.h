@@ -1,3 +1,6 @@
+#ifndef UGINE_AUDIOBUFFER_H
+#define UGINE_AUDIOBUFFER_H
+
 #include "string.h"
 
 
@@ -13,3 +16,5 @@ public:
 private:
 	unsigned int alBuffer;
 };
+
+#endif

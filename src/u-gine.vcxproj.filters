@@ -113,6 +113,12 @@
     <ClCompile Include="src\audiobuffer.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\audiosource.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\listener.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\array.h">
@@ -278,6 +284,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\dragablecontrol.h">
+    <ClInclude Include="include\audiosource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\listener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
