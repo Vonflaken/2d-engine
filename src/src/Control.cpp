@@ -99,9 +99,9 @@ bool Control::injectInput( const Message& message )
 
 	if ( m_enabled && m_visible )
 	{
-		m_children.Sort( Control::CompareControl );
+		m_children.Sort( Control::CompareControl ); // Order by depth in DESC way
 		// primero vemos si es para algun hijo
-		for ( int32 i = m_children.Size() - 1; i >= 0; i-- )
+		for ( int32 i = m_children.Size() - 1; i >= 0; i-- ) // Checking first controls with lower depth
 		{
 			Control* control = m_children[ i ];
 			if ( control->isEnabled() && control->isVisible() )

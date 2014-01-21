@@ -62,6 +62,7 @@
     <ClInclude Include="include\collisionpixeldata.h" />
     <ClInclude Include="include\control.h" />
     <ClInclude Include="include\dictionary.h" />
+    <ClInclude Include="include\dragablecontrol.h" />
     <ClInclude Include="include\emitter.h" />
     <ClInclude Include="include\file.h" />
     <ClInclude Include="include\font.h" />
@@ -91,6 +92,7 @@
     <ClInclude Include="include\singleton.h" />
     <ClInclude Include="include\skeletondata.h" />
     <ClInclude Include="include\skeletonsprite.h" />
+    <ClInclude Include="include\slider.h" />
     <ClInclude Include="include\sprite.h" />
     <ClInclude Include="include\string.h" />
     <ClInclude Include="include\types.h" />
