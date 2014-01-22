@@ -70,6 +70,8 @@ bool AudioSource::IsPlaying() const
 			return false;
 		case AL_PAUSED:
 			return false;
+		default:
+			return false;
 	}
 }
 

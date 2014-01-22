@@ -14,6 +14,8 @@ Window::Window()
 //------------------------------------------------------------------------------------------------------------------------------------------
 bool Window::init( const String name, const Vector2& position, const String& backgroungImage, const int32 depth )
 {
+	DragableControl::init( ResourceManager::Instance().LoadImage( backgroungImage ) );
+
 	m_name					= name;
 	m_position				= position;
 	m_canvas				= ResourceManager::Instance().LoadImage( backgroungImage );
@@ -44,7 +46,8 @@ bool Window::init( const String name, const int32 depth )
 //------------------------------------------------------------------------------------------------------------------------------------------
 void Window::update()
 {
-
+	if ( !m_pointerIsOver )
+		m_dragging = false;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
@@ -66,12 +69,17 @@ void Window::render()
 //------------------------------------------------------------------------------------------------------------------------------------------
 void Window::onInputEvent( const Message& message )
 {
-	switch( message.type )
+	if ( m_enabled )
 	{
-	case mtPointerButtonUp:
-		NOTIFY_LISTENERS( onClick( this ) );
-		break;
-	}	
+		DragableControl::onInputEvent( message );
+
+		switch( message.type )
+		{
+			case mtPointerButtonUp:
+				NOTIFY_LISTENERS( onClick( this ) );
+				break;
+		}
+	}
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------

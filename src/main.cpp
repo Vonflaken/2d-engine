@@ -64,12 +64,20 @@ eScene renderScene = eScene::MENU;
 
 int main(int argc, char* argv[])
 {
-	AudioBuffer* ab = new AudioBuffer( "data/sounds/music.wav" );
 	Screen & screen = Screen::Instance();
 	const Renderer & renderer = Renderer::Instance();
 	ResourceManager & resourceManager = ResourceManager::Instance();
 
 	screen.Open(800, 600, false);
+
+	// Práctica_1 de Programación de Audio
+
+	AudioBuffer* audiobuffer = new AudioBuffer( "data/sounds/music.wav" );
+	AudioSource* audiosource = 0;
+	if ( audiobuffer->IsValid() )
+		audiosource = new AudioSource( audiobuffer );
+	if ( audiosource )
+		audiosource->Play();
 
 	// Práctica de Interfaces
 
@@ -126,6 +134,7 @@ void CreateMenu()
 	Window* window = new Window();
 	window->init( "main", Vector2( 50, 50 ), "data/gui/Window4.png" );
 	window->setEventListener( &listener );
+	window->setDragable( true );
 	guiManager.setRootControl( window );
 
 	// Create start game button
@@ -221,22 +230,6 @@ void CreateCredits()
 	btnReturn->setParent( guiManager.getRootControl() );
 }
 
-void MouseButtonCallback( int button, int action )
-{
-	int x, y;
-	glfwGetMousePos( &x, &y );
-
-	if( action == GLFW_PRESS )
-		GUIManager::instance().injectInput( MessagePointerButtonDown( button, (float)x, (float)y ) );
-	else if( action == GLFW_RELEASE )
-		GUIManager::instance().injectInput( MessagePointerButtonUp( button, (float)x, (float)y ) );
-}
-
-void MousePosCallback( int x, int y )
-{
-	GUIManager::instance().injectInput( MessagePointerMove( (float)x, (float)y ) ); 
-}
-
 void RequestExit()
 {
 	Window* popup = new Window();
@@ -263,4 +256,20 @@ void RequestExit()
 	btnCancel->setPosition( Vector2( popup->getSize().x / 2.f + btnCancel->getSize().x / 2.f + 20.f, 90.f ) );
 
 	popup->setVisible( true );
+}
+
+void MouseButtonCallback( int button, int action )
+{
+	int x, y;
+	glfwGetMousePos( &x, &y );
+
+	if( action == GLFW_PRESS )
+		GUIManager::instance().injectInput( MessagePointerButtonDown( button, (float)x, (float)y ) );
+	else if( action == GLFW_RELEASE )
+		GUIManager::instance().injectInput( MessagePointerButtonUp( button, (float)x, (float)y ) );
+}
+
+void MousePosCallback( int x, int y )
+{
+	GUIManager::instance().injectInput( MessagePointerMove( (float)x, (float)y ) );
 }

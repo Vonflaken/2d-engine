@@ -23,6 +23,7 @@
     <ClCompile Include="src\collisionmanager.cpp" />
     <ClCompile Include="src\collisionpixeldata.cpp" />
     <ClCompile Include="src\control.cpp" />
+    <ClCompile Include="src\dragablecontrol.cpp" />
     <ClCompile Include="src\emitter.cpp" />
     <ClCompile Include="src\font.cpp" />
     <ClCompile Include="src\guimanager.cpp" />
@@ -32,7 +33,7 @@
     <ClCompile Include="src\isometricscene.cpp" />
     <ClCompile Include="src\isometricsprite.cpp" />
     <ClCompile Include="src\label.cpp" />
-    <ClCompile Include="src\listener.cpp" />
+    <ClCompile Include="src\audiolistener.cpp" />
     <ClCompile Include="src\map.cpp" />
     <ClCompile Include="src\math.cpp" />
     <ClCompile Include="src\parallaxscene.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="include\array.h" />
     <ClInclude Include="include\audiobuffer.h" />
     <ClInclude Include="include\audioengine.h" />
+    <ClInclude Include="include\audiolistener.h" />
     <ClInclude Include="include\audiosource.h" />
     <ClInclude Include="include\bone.h" />
     <ClInclude Include="include\bonedata.h" />
@@ -80,7 +82,6 @@
     <ClInclude Include="include\isometricscene.h" />
     <ClInclude Include="include\isometricsprite.h" />
     <ClInclude Include="include\label.h" />
-    <ClInclude Include="include\listener.h" />
     <ClInclude Include="include\map.h" />
     <ClInclude Include="include\mapscene.h" />
     <ClInclude Include="include\math.h" />

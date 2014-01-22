@@ -30,10 +30,10 @@ AudioBuffer::AudioBuffer( const String& filename )
 	int16 blockalign				= wavfile.ReadInt16();
 	int16 bitspersample				= wavfile.ReadInt16();
 	
-	if ( audioformat != 16 && audioformat != 1 )
+	int16 extraparamssize		= wavfile.ReadInt16();
+	if ( audioformat != 1 ) // Add "&& audioformat != 16" ?
 	{
 		// ExtraParams exists
-		int16 extraparamssize			= wavfile.ReadInt16();
 		wavfile.Seek( wavfile.Pos() + extraparamssize );
 	}
 	
@@ -41,12 +41,15 @@ AudioBuffer::AudioBuffer( const String& filename )
 	// Search "data" block
 	while ( String( validator ) != "data" )
 	{
-		if ( wavfile.ReadBytes( validator, 4 ) < 4 )
+		int32 blocksize = wavfile.ReadInt();
+
+		wavfile.Seek( wavfile.Pos() + blocksize );
+		if ( wavfile.ReadBytes( validator, blocksize ) == 0 )
 			return;
 	}
 
-	int32 datasize = wavfile.ReadInt();
-	char* databuffer = (char*)malloc( datasize );
+	int32 datasize					= wavfile.ReadInt();
+	char* databuffer				= (char*)malloc( datasize );
 	wavfile.ReadBytes( databuffer, datasize );
 
 	alGenBuffers( 1, &alBuffer );

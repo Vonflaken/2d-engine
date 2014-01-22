@@ -1,7 +1,7 @@
 #ifndef _BUTTON_H_
 #define _BUTTON_H_
 
-#include "control.h"
+#include "dragablecontrol.h"
 #include "Vector2.h"
 #include "label.h"
 #include "font.h"
@@ -9,7 +9,7 @@
 
 class Image;
 
-class Button : public Control
+class Button : public DragableControl
 {
 public:
 	Button();

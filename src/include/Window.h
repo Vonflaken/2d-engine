@@ -1,11 +1,11 @@
 #ifndef _WINDOW_H_
 #define _WINDOW_H_
 
-#include "control.h"
+#include "dragablecontrol.h"
 #include "image.h"
 #include "Vector2.h"
 
-class Window : public Control
+class Window : public DragableControl
 {
 public:
 	Window();
