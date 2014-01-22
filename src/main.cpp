@@ -72,12 +72,18 @@ int main(int argc, char* argv[])
 
 	// Práctica_1 de Programación de Audio
 
+	AudioEngine::Instance().Init();
 	AudioBuffer* audiobuffer = new AudioBuffer( "data/sounds/music.wav" );
 	AudioSource* audiosource = 0;
 	if ( audiobuffer->IsValid() )
 		audiosource = new AudioSource( audiobuffer );
 	if ( audiosource )
 		audiosource->Play();
+
+	float shift = 1.f;
+	float soundShiftStep = 0.075;
+	float pitch = 1.f;
+	float stepPitch = 0.075;
 
 	// Práctica de Interfaces
 
@@ -91,6 +97,35 @@ int main(int argc, char* argv[])
 	{
 		renderer.Clear();
 
+		// -----------------------------------
+
+		if ( screen.KeyPressed( GLFW_KEY_RIGHT ) )
+		{
+			// Right
+			shift += soundShiftStep;
+		}
+		if ( screen.KeyPressed( GLFW_KEY_LEFT ) )
+		{
+			// Left
+			shift -= soundShiftStep;
+		}
+		if ( screen.KeyPressed( GLFW_KEY_UP ) )
+		{
+			// Up
+			pitch += stepPitch;
+		}
+		if ( screen.KeyPressed( GLFW_KEY_DOWN ) )
+		{
+			// Down
+			pitch -= stepPitch;
+		}
+
+		audiosource->SetPitch( pitch );
+		audiosource->SetPosition( shift, 0, 0 );
+
+		// -----------------------------------
+
+		/*
 		if ( renderScene == eScene::START )
 		{
 			if ( screen.KeyPressed( GLFW_KEY_ESC ) )
@@ -110,7 +145,7 @@ int main(int argc, char* argv[])
 
 		GUIManager::instance().update();
 		GUIManager::instance().render();
-
+		*/
 		// Refrescamos la pantalla
 		screen.Refresh();
 	}
@@ -118,6 +153,7 @@ int main(int argc, char* argv[])
 	// Liberamos recursos
 	resourceManager.FreeResources();
 	GUIManager::instance().end();
+	AudioEngine::Instance().End();
 
 	return 0;
 }

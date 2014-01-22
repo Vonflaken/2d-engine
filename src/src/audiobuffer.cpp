@@ -30,10 +30,10 @@ AudioBuffer::AudioBuffer( const String& filename )
 	int16 blockalign				= wavfile.ReadInt16();
 	int16 bitspersample				= wavfile.ReadInt16();
 	
-	int16 extraparamssize		= wavfile.ReadInt16();
-	if ( audioformat != 1 ) // Add "&& audioformat != 16" ?
+	if ( audioformat != 1 )
 	{
 		// ExtraParams exists
+		int16 extraparamssize		= wavfile.ReadInt16();
 		wavfile.Seek( wavfile.Pos() + extraparamssize );
 	}
 	
