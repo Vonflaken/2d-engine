@@ -55,7 +55,8 @@ AudioBuffer::AudioBuffer( const String& filename )
 	alGenBuffers( 1, &alBuffer );
 	alBufferData( alBuffer, channels != 1 ? AL_FORMAT_STEREO16 : AL_FORMAT_MONO16, databuffer, datasize, samplerate );
 
-	delete databuffer;
+	free( databuffer );
+	databuffer = 0;
 }
 
 AudioBuffer::~AudioBuffer()

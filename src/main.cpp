@@ -120,8 +120,11 @@ int main(int argc, char* argv[])
 			pitch -= stepPitch;
 		}
 
-		audiosource->SetPitch( pitch );
-		audiosource->SetPosition( shift, 0, 0 );
+		if ( audiosource )
+		{
+			audiosource->SetPitch( pitch );
+			audiosource->SetPosition( shift, 0, 0 );
+		}
 
 		// -----------------------------------
 
