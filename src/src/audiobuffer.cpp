@@ -10,7 +10,7 @@ AudioBuffer::AudioBuffer( const String& filename )
 	File wavfile( filename, 0 );
 
 	char validator[ 5 ];
-	validator[ 4 ] = 0;
+	validator[ 4 ] = '\0';
 	// Get useful and validable data from WAV file
 	wavfile.ReadBytes( validator, 4 );
 	if ( String( validator ) != "RIFF" )
@@ -30,7 +30,7 @@ AudioBuffer::AudioBuffer( const String& filename )
 	int16 blockalign				= wavfile.ReadInt16();
 	int16 bitspersample				= wavfile.ReadInt16();
 	
-	if ( audioformat != 1 )
+	if ( audioformat != 1 && audioformat != 16 )
 	{
 		// ExtraParams exists
 		int16 extraparamssize		= wavfile.ReadInt16();
@@ -49,7 +49,8 @@ AudioBuffer::AudioBuffer( const String& filename )
 	}
 
 	int32 datasize					= wavfile.ReadInt();
-	char* databuffer				= (char*)malloc( datasize );
+	char* databuffer				= (char*)malloc( datasize + 1 );
+	databuffer[ datasize ] = '\0';
 	wavfile.ReadBytes( databuffer, datasize );
 
 	alGenBuffers( 1, &alBuffer );

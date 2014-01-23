@@ -77,13 +77,13 @@ int main(int argc, char* argv[])
 	AudioSource* audiosource = 0;
 	if ( audiobuffer->IsValid() )
 		audiosource = new AudioSource( audiobuffer );
-	if ( audiosource )
-		audiosource->Play();
+	/*if ( audiosource )
+		audiosource->Play();*/
 
 	float shift = 1.f;
-	float soundShiftStep = 0.075;
+	float soundShiftStep = 0.0075;
 	float pitch = 1.f;
-	float stepPitch = 0.075;
+	float stepPitch = 0.0075;
 
 	// Práctica de Interfaces
 
@@ -128,7 +128,7 @@ int main(int argc, char* argv[])
 
 		// -----------------------------------
 
-		/*
+
 		if ( renderScene == eScene::START )
 		{
 			if ( screen.KeyPressed( GLFW_KEY_ESC ) )
@@ -148,7 +148,7 @@ int main(int argc, char* argv[])
 
 		GUIManager::instance().update();
 		GUIManager::instance().render();
-		*/
+
 		// Refrescamos la pantalla
 		screen.Refresh();
 	}
@@ -174,6 +174,7 @@ void CreateMenu()
 	window->init( "main", Vector2( 50, 50 ), "data/gui/Window4.png" );
 	window->setEventListener( &listener );
 	window->setDragable( true );
+	window->setEnabledAxes( true, false );
 	guiManager.setRootControl( window );
 
 	// Create start game button

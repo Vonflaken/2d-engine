@@ -1,24 +1,18 @@
 #include "../include/dragablecontrol.h"
 #include "../include/screen.h"
+#include "../include/image.h"
 
 DragableControl::DragableControl()
 {
 	m_dragable				= false;
 	m_dragging				= false;
-	m_dragableSurface		= 0;
-}
-
-bool DragableControl::init( Image* dragableSurface, bool dragable )
-{
-	m_dragableSurface		= dragableSurface;
-	m_dragable				= dragable;
-
-	return true;
+	m_enabledX				= true;
+	m_enabledY				= true;
 }
 
 void DragableControl::onInputEvent( const Message& message )
 {
-	if ( m_dragable && m_dragableSurface )
+	if ( m_dragable )
 	{
 		switch( message.type )
 		{
@@ -31,10 +25,14 @@ void DragableControl::onInputEvent( const Message& message )
 			case mtPointerMove:
 				if ( m_dragging )
 				{
-					float newPosX, newPosY;
-					newPosX = Screen::Instance().GetMouseX() - getAbsolutePosition().x;
-					newPosY = Screen::Instance().GetMouseY() - getAbsolutePosition().y;
-					setPosition( Vector2( Screen::Instance().GetMouseX() - 300.f, Screen::Instance().GetMouseY() - 30.f  ) );
+					Vector2 pos( getAbsolutePosition() );
+
+					if ( m_enabledX )
+						pos.x = (float)Screen::Instance().GetMouseX() - m_size.x / 2.f;
+					if ( m_enabledY )
+						pos.y = (float)Screen::Instance().GetMouseY() - m_size.y / 3.f;
+
+					setPosition( pos );
 				}
 		}
 	}
@@ -43,4 +41,10 @@ void DragableControl::onInputEvent( const Message& message )
 void DragableControl::setDragable( bool dragable )
 {
 	m_dragable = dragable;
+}
+
+void DragableControl::setEnabledAxes( bool x, bool y )
+{
+	m_enabledX = x;
+	m_enabledY = y;
 }

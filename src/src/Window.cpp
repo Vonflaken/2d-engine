@@ -14,8 +14,6 @@ Window::Window()
 //------------------------------------------------------------------------------------------------------------------------------------------
 bool Window::init( const String name, const Vector2& position, const String& backgroungImage, const int32 depth )
 {
-	DragableControl::init( ResourceManager::Instance().LoadImage( backgroungImage ) );
-
 	m_name					= name;
 	m_position				= position;
 	m_canvas				= ResourceManager::Instance().LoadImage( backgroungImage );

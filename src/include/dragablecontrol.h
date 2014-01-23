@@ -11,18 +11,17 @@ class DragableControl : public Control
 public:
 	DragableControl();
 
-	bool init( Image* dragableSurface, bool dragable = false );
-
 	virtual void onInputEvent( const Message& message );
 
 	void setDragable( bool dragable );
+	void setEnabledAxes( bool x, bool y );
 
 protected:
 	bool	m_dragging;
 
 private:
-	Image*	m_dragableSurface;
 	bool	m_dragable;
+	bool	m_enabledX, m_enabledY;
 };
 
 #endif

@@ -5,7 +5,8 @@
 #include <stdlib.h>
 
 
-Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
+Image::Image( const String &filename, uint16 hframes, uint16 vframes )
+{
 	this->filename = filename;
 	this->hframes = hframes;
 	this->vframes = vframes;

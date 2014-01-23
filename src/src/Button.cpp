@@ -19,8 +19,6 @@ Button::Button()
 //------------------------------------------------------------------------------------------------------------------------------------------
 bool Button::init( const String name, const Vector2& position, const String& normalImage, const String& pushImage, const String& disabledImage, Font* font, const String& text, const int32 depth )
 {
-	DragableControl::init( ResourceManager::Instance().LoadImage( normalImage ) );
-
 	m_name				= name;
 	m_position			= position;
 	m_normalImage		= ResourceManager::Instance().LoadImage( normalImage );
