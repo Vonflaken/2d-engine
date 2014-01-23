@@ -4,10 +4,15 @@
 #include "dragablecontrol.h"
 
 
-class Slider : public DragableControl
+class Slider : public Control
 {
 public:
 	Slider();
+
+	class Pivot : public DragableControl
+	{
+
+	};
 };
 
 #endif
