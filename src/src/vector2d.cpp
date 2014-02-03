@@ -69,6 +69,12 @@ void Vector2D::GetNormalized()
 }
 
 // ----------------------------------- //
+Vector2D Vector2D::Zero()
+{
+	return Vector2D();
+}
+
+// ----------------------------------- //
 Vector2D Vector2D::Up()
 {
 	return Vector2D( 0, 1 );

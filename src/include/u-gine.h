@@ -31,6 +31,7 @@
 #include "scene.h"
 #include "screen.h"
 #include "skeletonsprite.h"
+#include "slider.h"
 #include "sprite.h"
 #include "string.h"
 #include "types.h"

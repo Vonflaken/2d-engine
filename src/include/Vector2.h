@@ -8,6 +8,16 @@ struct Vector2
 	Vector2() : x( 0.f ), y( 0.f ) {}
 	Vector2( float _x, float _y ) { x = _x; y = _y; }
 
+	static Vector2 Zero()
+	{
+		return Vector2();
+	}
+
+	static const Vector2 vabs( Vector2 &v )
+	{
+		return Vector2( fabs( v.x ), fabs( v.y ) );
+	}
+
 	const Vector2 operator +(const Vector2 &v) const
 	{	
 		return Vector2(x+v.x, y+v.y);	

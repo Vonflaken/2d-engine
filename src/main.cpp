@@ -76,9 +76,9 @@ int main(int argc, char* argv[])
 	AudioBuffer* audiobuffer = new AudioBuffer( "data/sounds/music.wav" );
 	AudioSource* audiosource = 0;
 	if ( audiobuffer->IsValid() )
-		audiosource = new AudioSource( audiobuffer );
-	/*if ( audiosource )
-		audiosource->Play();*/
+		// audiosource = new AudioSource( audiobuffer );
+	if ( audiosource )
+		audiosource->Play();
 
 	float shift = 1.f;
 	float soundShiftStep = 0.0075;
@@ -125,7 +125,7 @@ int main(int argc, char* argv[])
 			audiosource->SetPitch( pitch );
 			audiosource->SetPosition( shift, 0, 0 );
 		}
-
+		
 		// -----------------------------------
 
 
@@ -171,15 +171,15 @@ void CreateMenu()
 
 	// Create window
 	Window* window = new Window();
-	window->init( "main", Vector2( 50, 50 ), "data/gui/Window4.png" );
+	window->init( "main", Vector2( Screen::Instance().GetWidth() / 2.f, Screen::Instance().GetHeight() / 2.f ), "data/gui/Window4.png" );
+	window->setMidHandle();
 	window->setEventListener( &listener );
 	window->setDragable( true );
-	window->setEnabledAxes( true, false );
 	guiManager.setRootControl( window );
 
 	// Create start game button
 	Button* btnStart = new Button();
-	btnStart->init( "start", Vector2( window->getSize().x / 2, 100 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Comenzar partida" ); // Add disabled image
+	btnStart->init( "start", Vector2( window->getSize().x / 2.f, 100.f ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Comenzar partida" ); // Add disabled image
 	btnStart->setMidHandle();
 	btnStart->setScale( font->GetTextWidth( "Comenzar partida " ) / 144.0, btnStart->getScaleY() );
 	btnStart->setEventListener( &listener );
@@ -187,15 +187,16 @@ void CreateMenu()
 
 	// Create settings button
 	Button* btnSetting = new Button();
-	btnSetting->init( "setting", Vector2( window->getSize().x / 2, 150 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Configuracion" ); // Add disabled image
+	btnSetting->init( "setting", Vector2( window->getSize().x / 2.f, 150.f ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Configuracion" ); // Add disabled image
 	btnSetting->setMidHandle();
 	btnSetting->setScale( font->GetTextWidth( "Configuracion " ) / 144.0, btnSetting->getScaleY() );
 	btnSetting->setEventListener( &listener );
+	btnSetting->setDragable( true );
 	btnSetting->setParent( window );
 
 	// Create credits button
 	Button* btnCredits = new Button();
-	btnCredits->init( "credits", Vector2( window->getSize().x / 2, 200 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Creditos" ); // Add disabled image
+	btnCredits->init( "credits", Vector2( window->getSize().x / 2.f, 200.f ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Creditos" ); // Add disabled image
 	btnCredits->setMidHandle();
 	btnCredits->setScale( font->GetTextWidth( "Creditos " ) / 144.0, btnCredits->getScaleY() );
 	btnCredits->setEventListener( &listener );
@@ -203,7 +204,7 @@ void CreateMenu()
 
 	// Create exit button
 	Button* btnExit = new Button();
-	btnExit->init( "exit", Vector2( window->getSize().x / 2, 250 ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Salir" ); // Add disabled image
+	btnExit->init( "exit", Vector2( window->getSize().x / 2.f, 250.f ), "data/gui/Button_Normal.png", "data/gui/Button_Push.png", "", font, "Salir" ); // Add disabled image
 	btnExit->setMidHandle();
 	btnExit->setScale( font->GetTextWidth( "Salir " ) / 144.0, btnExit->getScaleY() );
 	btnExit->setEventListener( &listener );
@@ -222,18 +223,27 @@ void CreateSetting()
 
 	GUIManager& guiManager = GUIManager::instance();
 	guiManager.init();
+	guiManager.getRootControl()->setEventListener( &listener );
 
 	Checkbox* cbGore = new Checkbox();
 	cbGore->init( "gore", Vector2( 50.f, 50.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Modo gore" );
+	cbGore->setEventListener( &listener );
 	cbGore->setParent( guiManager.getRootControl() );
 
 	Checkbox* cbParticles = new Checkbox();
 	cbParticles->init( "particles", Vector2( 50.f, 150.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Particulas" );
+	cbParticles->setEventListener( &listener );
 	cbParticles->setParent( guiManager.getRootControl() );
 
 	Checkbox* cbAutoSave = new Checkbox();
 	cbAutoSave->init( "autosave", Vector2( 50.f, 250.f ), "data/gui/CheckBox_disabled.png", "data/gui/CheckBox_enabled.png", "", font, "Auto guardado" );
+	cbAutoSave->setEventListener( &listener );
 	cbAutoSave->setParent( guiManager.getRootControl() );
+
+	Slider* slVolume = new Slider();
+	slVolume->init( "volume", Vector2( 50.f, 350.f ), "data/gui/Slider_bar.png", "data/gui/Slider_ball.png", 0, 100.0, 1.0 );
+	slVolume->setEventListener( &listener );
+	slVolume->setParent( guiManager.getRootControl() );
 }
 
 void CreateCredits()

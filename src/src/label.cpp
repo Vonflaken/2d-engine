@@ -21,8 +21,7 @@ void Label::update()
 void Label::render()
 {
 	Vector2 pos = getAbsolutePosition();
-	if ( m_parent )
-		pos = getAbsolutePosition() - m_parent->getHandle() * Vector2( m_parent->getScaleX(), m_parent->getScaleY() );
+
 	if ( font )
 		Renderer::Instance().DrawText( font, text, pos.x, pos.y );
 }

@@ -29,6 +29,7 @@ public:
 	Vector2D operator-( const Vector2D &other ) const;
 	Vector2D operator*( const Vector2D &other ) const;
 	// Statics
+	static Vector2D Zero();
 	static Vector2D Up();
 	static Vector2D Down();
 	static Vector2D Right();

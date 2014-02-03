@@ -1,349 +1,255 @@
-#include "../include/control.h"
-#include <list>
-#include <algorithm>
-#include "../include/guimanager.h"
-#include "../include/math.h"
+#include "../include/slider.h"
+#include "../include/image.h"
+#include "../include/resourcemanager.h"
+#include "../include/renderer.h"
 
-int Control::s_id = 1000;
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-Control::Control()
+Slider::Slider()
 {
-	m_parent					= NULL;
-	m_position					= Vector2( 0, 0 );
-	m_size						= Vector2( 0, 0 );	
-	m_enabled					= true;
-	m_visible					= true;
-	m_focus						= false;
-	m_pointerIsOver				= false;
-	m_scalex					= 1.0;
-	m_scaley					= 1.0;
 
-	s_id++;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-bool Control::isPointInside( const Vector2& point ) const
+bool Slider::init( const String name, const Vector2& position, const String& barImage, const String& pivotImage, const double min, const double max, const double step, const String& disabledPivotImage, const int32 depth )
 {
-	Vector2 pos = getAbsolutePosition() - getHandle() * Vector2( m_scalex, m_scaley );
-	if( PointInRect( point.x, point.y, pos.x, pos.y, m_size.x, m_size.y ) )
-		return true;
+	m_name				= name;
+	m_position			= position;
+	m_min				= min;
+	m_max				= max;
+	m_step				= step;
+	m_barImage			= ResourceManager::Instance().LoadImage( barImage );
+	m_size				= Vector2( (float)m_barImage->GetWidth(), (float)m_barImage->GetHeight() );
 
-	return false;
+	m_pivot				= new Pivot();
+	m_pivot->init( "pivot of " + name, Vector2(), pivotImage, (double)min, (double)max, (double)step, disabledPivotImage );
+	m_pivot->setParent( this );
+
+	if ( !m_barImage )
+		return false;
+	
+	return true;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-Vector2 Control::getAbsolutePosition() const
+void Slider::update()
 {
-	if( m_parent )
-		return m_parent->getAbsolutePosition() + m_position - m_parent->getHandle() * Vector2( m_parent->getScaleX(), m_parent->getScaleY() );
 
-	return m_position;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-void Control::processUpdate()
+void Slider::render()
 {
-	update();
-
-	for ( int32 i = 0; i < m_children.Size(); i++ )
+	if ( m_barImage && m_visible )
 	{
-		m_children[ i ]->processUpdate();
+		Vector2 pos = getAbsolutePosition();
+
+		Renderer::Instance().SetBlendMode( Renderer::ALPHA );
+		Renderer::Instance().DrawImage( m_barImage, (double)pos.x, (double)pos.y, 0, m_barImage->GetWidth() * m_scalex, m_barImage->GetHeight() * m_scaley );
 	}
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-void Control::processRender()
+void Slider::onInputEvent( const Message& message )
 {
-	render();
-
-	for ( int32 i = 0; i < m_children.Size(); i++ )
+	if ( m_enabled )
 	{
-		m_children[ i ]->processRender();
-	}
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-void Control::processDestroy()
-{
-	// libera sus recursos propios
-	destroy();
-
-	// recorre hijos y los destruye
-	for ( int32 i = 0; i < m_children.Size(); i++ )
-	{
-		m_children[ i ]->processDestroy();
-	}
-
-	delete this;
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-bool Control::injectInput( const Message& message )
-{
-	bool messageHandled = false;
-
-	if ( m_enabled && m_visible )
-	{
-		m_children.Sort( Control::CompareControl ); // Order by depth in DESC way
-		// primero vemos si es para algun hijo
-		for ( int32 i = m_children.Size() - 1; i >= 0; i-- ) // Checking first controls with lower depth
+		switch( message.type )
 		{
-			Control* control = m_children[ i ];
-			messageHandled = control->injectInput( message );
-			if( messageHandled )
-				break;
-		}
-
-		// si no lo ha procesado ningún hijo puede ser para este control
-		if( !messageHandled )
-		{
-			switch( message.type )
-			{
-			case mtPointerMove:
-				{
-					const MessagePointerMove* messagePointer = static_cast<const MessagePointerMove*>(&message);
-					if( isPointInside( Vector2( messagePointer->x, messagePointer->y) ))
-					{
-						m_pointerIsOver = true;
-						onInputEvent( message );
-						messageHandled = true;
-					}
-					else
-					{
-						m_pointerIsOver = false;
-					}
-				}
-				break;
-
-			case mtPointerButtonDown:
-				{
-					const MessagePointerButtonDown* messagePointer = static_cast<const MessagePointerButtonDown*>(&message);
-					if( isPointInside( Vector2( messagePointer->x, messagePointer->y) ))
-					{
-						m_pointerIsOver = true;
-						onInputEvent( message );
-						messageHandled = true;
-					}
-					else
-					{
-						m_pointerIsOver = false;
-					}
-				}
-				break;
-
 			case mtPointerButtonUp:
-				{
-					const MessagePointerButtonUp* messagePointer = static_cast<const MessagePointerButtonUp*>(&message);
-					if( isPointInside( Vector2( messagePointer->x, messagePointer->y) ))
-					{
-						m_pointerIsOver = true;
-						onInputEvent( message );
-						messageHandled = true;
-					}
-					else
-					{
-						m_pointerIsOver = false;
-					}
-				}
+				NOTIFY_LISTENERS( onClick( this ) );
 				break;
-			}
 		}
 	}
-
-	return messageHandled;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-void Control::setParent( Control* parent )
+void Slider::setHandle( int32 handlex, int32 handley )
 {
-	parent->addControl( this );
-	m_parent = parent;
+	if ( m_barImage )
+		m_barImage->SetHandle( handlex, handley );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-void Control::setEventListener( IEventListener* eventListener )
-{ 
-	m_eventListeners.push_back( eventListener ); 
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-String Control::getName() const
-{ 
-	return m_name; 
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-void Control::setVisible( bool show )
-{ 
-	m_visible = show; 
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-bool Control::isVisible() const
-{ 
-	return m_visible; 
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-void Control::setEnabled( bool enable )
-{ 
-	m_enabled = enable; 
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-bool Control::isEnabled() const
-{ 
-	return m_enabled; 
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-void Control::setPosition( const Vector2& position )
-{ 
-	m_position = position; 
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-Vector2 Control::getPosition() const
-{ 
-	return m_position; 
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-void Control::setScale( const double scalex, const double scaley )
+void Slider::setMidHandle()
 {
-	m_scalex = scalex;
-	m_scaley = scaley;
-
-	m_size.x *= scalex;
-	m_size.y *= scaley;
+	if ( m_barImage )
+		m_barImage->SetMidHandle();
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-double Control::getScaleX() const 
+Vector2 Slider::getHandle() const
 {
-	return m_scalex;
+	if ( m_barImage )
+		return Vector2( (float)m_barImage->GetHandleX(), (float)m_barImage->GetHandleY() );
+
+	return Vector2();
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-double Control::getScaleY() const 
+void Slider::destroy()
 {
-	return m_scaley;
+
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-Vector2 Control::getSize() const
-{ 
-	return m_size;
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-void Control::setFocus( bool focus )
-{ 
-	m_focus = focus; 
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-bool Control::hasFocus() const
-{ 
-	return m_focus; 
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------------------------------------------------------------------
-void Control::setDepth( int32 depth )
+double Slider::getValue() const
 {
-	m_depth = depth;
-}
-
-int32 Control::getDepth() const
-{
-	return m_depth;
+	return m_pivot->getValue();
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-void Control::addControl( Control* control )
-{ 
-	m_children.Add( control ); 
+void Slider::setHorizontal()
+{
+	m_pivot->setEnabledAxes( true, false );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-void Control::removeControl( Control* control )
+void Slider::setVertical()
 {
-	m_children.Remove( control );
+	m_pivot->setEnabledAxes( false, true );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-Control* Control::findControlByName( const String& name )
+Slider::Pivot::Pivot()
 {
-	if( m_name == name )
-		return this;
+	setDragable( true );
+}
 
-	for ( int32 i = 0; i < m_children.Size(); i++ )
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+bool Slider::Pivot::init( const String name, const Vector2& position, const String& pivotImage, double &min, double &max, double &step, const String& disabledPivotImage )
+{
+	m_name						= name;
+	m_position					= position;
+	m_pivotImage				= ResourceManager::Instance().LoadImage( pivotImage );
+	m_disablePivotImage			= ResourceManager::Instance().LoadImage( disabledPivotImage );
+	m_size						= Vector2( (float)m_pivotImage->GetWidth(), (float)m_pivotImage->GetHeight() );
+	m_min						= min;
+	m_max						= max;
+	m_step						= step;
+
+	setEnabledAxes( true, false ); // Horizontal slider by default
+	setMidHandle();
+
+	if ( !m_pivotImage )
+		return false;
+
+	if ( !m_disablePivotImage )
+		m_disablePivotImage = m_pivotImage;
+
+	return true;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void Slider::Pivot::update()
+{
+	if ( !m_pointerIsOver )
+		m_dragging = false;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void Slider::Pivot::render()
+{
+	if ( m_pivotImage && m_visible )
 	{
-		Control* foundControl = m_children[ i ]->findControlByName( name );
-		if( foundControl )
-			return foundControl;
-	}
+		Vector2 pos = getAbsolutePosition();
 
-	return NULL;
+		Renderer::Instance().SetBlendMode( Renderer::ALPHA );
+		if ( m_enabled )
+			Renderer::Instance().DrawImage( m_pivotImage, pos.x, pos.y, 0, m_pivotImage->GetWidth() * m_scalex, m_pivotImage->GetHeight() * m_scaley );
+		else
+			Renderer::Instance().DrawImage( m_disablePivotImage, pos.x, pos.y, m_disablePivotImage->GetWidth() * m_scalex, m_disablePivotImage->GetHeight() * m_scaley );
+	}
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------------------------------------------------------------------
-bool Control::CompareControl( Control*& first, Control*& second )
+void Slider::Pivot::onInputEvent( const Message& message )
 {
-	return first->getDepth() >= second->getDepth();
+	if ( m_enabled )
+	{
+		DragableControl::onInputEvent( message );
+	}
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void Slider::Pivot::setHandle( int32 handlex, int32 handley )
+{
+	if ( m_pivotImage )
+		m_pivotImage->SetHandle( handlex, handley );
+	if ( m_disablePivotImage )
+		m_disablePivotImage->SetHandle( handlex, handley );
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void Slider::Pivot::setMidHandle()
+{
+	if ( m_pivotImage )
+		m_pivotImage->SetMidHandle();
+	if ( m_disablePivotImage )
+		m_disablePivotImage->SetMidHandle();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+Vector2 Slider::Pivot::getHandle() const
+{
+	if ( m_pivotImage )
+		return Vector2( (float)m_pivotImage->GetHandleX(), (float)m_pivotImage->GetHandleY() );
+
+	return Vector2();
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+void Slider::Pivot::destroy()
+{
+
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------------------------------------------------------------------
+double Slider::Pivot::getValue() const
+{
+	return m_value;
 }

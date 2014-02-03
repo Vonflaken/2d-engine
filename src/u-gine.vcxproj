@@ -44,6 +44,7 @@
     <ClCompile Include="src\screen.cpp" />
     <ClCompile Include="src\skeletondata.cpp" />
     <ClCompile Include="src\skeletonsprite.cpp" />
+    <ClCompile Include="src\slider.cpp" />
     <ClCompile Include="src\sprite.cpp" />
     <ClCompile Include="src\vector2d.cpp" />
     <ClCompile Include="src\window.cpp" />

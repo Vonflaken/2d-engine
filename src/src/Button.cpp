@@ -1,7 +1,7 @@
 #include "../include/button.h"
 #include "../include/guimanager.h"
-#include "../include/Renderer.h"
-#include "../include/Image.h"
+#include "../include/renderer.h"
+#include "../include/image.h"
 #include "../include/resourcemanager.h"
 #include "../include/label.h"
 
@@ -27,11 +27,14 @@ bool Button::init( const String name, const Vector2& position, const String& nor
 	m_size				= Vector2( (float)m_normalImage->GetWidth(), (float)m_normalImage->GetHeight() );
 	m_depth				= depth;
 	m_label				= new Label();
-	m_label->init( "Label of " + name, font, text, Vector2( 0.f, 0.f ), depth );
+	m_label->init( "label of " + name, font, text, Vector2(), depth );
 	m_label->setParent( this );
 
 	if ( !m_normalImage || !m_pushImage )
 		return false; // Not valid
+
+	if ( !m_disabledImage )
+		m_disabledImage = m_normalImage;
 
 	return true;
 }
@@ -60,21 +63,14 @@ void Button::render()
 		Renderer::Instance().SetBlendMode( Renderer::ALPHA );
 		if ( m_enabled )
 		{
-			if( m_pushed )
-			{
+			if ( m_pushed )
 				Renderer::Instance().DrawImage( m_pushImage, pos.x, pos.y, 0, m_pushImage->GetWidth() * m_scalex, m_pushImage->GetHeight() * m_scaley );
-			}
-			else if( !m_pushed )
-			{
+			else
 				Renderer::Instance().DrawImage( m_normalImage, pos.x, pos.y, 0, m_normalImage->GetWidth() * m_scalex, m_normalImage->GetHeight() * m_scaley );
-			}
 		}
 		else
 		{
-			if ( m_disabledImage )
-				Renderer::Instance().DrawImage( m_disabledImage, pos.x, pos.y, 0, m_disabledImage->GetWidth() * m_scalex, m_disabledImage->GetHeight() * m_scaley );
-			else
-				Renderer::Instance().DrawImage( m_normalImage, pos.x, pos.y, 0, m_normalImage->GetWidth() * m_scalex, m_normalImage->GetHeight() * m_scaley ); // m_disabledImage fallback
+			Renderer::Instance().DrawImage( m_disabledImage, pos.x, pos.y, 0, m_disabledImage->GetWidth() * m_scalex, m_disabledImage->GetHeight() * m_scaley );
 		}
 	}
 }
